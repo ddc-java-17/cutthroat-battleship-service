@@ -68,14 +68,12 @@ public class User {
   @JsonIgnore
   private String oauthKey;
 
-  @NonNull  // TODO: 3/1/2024 Fix all references to Game and send them to userGame
+/*  @NonNull  // TODO: 3/1/2024 Fix all references to Game and send them to userGame
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
-  private final List<Game> games = new LinkedList<>();
-
-
-
+  private final List<UserGame> userGame;
+*/
   @NonNull
   public Long getId() {
     return id;
@@ -114,11 +112,12 @@ public class User {
     this.oauthKey = oauthKey;
   }
 
+/*  // TODO: 3/1/2024 Change this to a reference to UserGame
   @NonNull
   public List<Game> getGames() {
     return games;
   }
-
+*/
   @PrePersist
   private void generateKey() {
     key = UUID.randomUUID();
