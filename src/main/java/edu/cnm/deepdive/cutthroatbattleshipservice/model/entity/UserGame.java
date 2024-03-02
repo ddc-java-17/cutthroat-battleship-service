@@ -10,8 +10,11 @@ import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 @Entity(
     tableName = "user_game",
@@ -31,11 +34,19 @@ public class UserGame {
   private Long id;
 
   @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @ManyToMany(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
   private User user;
 
-// TODO: 3/1/2024 Insert game_id reference here.
+  @ColumnInfo(name = "game_id", index = true)
+  private long gameId;
+
+  @OneToOne(optional = false, fetch = FetchType.LAZY)
+  private Fleet<List<Ship>> fleet;
+  // TODO: 3/1/2024 Fleet
+
+  @ManyToMany
+  // TODO: 3/1/2024 Shot
 
 }
