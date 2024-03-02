@@ -26,8 +26,8 @@ import org.springframework.lang.Nullable;
             parentColumns = "user_id"),
         @ForeignKey(
             entity = Game.class,
-            childColumns= "game_id",
-            parentColumns= "game_id")
+            childColumns = "game_id",
+            parentColumns = "game_id")
         }
 )
 
@@ -57,10 +57,49 @@ public class UserGame {
   @OneToOne(optional = false, fetch = FetchType.LAZY)
   @JsonProperty(access = Access.READ_ONLY)
   private Fleet fleet;
-  // TODO: 3/1/2024 Fleet
 
+  @NonNull
+  @ManyToMany(optional = false, fetch = FetchType.EAGER)
+  @JsonProperty(access = Access.READ_ONLY)
+  private Shot shot;
 
-  @ManyToMany()
-  // TODO: 3/1/2024 Shot
+  @NonNull
+  public Long getId() {
+    return id;
+  }
 
+  @NonNull
+  public User getUser() {
+    return user;
+  }
+
+  public void setUser(@NonNull User user) {
+    this.user = user;
+  }
+
+  @NonNull
+  public Game getGame() {
+    return game;
+  }
+
+  public void setGame(@NonNull Game game) {
+    this.game = game;
+  }
+
+  public Fleet getFleet() {
+    return fleet;
+  }
+
+  public void setFleet(Fleet fleet) {
+    this.fleet = fleet;
+  }
+
+  @NonNull
+  public Shot getShot() {
+    return shot;
+  }
+
+  public void setShot(@NonNull Shot shot) {
+    this.shot = shot;
+  }
 }

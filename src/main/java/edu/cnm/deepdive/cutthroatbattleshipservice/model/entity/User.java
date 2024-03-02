@@ -112,12 +112,11 @@ public class User {
     this.oauthKey = oauthKey;
   }
 
-/*  // TODO: 3/1/2024 Change this to a reference to UserGame
   @NonNull
-  public List<Game> getGames() {
-    return games;
+  public UserGame getUserGame() {
+    return userGame;
   }
-*/
+
   @PrePersist
   private void generateKey() {
     key = UUID.randomUUID();
