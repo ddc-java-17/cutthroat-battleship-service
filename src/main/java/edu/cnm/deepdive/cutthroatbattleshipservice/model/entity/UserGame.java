@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -18,12 +19,18 @@ import org.springframework.lang.Nullable;
 
 @Entity(
     tableName = "user_game",
-    foreignKeys = @ForeignKey(
-        entity = User.class,
-        childColumns = "user_id",
-        parentColumns = "user_id"
-    )
+    foreignKeys =
+        {@ForeignKey(
+            entity = User.class,
+            childColumns = "user_id",
+            parentColumns = "user_id"),
+        @ForeignKey(
+            entity = Game.class,
+            childColumns= "game_id",
+            parentColumns= "game_id")
+        }
 )
+
 public class UserGame {
 
   @NonNull
@@ -39,14 +46,21 @@ public class UserGame {
   @JsonProperty(access = Access.READ_ONLY)
   private User user;
 
-  @ColumnInfo(name = "game_id", index = true)
-  private long gameId;
+  @Id
+  @NonNull
+  @OneToOne(optional = false, fetch = FetchType.EAGER)
+  @ColumnInfo(name = "game_id", nullable = false, index = true)
+  @JsonProperty(access = Access.READ_ONLY)
+  private Game game;
+
 
   @OneToOne(optional = false, fetch = FetchType.LAZY)
-  private Fleet<List<Ship>> fleet;
+  @JsonProperty(access = Access.READ_ONLY)
+  private Fleet fleet;
   // TODO: 3/1/2024 Fleet
 
-  @ManyToMany
+
+  @ManyToMany()
   // TODO: 3/1/2024 Shot
 
 }
