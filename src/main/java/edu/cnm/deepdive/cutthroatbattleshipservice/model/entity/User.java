@@ -68,12 +68,12 @@ public class User {
   @JsonIgnore
   private String oauthKey;
 
-/*  @NonNull  // TODO: 3/1/2024 Fix all references to Game and send them to userGame
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
+  @NonNull
+  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonIgnore
-  private final List<UserGame> userGame;
-*/
+  private final UserGame userGame;
+
   @NonNull
   public Long getId() {
     return id;
