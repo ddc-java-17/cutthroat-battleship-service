@@ -53,7 +53,7 @@ public class UserGame {
   @JsonProperty(access = Access.READ_ONLY)
   private Game game;
 
-
+  @NonNull
   @OneToOne(optional = false, fetch = FetchType.LAZY)
   @JsonProperty(access = Access.READ_ONLY)
   private Fleet fleet;
@@ -86,6 +86,7 @@ public class UserGame {
     this.game = game;
   }
 
+  @NonNull
   public Fleet getFleet() {
     return fleet;
   }
@@ -102,4 +103,7 @@ public class UserGame {
   public void setShot(@NonNull Shot shot) {
     this.shot = shot;
   }
+
+  // TODO: 3/2/2024 Figure out methods this entity needs.
+  // TOTO: I BLESS THE RAINS DOWN IN AAAFRICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 }
