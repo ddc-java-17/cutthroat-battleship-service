@@ -38,13 +38,13 @@ public class Fleet {
   @OneToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private User user; // TODO: 2/29/2024 Import class when Danielle finished
+  private UserGame userGame;
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private Game game; // TODO: 2/29/2024 Import class when WYatt finished
+  private Game game;
 
   @NonNull
   @OneToMany(mappedBy = "fleet", fetch = FetchType.EAGER,

@@ -19,6 +19,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.Instant;
+import java.util.LinkedList;
+import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -43,19 +45,19 @@ public class Shot {
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private User fromUser; // TODO: 2/29/2024 Import class
+  private List<UserGame> fromUser = new LinkedList<>();
 
   @NonNull
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private User toUser;// TODO: 2/29/2024 Import class
+  private List<UserGame> toUser = new LinkedList<>();
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id", nullable = false, updatable = false)
   @JsonIgnore
-  private Game game;// TODO: 2/29/2024 Import class
+  private Game game;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
