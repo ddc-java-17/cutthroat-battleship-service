@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.cutthroatbattleshipservice.service;
 
+import edu.cnm.deepdive.cutthroatbattleshipservice.model.dao.UserRepository;
 import edu.cnm.deepdive.cutthroatbattleshipservice.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class UserService implements AbstractUserService{
         .orElseGet(()->{
           User user = new User();
           user.setOauthKey(oauthKey);
-          user.setDisplay_name(displayName);
+          user.setDisplayName(displayName);
           // TODO: 2/29/2024 Assign any additional fields of user.
           return userRepository.save(user);
         });
@@ -39,10 +40,10 @@ public class UserService implements AbstractUserService{
     return userRepository
         .findById(getCurrentUser().getId())
         .map((user)->{
-          String displayName = received.getDisplay_name();
+          String displayName = received.getDisplayName();
           //noinspection ConstantValue
           if (displayName != null) {
-            user.setDisplay_name(displayName);
+            user.setDisplayName(displayName);
           }
           return userRepository.save(user);
         })
