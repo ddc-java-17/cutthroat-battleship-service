@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
@@ -69,10 +70,10 @@ public class User {
   private String oauthKey;
 
   @NonNull
-  @OneToOne(mappedBy = "user", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL, orphanRemoval = true)
+  @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL)
   @JsonIgnore
-  private final UserGame userGame;
+  private final List<UserGame> userGame = new LinkedList<>();
 
   @NonNull
   public Long getId() {
@@ -113,7 +114,7 @@ public class User {
   }
 
   @NonNull
-  public UserGame getUserGame() {
+  public List<UserGame> getUserGame() {
     return userGame;
   }
 
