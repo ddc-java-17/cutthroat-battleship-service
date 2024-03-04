@@ -5,7 +5,6 @@ import edu.cnm.deepdive.cutthroatbattleshipservice.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
 public class UserService implements AbstractUserService{
 

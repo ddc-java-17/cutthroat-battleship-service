@@ -7,12 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -42,14 +45,20 @@ public class Shot {
   private Long id;
 
   @NonNull
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @ManyToMany(mappedBy = "UserGame")
+  @JoinTable(
+      joinColumns =
+      @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+  )
   @JsonProperty(access = Access.READ_ONLY)
   private List<UserGame> fromUser = new LinkedList<>();
 
   @NonNull
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @ManyToMany(mappedBy = "UserGame")
+  @JoinTable(
+      joinColumns =
+      @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+  )
   @JsonProperty(access = Access.READ_ONLY)
   private List<UserGame> toUser = new LinkedList<>();
 
