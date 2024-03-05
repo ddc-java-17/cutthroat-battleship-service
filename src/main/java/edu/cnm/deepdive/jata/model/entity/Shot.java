@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.model.entity;
+package edu.cnm.deepdive.jata.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,7 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -40,22 +39,20 @@ public class Shot {
   private Long id;
 
   @NonNull
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_ONLY)
-  private User fromUser; // TODO: 2/29/2024 Import class
+  private UserGame fromUser;
 
   @NonNull
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_id", nullable = false, updatable = false)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_ONLY)
-  private User toUser;// TODO: 2/29/2024 Import class
+  private UserGame toUser;
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id", nullable = false, updatable = false)
   @JsonIgnore
-  private Game game;// TODO: 2/29/2024 Import class
+  private Game game;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
@@ -72,4 +69,56 @@ public class Shot {
   @JsonProperty(access = Access.READ_ONLY)
   private Instant timestamp;
 
+  @NonNull
+  public Long getId() {
+    return id;
+  }
+
+  @NonNull
+  public Instant getTimestamp() {
+    return timestamp;
+  }
+
+  @NonNull
+  public UserGame getFromUser() {
+    return fromUser;
+  }
+
+  public void setFromUser(@NonNull UserGame fromUser) {
+    this.fromUser = fromUser;
+  }
+
+  @NonNull
+  public UserGame getToUser() {
+    return toUser;
+  }
+
+  public void setToUser(@NonNull UserGame toUser) {
+    this.toUser = toUser;
+  }
+
+  @NonNull
+  public Game getGame() {
+    return game;
+  }
+
+  public void setGame(@NonNull Game game) {
+    this.game = game;
+  }
+
+  public int getxCoord() {
+    return xCoord;
+  }
+
+  public void setxCoord(int xCoord) {
+    this.xCoord = xCoord;
+  }
+
+  public int getyCoord() {
+    return yCoord;
+  }
+
+  public void setyCoord(int yCoord) {
+    this.yCoord = yCoord;
+  }
 }

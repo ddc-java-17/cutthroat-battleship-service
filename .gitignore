@@ -32,6 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
-### Local Properties ###
-*local.properties
-*local.yaml
+### Database ###
+/db/
+
+### yaml ###
+application-local.yaml
