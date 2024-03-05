@@ -1,0 +1,19 @@
+server:
+  error:
+    include-message: always
+  forward-headers-strategy: native
+  port: 18181
+  servlet:
+    context-path: /jata-world
+
+spring:
+  application:
+    name: service
+  jackson:
+    deserialization:
+      accept-float-as-int: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "https://accounts.google.com"
