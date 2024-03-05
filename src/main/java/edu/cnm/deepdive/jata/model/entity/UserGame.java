@@ -41,7 +41,7 @@ public class UserGame {
   private User user;
 
   @NonNull
-  @OneToOne(optional = false, fetch = FetchType.EAGER)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_ONLY)
   private Game game;
 

@@ -52,10 +52,10 @@ public class Game {
   private Instant created;
 
   @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
   @JoinColumn(name = "user_game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private UserGame userGame;
+  private final List<UserGame> userGame = new LinkedList<>();
 
   @NonNull
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER,
@@ -84,12 +84,8 @@ public class Game {
   }
 
   @NonNull
-  public UserGame getUserGame() {
+  public List<UserGame> getUserGame() {
     return userGame;
-  }
-
-  public void setUserGame(@NonNull UserGame userGame) {
-    this.userGame = userGame;
   }
 
   @NonNull
