@@ -53,7 +53,6 @@ public class Game {
 
   @NonNull
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
-  @JoinColumn(name = "user_game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
   private final List<UserGame> userGame = new LinkedList<>();
 
@@ -63,6 +62,9 @@ public class Game {
   @JsonProperty(access = Access.READ_ONLY)
   private final List<Fleet> fleets = new LinkedList<>();
 
+  @NonNull
+  @JsonProperty(access = Access.READ_WRITE)
+  private String boardPool;
 
   @NonNull
   @OneToMany
@@ -96,5 +98,14 @@ public class Game {
  @NonNull
   public List<Shot> getShots() {
     return shots;
+  }
+
+  @NonNull
+  public String getBoardPool() {
+    return boardPool;
+  }
+
+  public void setBoardPool(@NonNull String boardPool) {
+    this.boardPool = boardPool;
   }
 }
