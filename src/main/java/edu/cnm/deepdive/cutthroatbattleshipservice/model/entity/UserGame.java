@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -39,10 +40,10 @@ public class UserGame {
   private Long id;
 
   @NonNull
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private List<User> user = new LinkedList<>();
+  private User user;
 
   @Id
   @NonNull
@@ -51,14 +52,13 @@ public class UserGame {
   private Game game;
 
   @NonNull
-  @OneToOne(optional = false, fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "fleet",
+      optional = false,
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
   @JsonProperty(access = Access.READ_ONLY)
   private Fleet fleet;
-
-  @NonNull
-  @ManyToMany(fetch = FetchType.EAGER)
-  @JsonProperty(access = Access.READ_ONLY)
-  private List<Shot> shot = new LinkedList<>();
 
   @NonNull
   public Long getId() {
@@ -66,11 +66,11 @@ public class UserGame {
   }
 
   @NonNull
-  public List<User> getUser() {
+  public User getUser() {
     return user;
   }
 
-  public void setUser(@NonNull List<User> user) {
+  public void setUser(@NonNull User user) {
     this.user = user;
   }
 
@@ -92,14 +92,6 @@ public class UserGame {
     this.fleet = fleet;
   }
 
-  @NonNull
-  public List<Shot> getShot() {
-    return shot;
-  }
-
-  public void setShot(@NonNull List<Shot> shot) {
-    this.shot = shot;
-  }
 
   // TODO: 3/2/2024 Figure out methods this entity needs.
   // TOTO: I BLESS THE RAINS DOWN IN AAAFRICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA

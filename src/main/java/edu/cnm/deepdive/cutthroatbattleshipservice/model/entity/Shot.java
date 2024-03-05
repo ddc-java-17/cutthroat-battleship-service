@@ -45,22 +45,14 @@ public class Shot {
   private Long id;
 
   @NonNull
-  @ManyToMany(mappedBy = "UserGame")
-  @JoinTable(
-      joinColumns =
-      @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-  )
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_ONLY)
-  private List<UserGame> fromUser = new LinkedList<>();
+  private UserGame fromUser;
 
   @NonNull
-  @ManyToMany(mappedBy = "UserGame")
-  @JoinTable(
-      joinColumns =
-      @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-  )
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_ONLY)
-  private List<UserGame> toUser = new LinkedList<>();
+  private UserGame toUser;
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
@@ -83,4 +75,56 @@ public class Shot {
   @JsonProperty(access = Access.READ_ONLY)
   private Instant timestamp;
 
+  @NonNull
+  public Long getId() {
+    return id;
+  }
+
+  @NonNull
+  public Instant getTimestamp() {
+    return timestamp;
+  }
+
+  @NonNull
+  public UserGame getFromUser() {
+    return fromUser;
+  }
+
+  public void setFromUser(@NonNull UserGame fromUser) {
+    this.fromUser = fromUser;
+  }
+
+  @NonNull
+  public UserGame getToUser() {
+    return toUser;
+  }
+
+  public void setToUser(@NonNull UserGame toUser) {
+    this.toUser = toUser;
+  }
+
+  @NonNull
+  public Game getGame() {
+    return game;
+  }
+
+  public void setGame(@NonNull Game game) {
+    this.game = game;
+  }
+
+  public int getxCoord() {
+    return xCoord;
+  }
+
+  public void setxCoord(int xCoord) {
+    this.xCoord = xCoord;
+  }
+
+  public int getyCoord() {
+    return yCoord;
+  }
+
+  public void setyCoord(int yCoord) {
+    this.yCoord = yCoord;
+  }
 }

@@ -70,7 +70,7 @@ public class User {
   private String oauthKey;
 
   @NonNull
-  @ManyToMany(mappedBy = "user", fetch = FetchType.LAZY,
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
       cascade = CascadeType.ALL)
   @JsonIgnore
   private final List<UserGame> userGame = new LinkedList<>();
