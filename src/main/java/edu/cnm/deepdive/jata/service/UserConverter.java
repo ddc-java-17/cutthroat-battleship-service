@@ -1,13 +1,15 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.service;
+package edu.cnm.deepdive.jata.service;
 
-import edu.cnm.deepdive.cutthroatbattleshipservice.model.entity.User;
+import edu.cnm.deepdive.jata.model.entity.User;
 import java.util.Collection;
 import java.util.Collections;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserConverter implements Converter<Jwt, UsernamePasswordAuthenticationToken> {
 
   private final AbstractUserService service;

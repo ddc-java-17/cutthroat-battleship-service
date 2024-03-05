@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.model.entity;
+package edu.cnm.deepdive.jata.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -12,10 +12,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -24,27 +24,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(name = "user_profile")
+@Table(indexes = @Index(columnList = "game_id"))
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({"key", "created", "modified", "displayName"})
-public class User {
+@JsonPropertyOrder({""})
+public class Game {
 
-  @Id
   @NonNull
+  @Id
   @GeneratedValue
-  @Column(name = "user_profile_id", nullable = false, updatable = false)
+  @Column(name = "game_id", nullable = false, updatable = false)
   @JsonIgnore
-  private Long id;
+  private long id;
 
   @NonNull
   @Column(name = "external_key", nullable = false, updatable = false, unique = true, columnDefinition = "UUID")
   @JsonProperty(access = Access.READ_ONLY)
   private UUID key;
-
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -54,29 +52,24 @@ public class User {
   private Instant created;
 
   @NonNull
-  @Column(nullable = false)
-  @UpdateTimestamp
-  @Temporal(TemporalType.TIMESTAMP)
+  @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private Instant modified;
+  private UserGame userGame;
 
   @NonNull
-  @Column(nullable = false, unique = true, length = 50)
-  private String displayName;
+  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonProperty(access = Access.READ_ONLY)
+  private final List<Fleet> fleets = new LinkedList<>();
+
 
   @NonNull
-  @Column(nullable = false, updatable = false, unique = true, length = 30)
-  @JsonIgnore
-  private String oauthKey;
+  @OneToMany
+  @JsonProperty(access = Access.READ_ONLY)
+  private final List<Shot> shots = new LinkedList<>();
 
-  @NonNull
-  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL)
-  @JsonIgnore
-  private final List<UserGame> userGame = new LinkedList<>();
-
-  @NonNull
-  public Long getId() {
+  public long getId() {
     return id;
   }
 
@@ -91,37 +84,21 @@ public class User {
   }
 
   @NonNull
-  public Instant getModified() {
-    return modified;
-  }
-
-  @NonNull
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public void setDisplayName(@NonNull String displayName) {
-    this.displayName = displayName;
-  }
-
-  @NonNull
-  public String getOauthKey() {
-    return oauthKey;
-  }
-
-  public void setOauthKey(@NonNull String oauthKey) {
-    this.oauthKey = oauthKey;
-  }
-
-  @NonNull
-  public List<UserGame> getUserGame() {
+  public UserGame getUserGame() {
     return userGame;
   }
 
-  @PrePersist
-  private void generateKey() {
-    key = UUID.randomUUID();
+  public void setUserGame(@NonNull UserGame userGame) {
+    this.userGame = userGame;
   }
 
+  @NonNull
+  public List<Fleet> getFleets() {
+    return fleets;
+  }
 
+ @NonNull
+  public List<Shot> getShots() {
+    return shots;
+  }
 }

@@ -1,6 +1,6 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.service;
+package edu.cnm.deepdive.jata.service;
 
-import edu.cnm.deepdive.cutthroatbattleshipservice.model.entity.User;
+import edu.cnm.deepdive.jata.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 

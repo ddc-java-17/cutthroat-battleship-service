@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.model.entity;
+package edu.cnm.deepdive.jata.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,71 +16,46 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
 @Entity
-@Table(indexes = @Index(columnList = "game_id"))
+@Table(indexes = @Index(columnList = "fleet_id, user_game_id"))
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({""})
-public class Game {
+@JsonPropertyOrder({"fleet_id", "user_game_id", ""})
+public class Fleet {
 
   @NonNull
   @Id
   @GeneratedValue
-  @Column(name = "game_id", nullable = false, updatable = false)
+  @Column(name = "fleet_id", nullable = false, updatable = false)
   @JsonIgnore
-  private long id;
+  private Long id;
 
   @NonNull
-  @Column(name = "external_key", nullable = false, updatable = false, unique = true, columnDefinition = "UUID")
+  @OneToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private UUID key;
-
-  @NonNull
-  @Column(nullable = false, updatable = false)
-  @CreationTimestamp
-  @Temporal(TemporalType.TIMESTAMP)
-  @JsonProperty(access = Access.READ_ONLY)
-  private Instant created;
+  private UserGame userGame;
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private UserGame userGame;
+  private Game game;
 
   @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER,
+  @OneToMany(mappedBy = "fleet", fetch = FetchType.EAGER,
       cascade = CascadeType.ALL, orphanRemoval = true)
   @JsonProperty(access = Access.READ_ONLY)
-  private final List<Fleet> fleets = new LinkedList<>();
-
+  private final List<Ship> ships = new LinkedList<>();
 
   @NonNull
-  @OneToMany
-  @JsonProperty(access = Access.READ_ONLY)
-  private final List<Shot> shots = new LinkedList<>();
-
-  public long getId() {
+  public Long getId() {
     return id;
-  }
-
-  @NonNull
-  public UUID getKey() {
-    return key;
-  }
-
-  @NonNull
-  public Instant getCreated() {
-    return created;
   }
 
   @NonNull
@@ -93,12 +68,16 @@ public class Game {
   }
 
   @NonNull
-  public List<Fleet> getFleets() {
-    return fleets;
+  public Game getGame() {
+    return game;
   }
 
- @NonNull
-  public List<Shot> getShots() {
-    return shots;
+  public void setGame(@NonNull Game game) {
+    this.game = game;
+  }
+
+  @NonNull
+  public List<Ship> getShips() {
+    return ships;
   }
 }

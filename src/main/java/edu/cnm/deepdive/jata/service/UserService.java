@@ -1,11 +1,13 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.service;
+package edu.cnm.deepdive.jata.service;
 
-import edu.cnm.deepdive.cutthroatbattleshipservice.model.dao.UserRepository;
-import edu.cnm.deepdive.cutthroatbattleshipservice.model.entity.User;
+import edu.cnm.deepdive.jata.model.dao.UserRepository;
+import edu.cnm.deepdive.jata.model.entity.User;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService implements AbstractUserService{
 
   private final UserRepository userRepository;

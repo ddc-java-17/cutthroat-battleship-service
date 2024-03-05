@@ -1,7 +1,7 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.controller;
+package edu.cnm.deepdive.jata.controller;
 
-import edu.cnm.deepdive.cutthroatbattleshipservice.model.entity.User;
-import edu.cnm.deepdive.cutthroatbattleshipservice.service.AbstractUserService;
+import edu.cnm.deepdive.jata.model.entity.User;
+import edu.cnm.deepdive.jata.service.AbstractUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

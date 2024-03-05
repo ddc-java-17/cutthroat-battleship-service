@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.model.entity;
+package edu.cnm.deepdive.jata.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,23 +10,18 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.LinkedList;
-import java.util.List;
 import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "user_game", indexes = {
-    @Index(columnList = "user_game_id, user_id, game_id"),
+    @Index(columnList = "user_game_id, user_id"),
 })
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({"user_game_id"})
@@ -45,14 +40,13 @@ public class UserGame {
   @JsonProperty(access = Access.READ_ONLY)
   private User user;
 
-  @Id
   @NonNull
   @OneToOne(optional = false, fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_ONLY)
   private Game game;
 
   @NonNull
-  @OneToOne(mappedBy = "fleet",
+  @OneToOne(mappedBy = "userGame",
       optional = false,
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,

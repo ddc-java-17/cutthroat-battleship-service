@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.configuration;
+package edu.cnm.deepdive.jata.configuration;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;

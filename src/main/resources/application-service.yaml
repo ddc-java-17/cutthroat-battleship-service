@@ -4,7 +4,7 @@ server:
   forward-headers-strategy: native
   port: 18181
   servlet:
-    context-path: /cutthroatbattleship-world
+    context-path: /jata-world
 
 spring:
   application:

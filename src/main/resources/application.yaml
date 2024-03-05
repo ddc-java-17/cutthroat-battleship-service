@@ -4,7 +4,7 @@ spring:
       - service
       - local
   datasource:
-    url: "jdbc:h2:file:./db/cutthroatbattleship"
+    url: "jdbc:h2:file:./db/jataservice"
   jpa:
     hibernate:
       ddl-auto: update

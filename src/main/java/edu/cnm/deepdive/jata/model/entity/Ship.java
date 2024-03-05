@@ -1,4 +1,4 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice.model.entity;
+package edu.cnm.deepdive.jata.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

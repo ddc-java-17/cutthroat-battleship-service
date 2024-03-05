@@ -1,13 +1,13 @@
-package edu.cnm.deepdive.cutthroatbattleshipservice;
+package edu.cnm.deepdive.jata;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CutthroatBattleshipServiceApplication {
+public class JataServiceApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(CutthroatBattleshipServiceApplication.class, args);
+    SpringApplication.run(JataServiceApplication.class, args);
   }
 
 }
