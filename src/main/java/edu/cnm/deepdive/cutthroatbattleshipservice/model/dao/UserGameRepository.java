@@ -29,7 +29,6 @@ public interface UserGameRepository {
       + "AND shot.yCoord = ship.yCoord")
   Optional<UserGame> findShipAndShotByXCoordAndYCoord(int xCoord, int yCoord);
 
-  // TODO: 3/4/2024 Query for processing shots
   // TODO: 3/4/2024 Query for checking for sunk ships
   // TODO: 3/4/2024 Query for checking for sunk fleets
 }
