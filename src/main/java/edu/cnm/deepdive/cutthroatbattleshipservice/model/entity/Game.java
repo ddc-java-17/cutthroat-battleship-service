@@ -50,9 +50,9 @@ public class Game {
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
-  @JoinColumn(name = "game_id", nullable = false, updatable = false)
+  @JoinColumn(name = "usergame_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private User user;
+  private UserGame userGame;
 
   @NonNull
   @OneToMany
@@ -84,12 +84,12 @@ public class Game {
   }
 
   @NonNull
-  public User getUser() {
-    return user;
+  public UserGame getUserGame() {
+    return userGame;
   }
 
-  public void setUser(@NonNull User user) {
-    this.user = user;
+  public void setUserGame(@NonNull UserGame userGame) {
+    this.userGame = userGame;
   }
 
   @NonNull
