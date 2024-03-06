@@ -71,7 +71,7 @@ public class Game {
   private int playerCount;
 
   @NonNull
-  @OneToMany
+  @OneToMany(mappedBy = "shot", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonProperty(access = Access.READ_ONLY)
   private final List<Shot> shots = new LinkedList<>();
 

@@ -79,25 +79,6 @@ public class User {
   @JsonIgnore
   private final List<UserGame> userGame = new LinkedList<>();
 
-  // TODO: 3/5/2024 Figure out if this is a feature we want.
-  @ManyToMany(fetch = FetchType.LAZY,
-      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "user_following",
-      uniqueConstraints = @UniqueConstraint(columnNames = {"followed_id", "follower_id"}),
-      joinColumns = @JoinColumn(name = "follower_id", nullable = false),
-      inverseJoinColumns = @JoinColumn(name = "followed_id", nullable = false))
-  @JsonIgnore
-  private final Set<User> followedUsers = new LinkedHashSet<>();
-
-  @ManyToMany(
-      mappedBy = "followedUsers",
-      fetch = FetchType.LAZY,
-      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
-  )
-  @OrderBy("displayName")
-  @JsonIgnore
-  private final Set<User> followingUsers = new LinkedHashSet<>();
-
   @NonNull
   public Long getId() {
     return id;

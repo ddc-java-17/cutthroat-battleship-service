@@ -13,7 +13,7 @@
   </parent>
 
   <groupId>edu.cnm.deepdive</groupId>
-  <artifactId>cutthroat-battleship-service</artifactId>
+  <artifactId>jata-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>cutthroat-battleship-service</name>
   <description>cutthroat-battleship-service</description>
