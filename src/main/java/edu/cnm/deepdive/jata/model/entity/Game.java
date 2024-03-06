@@ -67,6 +67,10 @@ public class Game {
   private String boardPool;
 
   @NonNull
+  @JsonProperty(access = Access.READ_ONLY)
+  private int playerCount;
+
+  @NonNull
   @OneToMany
   @JsonProperty(access = Access.READ_ONLY)
   private final List<Shot> shots = new LinkedList<>();
@@ -108,4 +112,9 @@ public class Game {
   public void setBoardPool(@NonNull String boardPool) {
     this.boardPool = boardPool;
   }
+
+  public int getPlayerCount() {
+    return playerCount;
+  }
+
 }
