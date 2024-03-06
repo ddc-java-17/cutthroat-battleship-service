@@ -83,16 +83,6 @@ public class Shot {
   }
 
   /**
-   * Returns the time the shot was fired
-   *
-   * @return
-   */
-  @NonNull
-  public Instant getTimestamp() {
-    return timestamp;
-  }
-
-  /**
    * Returns the user who fired the shot
    *
    * @return
@@ -184,4 +174,16 @@ public class Shot {
   public void setyCoord(int yCoord) {
     this.yCoord = yCoord;
   }
+
+  /**
+   * Returns the time the shot was fired
+   *
+   * @return
+   */
+  @NonNull
+  public Instant getTimestamp() {
+    return timestamp;
+  }
+
+
 }
