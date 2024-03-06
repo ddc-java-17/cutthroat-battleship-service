@@ -17,6 +17,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.springframework.lang.NonNull;
 
+/**
+ * This class contains a single ship of some type.  Each row represents a single point on the ship.  Ships size is determined by the number of rows in the table
+ */
 @Entity
 @Table(indexes = @Index(columnList = "ship_id"))
 @JsonInclude(Include.NON_NULL)
@@ -43,27 +46,57 @@ public class Ship {
   @JsonProperty(access = Access.READ_WRITE)
   private int yCoord;
 
+  /**
+   * Returns the ID of the ship
+   *
+   * @return
+   */
   @NonNull
   public Long getId() {
     return id;
   }
 
+  /**
+   * Returns the Fleet associated with this ship
+   *
+   * @return
+   */
   public Fleet getFleet() {
     return fleet;
   }
 
+  /**
+   * Returns the x-coordinate of a single point on the ship
+   *
+   * @return
+   */
   public int getxCoord() {
     return xCoord;
   }
 
+  /**
+   * Annotates the x-coordinate of a single point on the ship
+   *
+   * @param xCoord
+   */
   public void setxCoord(int xCoord) {
     this.xCoord = xCoord;
   }
 
+  /**
+   * Returns the y-coordinate of a single point on the ship
+   *
+   * @return
+   */
   public int getyCoord() {
     return yCoord;
   }
 
+  /**
+   * Annotates the y-coordinate of a single point on the ship
+   *
+   * @param yCoord
+   */
   public void setyCoord(int yCoord) {
     this.yCoord = yCoord;
   }
