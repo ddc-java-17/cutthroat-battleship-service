@@ -16,8 +16,12 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
 
   Optional<UserGame> findUserGameByFleet(Fleet fleet);
 
+  Optional<UserGame> findUserGameById(Long id);
+
+  Optional<UserGame> findUserGameByFleetAndGame(Fleet fleet, Game game);
+
   // TODO: 3/4/2024 Figure out how to keep toUser and fromUser distinct,
-  //  and possibly combine the next two shot fields
+  //    and possibly combine the next two shot fields
 
   // TODO: 3/4/2024 @Query for processing shots
   // TODO: 3/4/2024 Query for checking for sunk ships
