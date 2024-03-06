@@ -43,7 +43,6 @@ public class User {
   @JsonProperty(access = Access.READ_ONLY)
   private UUID key;
 
-
   @NonNull
   @Column(nullable = false, updatable = false)
   @CreationTimestamp

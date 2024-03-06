@@ -86,7 +86,5 @@ public class UserGame {
     this.fleet = fleet;
   }
 
-
   // TODO: 3/2/2024 Figure out methods this entity needs.
-  // TOTO: I BLESS THE RAINS DOWN IN AAAFRICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 }
