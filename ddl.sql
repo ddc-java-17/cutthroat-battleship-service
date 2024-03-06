@@ -13,6 +13,7 @@ create table fleet
 );
 create table game
 (
+    player_count integer                     not null,
     created      timestamp(6) with time zone not null,
     game_id      bigint                      not null,
     external_key UUID                        not null unique,
@@ -42,6 +43,12 @@ create table shot
     timestamp              timestamp(6) with time zone not null,
     to_user_user_game_id   bigint                      not null,
     primary key (shot_id)
+);
+create table user_following
+(
+    followed_id bigint not null,
+    follower_id bigint not null,
+    primary key (followed_id, follower_id)
 );
 create table user_game
 (
@@ -81,6 +88,10 @@ alter table if exists shot
     add constraint FK6b3paiqh4tclttwrcs0tpqgj3 foreign key (game_id) references game;
 alter table if exists shot
     add constraint FKb11x20fwryfusujc0rktaclww foreign key (to_user_user_game_id) references user_game;
+alter table if exists user_following
+    add constraint FKkr1xqs5pil608q5y0xdo8nea foreign key (followed_id) references user_profile;
+alter table if exists user_following
+    add constraint FKf8r8j6p0q1prag2s0agxegby7 foreign key (follower_id) references user_profile;
 alter table if exists user_game
     add constraint FK90teninibasptpfjckfb0avu1 foreign key (game_game_id) references game;
 alter table if exists user_game
