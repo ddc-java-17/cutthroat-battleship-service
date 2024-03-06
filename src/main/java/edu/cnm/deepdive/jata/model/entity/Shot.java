@@ -21,6 +21,9 @@ import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+/**
+ * This class records every shot taken by every user in the game
+ */
 @Entity
 @Table(
     indexes = {
@@ -69,55 +72,115 @@ public class Shot {
   @JsonProperty(access = Access.READ_ONLY)
   private Instant timestamp;
 
+  /**
+   * Returns the unique ID of this shot
+   *
+   * @return
+   */
   @NonNull
   public Long getId() {
     return id;
   }
 
+  /**
+   * Returns the time the shot was fired
+   *
+   * @return
+   */
   @NonNull
   public Instant getTimestamp() {
     return timestamp;
   }
 
+  /**
+   * Returns the user who fired the shot
+   *
+   * @return
+   */
   @NonNull
   public UserGame getFromUser() {
     return fromUser;
   }
 
+  /**
+   * Annotates the user who fired the shot
+   *
+   * @param fromUser
+   */
   public void setFromUser(@NonNull UserGame fromUser) {
     this.fromUser = fromUser;
   }
 
+  /**
+   * Returns the user who was fired upon
+   *
+   * @return
+   */
   @NonNull
   public UserGame getToUser() {
     return toUser;
   }
 
+  /**
+   * Annotates the user who was fired upon
+   *
+   * @param toUser
+   */
   public void setToUser(@NonNull UserGame toUser) {
     this.toUser = toUser;
   }
 
+  /**
+   * Returns the game associated with this shot
+   *
+   * @return
+   */
   @NonNull
   public Game getGame() {
     return game;
   }
 
+  /**
+   * Annotates the game associated with this shot
+   *
+   * @param game
+   */
   public void setGame(@NonNull Game game) {
     this.game = game;
   }
 
+  /**
+   * Returns the x-coordinate of this shot
+   *
+   * @return
+   */
   public int getxCoord() {
     return xCoord;
   }
 
+  /**
+   * Annotates the x-coordinate of this shot
+   *
+   * @param xCoord
+   */
   public void setxCoord(int xCoord) {
     this.xCoord = xCoord;
   }
 
+  /**
+   * Returns the y-coordinate of this shot
+   *
+   * @return
+   */
   public int getyCoord() {
     return yCoord;
   }
 
+  /**
+   * Annotates the y-coordinate of this shot
+   *
+   * @param yCoord
+   */
   public void setyCoord(int yCoord) {
     this.yCoord = yCoord;
   }

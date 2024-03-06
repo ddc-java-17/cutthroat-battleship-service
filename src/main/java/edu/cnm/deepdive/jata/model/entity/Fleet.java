@@ -22,6 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 import org.springframework.lang.NonNull;
 
+/**
+ * The Fleet entity holds the relationship between a user, a game, and a list of ships.
+ */
 @Entity
 @Table(indexes = @Index(columnList = "fleet_id, user_game_id"))
 @JsonInclude(Include.NON_NULL)
@@ -53,29 +56,56 @@ public class Fleet {
   @JsonProperty(access = Access.READ_ONLY)
   private final List<Ship> ships = new LinkedList<>();
 
+  /**
+   * Returns the primary key of the Fleet
+   *
+   * @return
+   */
   @NonNull
   public Long getId() {
     return id;
   }
 
+  /**
+   * Returns the UserGame entity associated with a fleet
+   * @return
+   */
   @NonNull
   public UserGame getUserGame() {
     return userGame;
   }
 
+  /**
+   * Annotates a fleet with a UserGame
+   * @param userGame
+   */
   public void setUserGame(@NonNull UserGame userGame) {
     this.userGame = userGame;
   }
 
+  /**
+   * Returns that game associated with the fleets
+   * @return
+   */
   @NonNull
   public Game getGame() {
     return game;
   }
 
+  /**
+   * Assigns a Game to this fleet
+   *
+   * @param game
+   */
   public void setGame(@NonNull Game game) {
     this.game = game;
   }
 
+  /**
+   * Returns a list of ships associated with this Fleet
+   *
+   * @return
+   */
   @NonNull
   public List<Ship> getShips() {
     return ships;
