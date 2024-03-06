@@ -42,6 +42,7 @@ public class UserGame {
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
   private Game game;
 
