@@ -12,14 +12,21 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -71,6 +78,25 @@ public class User {
       cascade = CascadeType.ALL)
   @JsonIgnore
   private final List<UserGame> userGame = new LinkedList<>();
+
+  // TODO: 3/5/2024 Figure out if this is a feature we want.
+  @ManyToMany(fetch = FetchType.LAZY,
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @JoinTable(name = "user_following",
+      uniqueConstraints = @UniqueConstraint(columnNames = {"followed_id", "follower_id"}),
+      joinColumns = @JoinColumn(name = "follower_id", nullable = false),
+      inverseJoinColumns = @JoinColumn(name = "followed_id", nullable = false))
+  @JsonIgnore
+  private final Set<User> followedUsers = new LinkedHashSet<>();
+
+  @ManyToMany(
+      mappedBy = "followedUsers",
+      fetch = FetchType.LAZY,
+      cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
+  )
+  @OrderBy("displayName")
+  @JsonIgnore
+  private final Set<User> followingUsers = new LinkedHashSet<>();
 
   @NonNull
   public Long getId() {
