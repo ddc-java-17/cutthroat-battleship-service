@@ -33,7 +33,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.NonNull;
 
 /**
- * This class
+ * This class represents the User.
  */
 @Entity
 @Table(name = "user")
@@ -82,44 +82,80 @@ public class User {
   @JsonIgnore
   private final List<UserGame> userGame = new LinkedList<>();
 
+  /**
+   * Gets user object's id.
+   * @return id   User's id
+   */
   @NonNull
   public Long getId() {
     return id;
   }
 
+  /**
+   * Gets User's secure UUID key
+   * @return key  UUID key
+   */
   @NonNull
   public UUID getKey() {
     return key;
   }
 
+  /**
+   * Gets the time and day that User was created.
+   * @return created  Instant the User was created
+   */
   @NonNull
   public Instant getCreated() {
     return created;
   }
 
+  /**
+   * Gets the last time the User modified their displayName.
+   * @return modified  Instant User was last modified.
+   */
   @NonNull
   public Instant getModified() {
     return modified;
   }
 
+  /**
+   * Gets User's current display name.
+   * @return displayName  User's display name
+   */
   @NonNull
   public String getDisplayName() {
     return displayName;
   }
 
+  /**
+   * Sets User's current display name
+   * @param displayName User's display name
+   */
   public void setDisplayName(@NonNull String displayName) {
     this.displayName = displayName;
   }
 
+  /**
+   * Gets User's OauthKey
+   * @return OauthKey User's OauthKey
+   */
   @NonNull
   public String getOauthKey() {
     return oauthKey;
   }
 
+  /**
+   * Sets User's OauthKey
+   * @param oauthKey User's OauthKey
+   */
   public void setOauthKey(@NonNull String oauthKey) {
     this.oauthKey = oauthKey;
   }
 
+  /**
+   * Gets User's UserGame.
+   * @return userGame UserGame object that the User points to
+   */
   @NonNull
   public List<UserGame> getUserGame() {
     return userGame;
