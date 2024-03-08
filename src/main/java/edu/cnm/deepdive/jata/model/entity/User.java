@@ -32,6 +32,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.NonNull;
 
+/**
+ * This class
+ */
 @Entity
 @Table(name = "user")
 @JsonInclude(Include.NON_NULL)

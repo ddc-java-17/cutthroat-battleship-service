@@ -19,6 +19,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import org.springframework.lang.NonNull;
 
+/**
+ * This class is the central hub of communication. All information the user needs comes through
+ * this class.
+ */
+
 @Entity
 @Table(name = "user_game", indexes = {
     @Index(columnList = "user_game_id, user_id"),
@@ -55,37 +60,64 @@ public class UserGame {
   @JsonProperty(access = Access.READ_ONLY)
   private Fleet fleet;
 
+  /**
+   * Gets this UserGame's identifying number
+   * @return id UserGame identification
+   */
   @NonNull
   public Long getId() {
     return id;
   }
 
+  /**
+   * Gets the user object associated with this UserGame
+   * @return user User object
+   */
   @NonNull
   public User getUser() {
     return user;
   }
 
+  /**
+   * Sets the user object associated with this UserGame
+   * @param user  User object.
+   */
   public void setUser(@NonNull User user) {
     this.user = user;
   }
 
+  /**
+   * Gets the game object associated with this UserGame
+   * @return game Game object
+   */
   @NonNull
   public Game getGame() {
     return game;
   }
 
+  /**
+   * Sets the game associated to this UserGame
+   * @param game  Game object
+   */
   public void setGame(@NonNull Game game) {
     this.game = game;
   }
 
+  /**
+   * Gets the fleet associated with this UserGame
+   * @return fleet Fleet object
+   */
   @NonNull
   public Fleet getFleet() {
     return fleet;
   }
 
+  /**
+   * Sets the fleet object associated with this UserGame
+   * @param fleet Fleet object
+   */
   public void setFleet(Fleet fleet) {
     this.fleet = fleet;
   }
 
-  // TODO: 3/2/2024 Figure out methods this entity needs.
 }

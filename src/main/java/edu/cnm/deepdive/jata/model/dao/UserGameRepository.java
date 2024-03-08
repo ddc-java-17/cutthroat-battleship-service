@@ -8,22 +8,46 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+/**
+ * This repository interface is for managing and retrieving data from UserGame
+ * as needed.
+ */
 public interface UserGameRepository extends JpaRepository<UserGame, Long> {
 
+  /**
+   * This searches for a user object relative to this UserGame
+   * @param user  User object relating to this UserGame
+   * @return userGame
+   */
   List<UserGame> findUserGameByUser(User user);
 
+  /**
+   * This searches for this User/game by the game object it points to
+   * @param game  Game object relating to this UserGame
+   * @return userGame
+   */
   Optional<UserGame> findUserGameByGame(Game game);
 
+  /**
+   * This searches for this UserGame by the Fleet object it points to
+   * @param fleet   Fleet object relative to this UserGame
+   * @return userGame
+   */
   Optional<UserGame> findUserGameByFleet(Fleet fleet);
 
+  /**
+   * This searches for this UserGame by the game id it points to
+   * @param id  Game id relative to this UserGame
+   * @return userGame
+   */
   Optional<UserGame> findUserGameById(Long id);
 
+  /**
+   * This searches for this UserGame by the fleet object and game object it points to
+    * @param fleet  Fleet object relative to this UserGame
+   * @param game    Game object relative to this UserGame
+   * @return userGame
+   */
   Optional<UserGame> findUserGameByFleetAndGame(Fleet fleet, Game game);
 
-  // TODO: 3/4/2024 Figure out how to keep toUser and fromUser distinct,
-  //    and possibly combine the next two shot fields
-
-  // TODO: 3/4/2024 @Query for processing shots
-  // TODO: 3/4/2024 Query for checking for sunk ships
-  // TODO: 3/4/2024 Query for checking for sunk fleets
 }
