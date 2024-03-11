@@ -51,7 +51,7 @@ create table user
 );
 create table user_game
 (
-    game_game_id bigint not null,
+    game_id      bigint not null,
     user_game_id bigint not null,
     user_id      bigint not null,
     primary key (user_game_id)
@@ -74,6 +74,6 @@ alter table if exists shot
 alter table if exists shot
     add constraint FKb11x20fwryfusujc0rktaclww foreign key (to_user_user_game_id) references user_game;
 alter table if exists user_game
-    add constraint FK90teninibasptpfjckfb0avu1 foreign key (game_game_id) references game;
+    add constraint FKg1pwaakahpjiu1io84bnnthys foreign key (game_id) references game;
 alter table if exists user_game
     add constraint FK119tttdkgsb3r72i6l557a6f5 foreign key (user_id) references user;
