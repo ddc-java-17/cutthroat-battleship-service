@@ -51,12 +51,6 @@ public class Shot {
   @JsonProperty(access = Access.READ_ONLY)
   private UserGame toUser;
 
-  @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.EAGER)
-  @JoinColumn(name = "game_id", nullable = false, updatable = false)
-  @JsonIgnore
-  private Game game;
-
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
   private int xCoord;
@@ -120,24 +114,6 @@ public class Shot {
     this.toUser = toUser;
   }
 
-  /**
-   * Returns the game associated with this shot
-   *
-   * @return
-   */
-  @NonNull
-  public Game getGame() {
-    return game;
-  }
-
-  /**
-   * Annotates the game associated with this shot
-   *
-   * @param game
-   */
-  public void setGame(@NonNull Game game) {
-    this.game = game;
-  }
 
   /**
    * Returns the x-coordinate of this shot

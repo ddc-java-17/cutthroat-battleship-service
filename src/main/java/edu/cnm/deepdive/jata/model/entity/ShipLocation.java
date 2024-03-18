@@ -12,7 +12,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.springframework.lang.NonNull;
@@ -24,7 +23,7 @@ import org.springframework.lang.NonNull;
 @Table(indexes = @Index(columnList = "ship_id"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
-public class Ship {
+public class ShipLocation {
 
   @NonNull
   @Id
@@ -33,10 +32,14 @@ public class Ship {
   @JsonIgnore
   private Long id;
 
+  @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
-  @JoinColumn(name = "fleet_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
-  private Fleet fleet;
+  private UserGame userGame;
+
+  @Column(nullable = false, updatable = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  private int shipNumber;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
@@ -57,12 +60,31 @@ public class Ship {
   }
 
   /**
-   * Returns the Fleet associated with this ship
+   * Returns the userGame of a particular ship
    *
    * @return
    */
-  public Fleet getFleet() {
-    return fleet;
+  @NonNull
+  public UserGame getUserGame() {
+    return userGame;
+  }
+
+  /**
+   * Returns the ship number (identifier) for a particular ship belonging to a userGame
+   *
+   * @return
+   */
+  public int getShipNumber() {
+    return shipNumber;
+  }
+
+  /**
+   * Annotates the ship number (identifier) for a particular ship belonging to a userGame
+   *
+   * @param shipNumber
+   */
+  public void setShipNumber(int shipNumber) {
+    this.shipNumber = shipNumber;
   }
 
   /**

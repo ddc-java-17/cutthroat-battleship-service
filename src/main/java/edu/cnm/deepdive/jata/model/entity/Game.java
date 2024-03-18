@@ -58,23 +58,12 @@ public class Game {
   private final List<UserGame> userGame = new LinkedList<>();
 
   @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonProperty(access = Access.READ_ONLY)
-  private final List<Fleet> fleets = new LinkedList<>();
-
-  @NonNull
   @JsonProperty(access = Access.READ_WRITE)
   private String boardPool;
 
   @NonNull
   @JsonProperty(access = Access.READ_ONLY)
   private int playerCount;
-
-  @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JsonProperty(access = Access.READ_ONLY)
-  private final List<Shot> shots = new LinkedList<>();
 
   public long getId() {
     return id;
@@ -96,11 +85,6 @@ public class Game {
   }
 
   @NonNull
-  public List<Fleet> getFleets() {
-    return fleets;
-  }
-
-  @NonNull
   public String getBoardPool() {
     return boardPool;
   }
@@ -111,11 +95,6 @@ public class Game {
 
   public int getPlayerCount() {
     return playerCount;
-  }
-
-  @NonNull
-  public List<Shot> getShots() {
-    return shots;
   }
 
   @PrePersist

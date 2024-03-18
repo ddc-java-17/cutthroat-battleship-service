@@ -51,15 +51,6 @@ public class UserGame {
   @JsonProperty(access = Access.READ_ONLY)
   private Game game;
 
-  @NonNull
-  @OneToOne(mappedBy = "userGame",
-      optional = false,
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true)
-  @JsonProperty(access = Access.READ_ONLY)
-  private Fleet fleet;
-
   /**
    * Gets this UserGame's identifying number
    * @return id UserGame identification
@@ -101,23 +92,6 @@ public class UserGame {
    */
   public void setGame(@NonNull Game game) {
     this.game = game;
-  }
-
-  /**
-   * Gets the fleet associated with this UserGame
-   * @return fleet Fleet object
-   */
-  @NonNull
-  public Fleet getFleet() {
-    return fleet;
-  }
-
-  /**
-   * Sets the fleet object associated with this UserGame
-   * @param fleet Fleet object
-   */
-  public void setFleet(Fleet fleet) {
-    this.fleet = fleet;
   }
 
 }

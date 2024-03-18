@@ -29,25 +29,10 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
   Optional<UserGame> findUserGameByGame(Game game);
 
   /**
-   * This searches for this UserGame by the Fleet object it points to
-   * @param fleet   Fleet object relative to this UserGame
-   * @return userGame
-   */
-  Optional<UserGame> findUserGameByFleet(Fleet fleet);
-
-  /**
    * This searches for this UserGame by the game id it points to
    * @param id  Game id relative to this UserGame
    * @return userGame
    */
   Optional<UserGame> findUserGameById(Long id);
-
-  /**
-   * This searches for this UserGame by the fleet object and game object it points to
-    * @param fleet  Fleet object relative to this UserGame
-   * @param game    Game object relative to this UserGame
-   * @return userGame
-   */
-  Optional<UserGame> findUserGameByFleetAndGame(Fleet fleet, Game game);
 
 }
