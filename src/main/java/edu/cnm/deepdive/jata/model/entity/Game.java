@@ -27,6 +27,9 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+/**
+ * This class represents the game.
+ */
 @Entity
 @Table(indexes = @Index(columnList = "game_id"))
 @JsonInclude(Include.NON_NULL)
@@ -65,34 +68,62 @@ public class Game {
   @JsonProperty(access = Access.READ_ONLY)
   private int playerCount;
 
+  /**
+   * Get game object's id
+   * @return id Game's id
+   */
   public long getId() {
     return id;
   }
 
+  /**
+   * get game's secure UUID key
+   * @return key UUID key
+   */
   @NonNull
   public UUID getKey() {
     return key;
   }
 
+  /**
+   * Get the time and day the game was created.
+   * @return created instant game was created.
+   */
   @NonNull
   public Instant getCreated() {
     return created;
   }
 
+  /**
+   * get List of userGame.
+   * @return userGame List of userGame.
+   */
   @NonNull
   public List<UserGame> getUserGame() {
     return userGame;
   }
 
+  /**
+   * Get String of boardPool
+   * @return boardPool String of boardPool.
+   */
   @NonNull
   public String getBoardPool() {
     return boardPool;
   }
 
+  /**
+   * Set BoardPool
+   * @param boardPool game's boardPool.
+   */
   public void setBoardPool(@NonNull String boardPool) {
     this.boardPool = boardPool;
   }
 
+  /**
+   * Get playerCount.
+   * @return playerCount int playerCount.
+   */
   public int getPlayerCount() {
     return playerCount;
   }
