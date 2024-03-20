@@ -3,6 +3,7 @@ package edu.cnm.deepdive.jata.service;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.User;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class GameService implements AbstractGameService {
   }
 
   @Override
-  public Game startGame(Game game, User user) {
+  public Game startJoinGame(Game game, User user) {
     int[] pool = game
         .getBoardPool()
         .codePoints()
@@ -29,4 +30,11 @@ public class GameService implements AbstractGameService {
     return gameRepository.save(game);
   }
 
+
+  @Override
+  public Game getGame(UUID key, User user) {
+    return gameRepository
+        .findGameByKeyAndUser(key, user)
+        .orElseThrow();
+  }
 }
