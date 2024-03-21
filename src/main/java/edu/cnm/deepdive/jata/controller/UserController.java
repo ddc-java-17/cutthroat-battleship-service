@@ -27,11 +27,11 @@ public class UserController {
     return userService.getCurrentUser();
   }
 
-  @PutMapping(path = "/me")
-  public User put() {
-    return userService.updateUser();
-    // FIXME: 3/21/2024 Not sure that this method needs. Figure it out.
-  }
+//  @PutMapping(path = "/me")
+//  public User put() {
+//    return userService.updateUser();
+//    // FIXME: 3/21/2024 Not sure that this method needs. Figure it out.
+//  }
 
   @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getUser(@PathVariable UUID key) {
