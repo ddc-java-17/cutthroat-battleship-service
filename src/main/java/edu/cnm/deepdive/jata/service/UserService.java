@@ -44,9 +44,9 @@ public class UserService implements AbstractUserService{
   }
 
   @Override
-  public User updateUser(User received) {
+  public User updateUser(User received, User requester) {
     return userRepository
-        .findById(getCurrentUser().getId())
+        .findById(requester.getId())
         .map((user)->{
           String displayName = received.getDisplayName();
           //noinspection ConstantValue

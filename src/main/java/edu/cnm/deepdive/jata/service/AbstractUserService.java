@@ -12,7 +12,7 @@ public interface AbstractUserService {
 
   User getUser(UUID key);
 
-  User updateUser(User received);
+  User updateUser(User received, User requester);
 
   Optional<User> get(UUID key, User requester);
 
