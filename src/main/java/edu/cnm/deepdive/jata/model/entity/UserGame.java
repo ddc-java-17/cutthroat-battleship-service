@@ -16,7 +16,9 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import java.util.UUID;
 import org.springframework.lang.NonNull;
 
 /**
@@ -40,6 +42,11 @@ public class UserGame {
   private Long id;
 
   @NonNull
+  @Column(name = "external_key", nullable = false, updatable = false, unique = true, columnDefinition = "UUID")
+  @JsonProperty(access = Access.READ_WRITE)
+  private UUID key;
+
+  @NonNull
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
@@ -49,6 +56,7 @@ public class UserGame {
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
+  @JsonIgnore
   private Game game;
 
   /**
@@ -58,6 +66,16 @@ public class UserGame {
   @NonNull
   public Long getId() {
     return id;
+  }
+
+
+  @NonNull
+  public UUID getKey() {
+    return key;
+  }
+
+  public void setKey(@NonNull UUID key) {
+    this.key = key;
   }
 
   /**
@@ -94,4 +112,8 @@ public class UserGame {
     this.game = game;
   }
 
+  @PrePersist
+  private void generateKey() {
+    key = UUID.randomUUID();
+  }
 }

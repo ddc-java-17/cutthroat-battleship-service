@@ -17,7 +17,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import java.time.Instant;
+import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -48,7 +50,7 @@ public class Shot {
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
-  @JsonProperty(access = Access.READ_ONLY)
+  @JsonProperty(access = Access.READ_WRITE)
   private UserGame toUser;
 
   @Column(nullable = false, updatable = true)
@@ -65,6 +67,8 @@ public class Shot {
   @Temporal(TemporalType.TIMESTAMP)
   @JsonProperty(access = Access.READ_ONLY)
   private Instant timestamp;
+
+
 
   /**
    * Returns the unique ID of this shot

@@ -28,7 +28,6 @@ import org.springframework.lang.NonNull;
  * This class represents the game.
  */
 @Entity
-@Table(indexes = @Index(columnList = "game_id"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Game {
@@ -38,7 +37,7 @@ public class Game {
   @GeneratedValue
   @Column(name = "game_id", nullable = false, updatable = false)
   @JsonIgnore
-  private long id;
+  private Long id;
 
   @NonNull
   @Column(name = "external_key", nullable = false, updatable = false, unique = true, columnDefinition = "UUID")
@@ -53,7 +52,7 @@ public class Game {
   private Instant created;
 
   @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonProperty(access = Access.READ_ONLY)
   private final List<UserGame> userGames = new LinkedList<>();
 
@@ -69,7 +68,7 @@ public class Game {
    * Get game object's id
    * @return id Game's id
    */
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
