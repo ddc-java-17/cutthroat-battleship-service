@@ -13,8 +13,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -31,7 +29,6 @@ import org.springframework.lang.NonNull;
  * This class represents the game.
  */
 @Entity
-@Table(indexes = @Index(columnList = "game_id"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Game {
@@ -41,7 +38,7 @@ public class Game {
   @GeneratedValue
   @Column(name = "game_id", nullable = false, updatable = false)
   @JsonIgnore
-  private long id;
+  private Long id;
 
   @NonNull
   @Column(name = "external_key", nullable = false, updatable = false, unique = true, columnDefinition = "UUID")
@@ -56,9 +53,9 @@ public class Game {
   private Instant created;
 
   @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonProperty(access = Access.READ_ONLY)
-  private final List<UserGame> userGame = new LinkedList<>();
+  private final List<UserGame> userGames = new LinkedList<>();
 
   @NonNull
   @JsonProperty(access = Access.READ_WRITE)
@@ -72,7 +69,7 @@ public class Game {
    * Get game object's id
    * @return id Game's id
    */
-  public long getId() {
+  public Long getId() {
     return id;
   }
 
@@ -99,8 +96,8 @@ public class Game {
    * @return userGame List of userGame.
    */
   @NonNull
-  public List<UserGame> getUserGame() {
-    return userGame;
+  public List<UserGame> getUserGames() {
+    return userGames;
   }
 
   /**

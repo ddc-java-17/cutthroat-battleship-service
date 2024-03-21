@@ -1,10 +1,13 @@
 package edu.cnm.deepdive.jata.controller;
 
 import edu.cnm.deepdive.jata.model.entity.Shot;
+import edu.cnm.deepdive.jata.model.entity.User;
+import edu.cnm.deepdive.jata.model.entity.UserGame;
 import edu.cnm.deepdive.jata.service.AbstractGameService;
 import edu.cnm.deepdive.jata.service.AbstractUserService;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -31,15 +34,15 @@ public class ShotController {
   }
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Shot> post(@PathVariable UUID key, @Valid @RequestBody Shot shot) {
-    Shot newShot = gameService.submitShot(key, shot, userService.getCurrentUser());
-    URI location = WebMvcLinkBuilder.linkTo(
-        WebMvcLinkBuilder.methodOn(ShotController.class)
-            .get(key, newShot.getFromUser())
-    )
-        .toUri();
-    return ResponseEntity.created(location)
-        .body(newShot);
+  public List<Shot> post(@PathVariable UUID key, @Valid @RequestBody List<Shot> shots) {
+    return gameService.submitShots(key, shots, userService.getCurrentUser());
+//    URI location = WebMvcLinkBuilder.linkTo(
+//        WebMvcLinkBuilder.methodOn(ShotController.class)
+//            .get(key, newShot.)
+//    )
+//        .toUri();
+//    return ResponseEntity.created(location)
+//        .body(newShot);
   }
 
   @GetMapping(path = "/{guessKey}", produces = MediaType.APPLICATION_JSON_VALUE)

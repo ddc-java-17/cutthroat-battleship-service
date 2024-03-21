@@ -1,11 +1,11 @@
 package edu.cnm.deepdive.jata.model.dao;
 
-import edu.cnm.deepdive.jata.model.entity.Fleet;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -26,7 +26,7 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    * @param game  Game object relating to this UserGame
    * @return userGame
    */
-  Optional<UserGame> findUserGameByGame(Game game);
+  List<UserGame> findUserGameByGame(Game game);
 
   /**
    * This searches for this UserGame by the game id it points to
@@ -34,5 +34,9 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    * @return userGame
    */
   Optional<UserGame> findUserGameById(Long id);
+
+  Optional<UserGame> findUserGameByKeyAndGame(UUID key, Game game);
+
+  Optional<UserGame> findUserGameByGameAndUser(Game game, User user);
 
 }

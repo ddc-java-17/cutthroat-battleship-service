@@ -36,7 +36,7 @@ import org.springframework.lang.NonNull;
  * This class represents the User.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user_profile")
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({"key", "created", "modified", "displayName"})
 public class User {
