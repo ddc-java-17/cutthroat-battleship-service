@@ -37,6 +37,13 @@ public class UserService implements AbstractUserService{
   }
 
   @Override
+  public User getUser(UUID key) {
+    return userRepository
+        .findUserByKey(key)
+        .orElseThrow();
+  }
+
+  @Override
   public User updateUser(User received) {
     return userRepository
         .findById(getCurrentUser().getId())

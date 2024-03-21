@@ -10,6 +10,8 @@ public interface AbstractUserService {
 
   User getCurrentUser();
 
+  User getUser(UUID key);
+
   User updateUser(User received);
 
   Optional<User> get(UUID key, User requester);
