@@ -6,15 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -58,7 +55,7 @@ public class Game {
   @NonNull
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_ONLY)
-  private final List<UserGame> userGame = new LinkedList<>();
+  private final List<UserGame> userGames = new LinkedList<>();
 
   @NonNull
   @JsonProperty(access = Access.READ_WRITE)
@@ -99,8 +96,8 @@ public class Game {
    * @return userGame List of userGame.
    */
   @NonNull
-  public List<UserGame> getUserGame() {
-    return userGame;
+  public List<UserGame> getUserGames() {
+    return userGames;
   }
 
   /**

@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ShotRepository extends JpaRepository<Shot, Long> {
 
-Optional<Shot> findShotsByFromUserAndGame(UserGame fromUser, Game game);
+  Optional<Shot> findShotsByFromUser(UserGame fromUser);
 
-Optional<Shot> findShotsByToUserAndGame(UserGame toUser, Game game);
-
-Optional<Shot> findShotsByGame(Game game);
+  Optional<Shot> findShotsByToUser(UserGame toUser);
 }
