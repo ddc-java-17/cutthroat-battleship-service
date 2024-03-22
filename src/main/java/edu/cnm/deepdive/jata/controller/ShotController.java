@@ -45,9 +45,9 @@ public class ShotController {
 //        .body(newShot);
   }
 
-  @GetMapping(path = "/{guessKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Shot get(@PathVariable UUID key, @PathVariable UUID guessKey) {
-    return gameService.getShot(key, guessKey, userService.getCurrentUser());
+  @GetMapping(path = "/{shotKey}", produces = MediaType.APPLICATION_JSON_VALUE)
+  public Shot get(@PathVariable UUID key, @PathVariable UUID shotKey) {
+    return gameService.getShot(key, shotKey, userService.getCurrentUser());
   }
 
 }

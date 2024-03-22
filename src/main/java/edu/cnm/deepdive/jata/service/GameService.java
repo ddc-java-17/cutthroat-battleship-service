@@ -57,6 +57,7 @@ public class GameService implements AbstractGameService {
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
           shots.forEach((shot) -> {
+            // if (shot.getxCoord() > boardpool.height || shot.getxCoord() < boardpool.height) throw exception; ycoord < || > boardpool.width
             shot.setToUser(userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game).orElseThrow());
             shot.setFromUser(userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
           });
@@ -69,4 +70,7 @@ public class GameService implements AbstractGameService {
   public Shot getShot(UUID key, UUID guessKey, User currentUser) {
     return null;
   }
+
+
+
 }
