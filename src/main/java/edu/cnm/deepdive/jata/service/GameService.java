@@ -34,12 +34,6 @@ public class GameService implements AbstractGameService {
 
   @Override
   public Game startJoinGame(Game game, User user) {
-    int[] pool = game
-        .getBoardPool()
-        .codePoints()
-        .distinct()
-        .toArray();
-    game.setBoardPool(new String(pool, 0, pool.length));
     UserGame userGame = new UserGame();
     userGame.setGame(game);
     userGame.setUser(user);
@@ -74,6 +68,7 @@ public class GameService implements AbstractGameService {
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
           ships.forEach((shipLocation) -> {
+            ValidateShipLocation(shipLocation, gameRepository.findGameByKey(key).orElseThrow());
             shipLocation.setUserGame(userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
           });
           return shipLocationRepository.saveAll(ships);
@@ -81,6 +76,12 @@ public class GameService implements AbstractGameService {
         .orElseThrow();
   }
 
+  private static void ValidateShipLocation(ShipLocation location, Game game) {
+    if(location.getxCoord() > game.getBoardSizeX()
+    || location.getxCoord() < 1
+    || location.getyCoord() > game.getBoardSizeY()
+    || location.getyCoord() < 1) throw new InvalidShipLocationException("Ships must be placed on the board");
+  }
   @Override
   public Shot getShot(UUID key, UUID guessKey, User currentUser) {
     return null;
