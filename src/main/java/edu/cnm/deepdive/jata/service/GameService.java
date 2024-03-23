@@ -1,9 +1,11 @@
 package edu.cnm.deepdive.jata.service;
 
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
+import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.ShotRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
 import edu.cnm.deepdive.jata.model.entity.Game;
+import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
@@ -18,14 +20,16 @@ public class GameService implements AbstractGameService {
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
   private final ShotRepository shotRepository;
+  private final ShipLocationRepository shipLocationRepository;
 
   @Autowired
   public GameService(
       GameRepository gameRepository, UserGameRepository userGameRepository,
-      ShotRepository shotRepository) {
+      ShotRepository shotRepository, ShipLocationRepository shipLocationRepository) {
     this.gameRepository = gameRepository;
     this.userGameRepository = userGameRepository;
     this.shotRepository = shotRepository;
+    this.shipLocationRepository = shipLocationRepository;
   }
 
   @Override
@@ -61,6 +65,18 @@ public class GameService implements AbstractGameService {
             shot.setFromUser(userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
           });
           return shotRepository.saveAll(shots);
+        })
+        .orElseThrow();
+  }
+
+  @Override
+  public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
+    return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
+        .map((game) -> {
+          ships.forEach((shipLocation) -> {
+            shipLocation.setUserGame(userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
+          });
+          return shipLocationRepository.saveAll(ships);
         })
         .orElseThrow();
   }

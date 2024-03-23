@@ -70,6 +70,14 @@ public class ShipLocation {
   }
 
   /**
+   * Annotates this ship with its associated user via UserGame
+   * @param userGame
+   */
+  public void setUserGame(@NonNull UserGame userGame) {
+    this.userGame = userGame;
+  }
+
+  /**
    * Returns the ship number (identifier) for a particular ship belonging to a userGame
    *
    * @return

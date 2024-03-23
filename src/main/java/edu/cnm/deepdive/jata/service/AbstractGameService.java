@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.jata.service;
 
 import edu.cnm.deepdive.jata.model.entity.Game;
+import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
@@ -14,6 +15,8 @@ public interface AbstractGameService {
   Game getGame(UUID key, User user);
 
   List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser);
+
+  List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser);
 
   Shot getShot(UUID key, UUID guessKey, User currentUser);
 }
