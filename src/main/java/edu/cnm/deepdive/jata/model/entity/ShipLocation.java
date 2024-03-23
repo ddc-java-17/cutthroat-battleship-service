@@ -43,11 +43,11 @@ public class ShipLocation {
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int xCoord;
+  private int shipCoordX;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int yCoord;
+  private int shipCoordY;
 
   /**
    * Returns the ID of the ship
@@ -100,8 +100,8 @@ public class ShipLocation {
    *
    * @return
    */
-  public int getxCoord() {
-    return xCoord;
+  public int getShipCoordX() {
+    return shipCoordX;
   }
 
   /**
@@ -109,8 +109,8 @@ public class ShipLocation {
    *
    * @param xCoord
    */
-  public void setxCoord(int xCoord) {
-    this.xCoord = xCoord;
+  public void setShipCoordX(int xCoord) {
+    this.shipCoordX = xCoord;
   }
 
   /**
@@ -118,8 +118,8 @@ public class ShipLocation {
    *
    * @return
    */
-  public int getyCoord() {
-    return yCoord;
+  public int getShipCoordY() {
+    return shipCoordY;
   }
 
   /**
@@ -127,7 +127,12 @@ public class ShipLocation {
    *
    * @param yCoord
    */
-  public void setyCoord(int yCoord) {
-    this.yCoord = yCoord;
+  public void setShipCoordY(int yCoord) {
+    this.shipCoordY = yCoord;
+  }
+
+  public int[] getCoordinates(int[2] coordinates){
+    this.coordinates[0] = getShipCoordX();
+    this.coordinates[1] = getShipCoordY();
   }
 }
