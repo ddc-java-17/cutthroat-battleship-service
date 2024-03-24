@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ *
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -33,17 +36,28 @@ public class UserController {
     return userService.getCurrentUser();
   }
 
+  /**
+   *
+   * @param user
+   * @return
+   */
   @PutMapping(path = "/me",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public User put(@RequestBody User user) {
     return userService.updateUser(user, userService.getCurrentUser());
-    // FIXME: 3/21/2024 Not sure that this method needs. Figure it out.
   }
 
+  /**
+   *
+   * @param key
+   * @return
+   */
   @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getUser(@PathVariable UUID key) {
     return userService.getUser(key);
   }
+
+
 
 }
