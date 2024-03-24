@@ -6,15 +6,14 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.Instant;
@@ -66,6 +65,7 @@ public class Game {
 
   /**
    * Get game object's id
+   *
    * @return id Game's id
    */
   public Long getId() {
@@ -74,6 +74,7 @@ public class Game {
 
   /**
    * get game's secure UUID key
+   *
    * @return key UUID key
    */
   @NonNull
@@ -83,6 +84,7 @@ public class Game {
 
   /**
    * Get the time and day the game was created.
+   *
    * @return created instant game was created.
    */
   @NonNull
@@ -92,6 +94,7 @@ public class Game {
 
   /**
    * get List of userGame.
+   *
    * @return userGame List of userGame.
    */
   @NonNull
@@ -101,6 +104,7 @@ public class Game {
 
   /**
    * Get String of boardPool
+   *
    * @return boardPool String of boardPool.
    */
   @NonNull
@@ -110,6 +114,7 @@ public class Game {
 
   /**
    * Set BoardPool
+   *
    * @param boardPool game's boardPool.
    */
   public void setBoardPool(@NonNull String boardPool) {
@@ -118,6 +123,7 @@ public class Game {
 
   /**
    * Get playerCount.
+   *
    * @return playerCount int playerCount.
    */
   public int getPlayerCount() {
