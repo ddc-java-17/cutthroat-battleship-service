@@ -1,11 +1,11 @@
 package edu.cnm.deepdive.jata.model.dao;
 
-import edu.cnm.deepdive.jata.model.entity.ShotsStatus;
-import java.util.List;
+import edu.cnm.deepdive.jata.model.ShotStatusId;
+import edu.cnm.deepdive.jata.model.entity.ShotStatus;
 
-public interface ShotsStatusRepository extends ReadOnlyRepository<ShotsStatus> {
+public interface ShotsStatusRepository extends ReadOnlyRepository<ShotStatus, ShotStatusId> {
 
-  List<ShotsStatus> findAllByUserGameIdAndShipXCoordAndShipYCoordAndShotXCoordAndShotYCoord(int xcoord, int ycoord);
+ // List<ShotsStatus> findAllByUserGameIdAndShipXCoordAndShipYCoordAndShotXCoordAndShotYCoord(int xcoord, int ycoord);
 
 
 

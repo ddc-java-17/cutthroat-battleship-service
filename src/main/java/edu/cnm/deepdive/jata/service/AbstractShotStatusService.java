@@ -1,10 +1,10 @@
 package edu.cnm.deepdive.jata.service;
 
-import edu.cnm.deepdive.jata.model.entity.ShotsStatus;
+import edu.cnm.deepdive.jata.model.entity.ShotStatus;
 import java.util.List;
 
 public interface AbstractShotStatusService {
 
 
-  List<ShotsStatus> getStatus();
+  List<ShotStatus> getStatus();
 }
