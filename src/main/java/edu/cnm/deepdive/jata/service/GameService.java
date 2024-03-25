@@ -11,6 +11,7 @@ import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,8 +84,9 @@ public class GameService implements AbstractGameService {
   public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
     hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key,
         currentUser).getBoardSizeY()];
-    int currentShipNumber = 1;
-    int currentShipPoint = 0;
+    IntStream.rangeClosed(1, ships.size())
+        .flatMap((number) -> )
+
     if (shipLocationRepository
         .findShipLocationByUserGame(userGameRepository
             .findUserGameByGameKeyAndUser(key, currentUser)
@@ -96,12 +98,6 @@ public class GameService implements AbstractGameService {
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
           ships.forEach((shipLocation) -> {
-            if(shipLocation.getShipNumber() == currentShipNumber){
-              currentShipPoint++;
-
-            } else{
-              currentShipNumber = shipLocation.getShipNumber();
-            }
             ValidateShipLocationAndBoardEdge(shipLocation,
                 gameRepository.findGameByKey(key).orElseThrow());
             shipLocation.setUserGame(
@@ -129,9 +125,6 @@ public class GameService implements AbstractGameService {
   }
 
   private static void ValidateLegalShip(ShipLocation location, UserGame userGame, Game game) {
-    for(int i = 1; i <= MAX_SHIPS_PER_PLAYER; i++){
-      int[] X = location.
-    }
   }
 
   @Override
