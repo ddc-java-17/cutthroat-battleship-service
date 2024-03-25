@@ -28,6 +28,9 @@ import org.springframework.lang.NonNull;
 @JsonPropertyOrder({""})
 public class ShipLocation {
 
+  public static final int MIN_SHIP_NUMBER = 1;
+  public static final int MIN_X_COORD = 1;
+  public static final int MIN_Y_COORD = 1;
   @NonNull
   @Id
   @GeneratedValue
@@ -39,22 +42,23 @@ public class ShipLocation {
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "user_game_id")
   @JsonProperty(access = Access.READ_ONLY)
+  @JsonIgnore
   private UserGame userGame;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
- @Min(1)
+  @Min(MIN_SHIP_NUMBER)
   private int shipNumber;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  @Min(1)
+  @Min(MIN_X_COORD)
   private int shipCoordX;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  @Min(1)
-  private int shipCoordY;
+  @Min(MIN_Y_COORD)
+ private int shipCoordY;
 
   /**
    * Returns the ID of the ship

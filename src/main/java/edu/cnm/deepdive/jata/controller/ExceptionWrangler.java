@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.jata.controller;
 
+import edu.cnm.deepdive.jata.service.FleetAlreadyExistsException;
 import edu.cnm.deepdive.jata.service.InvalidShipLocationException;
 import edu.cnm.deepdive.jata.service.InvalidShotPlacementException;
 import org.springframework.http.HttpStatus;
@@ -20,4 +21,7 @@ public class ExceptionWrangler {
   public void invalidShotPlacement() {
   }
 
+@ExceptionHandler(FleetAlreadyExistsException.class)
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "User has already placed ships")
+public void fleetAlreadyExists() {};
 }

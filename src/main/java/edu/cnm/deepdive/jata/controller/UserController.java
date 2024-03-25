@@ -12,12 +12,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This is the REST Controller that makes and processes HTTP requests to and from the cloud.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
   private final AbstractUserService userService;
 
+  /**
+   * This auto-wired constructor constructs an instance of the {@link AbstractUserService} that
+   * will send these queries to the server.
+   *
+   * @param userService {@link AbstractUserService}
+   */
   @Autowired
   public UserController(AbstractUserService userService) {
     this.userService = userService;
@@ -33,17 +42,32 @@ public class UserController {
     return userService.getCurrentUser();
   }
 
+  /**
+   * This method sends a PUT request to the server updating the current {@link User} instance.
+   *
+   *
+   * @param user The {@link User} instance.
+   * @return user The updated {@link User} instance.
+   */
   @PutMapping(path = "/me",
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
   public User put(@RequestBody User user) {
     return userService.updateUser(user, userService.getCurrentUser());
-    // FIXME: 3/21/2024 Not sure that this method needs. Figure it out.
   }
 
+  /**
+   * This method processes a GET request to the server requesting a {@link User} instance by
+   * {@link UUID} key
+   *
+   * @param key The user's {@link UUID} key
+   * @return user The {@link User} instance.
+   */
   @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getUser(@PathVariable UUID key) {
     return userService.getUser(key);
   }
+
+
 
 }
