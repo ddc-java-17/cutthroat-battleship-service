@@ -69,7 +69,16 @@ public class GameService implements AbstractGameService {
 
   @Override
   public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
-    hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key, currentUser).getBoardSizeY()];
+    hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key,
+        currentUser).getBoardSizeY()];
+    if (shipLocationRepository
+        .findShipLocationByUserGame(userGameRepository
+            .findUserGameByGameKeyAndUser(key, currentUser)
+            .orElseThrow())
+        .getCount() > 0) {
+      throw new InvalidShipLocationException();
+    }
+
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
           ships.forEach((shipLocation) -> {
@@ -89,12 +98,12 @@ public class GameService implements AbstractGameService {
 //        || location.getShipCoordX() < 1
 //        || location.getShipCoordY() > game.getBoardSizeY()
 //        || location.getShipCoordY() < 1) {
-      if (location.getShipCoordX() > game.getBoardSizeX()
-          || location.getShipCoordY() > game.getBoardSizeY()) {
+    if (location.getShipCoordX() > game.getBoardSizeX()
+        || location.getShipCoordY() > game.getBoardSizeY()) {
       throw new InvalidShipLocationException("Ships must be placed on the board");
     }
     // test versus other ships
-    if(hits[location.getShipCoordX()][location.getShipCoordY()]){
+    if (hits[location.getShipCoordX()][location.getShipCoordY()]) {
       throw new InvalidShipLocationException("Ships must not intersect each other");
     } else {
       hits[location.getShipCoordX()][location.getShipCoordY()] = true;
