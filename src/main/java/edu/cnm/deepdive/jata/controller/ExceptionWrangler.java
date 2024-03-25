@@ -2,6 +2,7 @@ package edu.cnm.deepdive.jata.controller;
 
 import edu.cnm.deepdive.jata.service.FleetAlreadyExistsException;
 import edu.cnm.deepdive.jata.service.InvalidShipLocationException;
+import edu.cnm.deepdive.jata.service.InvalidShotPlacementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,4 +18,10 @@ public void invalidShipLocation(){};
 @ExceptionHandler(FleetAlreadyExistsException.class)
 @ResponseStatus(code = HttpStatus.CONFLICT, reason = "User has already placed ships")
 public void fleetAlreadyExists() {};
+
+  @ExceptionHandler(InvalidShotPlacementException.class)
+  @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Shot placement invalid")
+  public void invalidShotPlacement() {
+  }
+
 }

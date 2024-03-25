@@ -57,6 +57,7 @@ public class GameService implements AbstractGameService {
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
           shots.forEach((shot) -> {
+            ValidateShot(game, shot);
             shot.setToUser(
                 userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
                     .orElseThrow());
@@ -66,6 +67,16 @@ public class GameService implements AbstractGameService {
           return shotRepository.saveAll(shots);
         })
         .orElseThrow();
+  }
+
+  private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
+    if (shot.getShotCoordX() > game.getBoardSizeX()
+    || shot.getShotCoordX() < 1
+    || shot.getShotCoordY() > game.getBoardSizeY()
+    || shot.getShotCoordY() < 1)
+    {
+      throw new InvalidShotPlacementException("Invalid shot");
+    }
   }
 
   @Override

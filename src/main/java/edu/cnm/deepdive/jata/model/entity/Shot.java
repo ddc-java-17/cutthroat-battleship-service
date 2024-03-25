@@ -17,9 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.persistence.Transient;
 import java.time.Instant;
-import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -57,11 +55,11 @@ public class Shot {
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int xCoord;
+  private int shotCoordX;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int yCoord;
+  private int shotCoordY;
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -126,8 +124,8 @@ public class Shot {
    *
    * @return
    */
-  public int getxCoord() {
-    return xCoord;
+  public int getShotCoordX() {
+    return shotCoordX;
   }
 
   /**
@@ -135,8 +133,8 @@ public class Shot {
    *
    * @param xCoord
    */
-  public void setxCoord(int xCoord) {
-    this.xCoord = xCoord;
+  public void setShotCoordX(int xCoord) {
+    this.shotCoordX = xCoord;
   }
 
   /**
@@ -144,8 +142,8 @@ public class Shot {
    *
    * @return
    */
-  public int getyCoord() {
-    return yCoord;
+  public int getShotCoordY() {
+    return shotCoordY;
   }
 
   /**
@@ -153,8 +151,8 @@ public class Shot {
    *
    * @param yCoord
    */
-  public void setyCoord(int yCoord) {
-    this.yCoord = yCoord;
+  public void setShotCoordY(int yCoord) {
+    this.shotCoordY = yCoord;
   }
 
   /**
@@ -167,5 +165,8 @@ public class Shot {
     return timestamp;
   }
 
+  //public boolean isHit() {
 
-}
+  }
+
+
