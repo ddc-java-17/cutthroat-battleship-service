@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameService implements AbstractGameService {
 
+  public static final int MAX_SHIPS_PER_PLAYER = 3;
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
   private final ShotRepository shotRepository;
@@ -71,17 +72,25 @@ public class GameService implements AbstractGameService {
   public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
     hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key,
         currentUser).getBoardSizeY()];
+    int currentShipNumber = 1;
+    int currentShipPoint = 0;
     if (shipLocationRepository
         .findShipLocationByUserGame(userGameRepository
             .findUserGameByGameKeyAndUser(key, currentUser)
             .orElseThrow())
         .getCount() > 0) {
-      throw new InvalidShipLocationException();
+      throw new FleetAlreadyExistsException("You has already placed your ships");
     }
 
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
           ships.forEach((shipLocation) -> {
+            if(shipLocation.getShipNumber() == currentShipNumber){
+              currentShipPoint++;
+
+            } else{
+              currentShipNumber = shipLocation.getShipNumber();
+            }
             ValidateShipLocationAndBoardEdge(shipLocation,
                 gameRepository.findGameByKey(key).orElseThrow());
             shipLocation.setUserGame(
@@ -90,14 +99,12 @@ public class GameService implements AbstractGameService {
           return shipLocationRepository.saveAll(ships);
         })
         .orElseThrow();
+
+
   }
 
   private static void ValidateShipLocationAndBoardEdge(ShipLocation location, Game game) {
     // test versus board edges
-//    if (location.getShipCoordX() > game.getBoardSizeX()
-//        || location.getShipCoordX() < 1
-//        || location.getShipCoordY() > game.getBoardSizeY()
-//        || location.getShipCoordY() < 1) {
     if (location.getShipCoordX() > game.getBoardSizeX()
         || location.getShipCoordY() > game.getBoardSizeY()) {
       throw new InvalidShipLocationException("Ships must be placed on the board");
@@ -108,7 +115,12 @@ public class GameService implements AbstractGameService {
     } else {
       hits[location.getShipCoordX()][location.getShipCoordY()] = true;
     }
+  }
 
+  private static void ValidateLegalShip(ShipLocation location, UserGame userGame, Game game) {
+    for(int i = 1; i <= MAX_SHIPS_PER_PLAYER; i++){
+      int[] X = location.
+    }
   }
 
   @Override
