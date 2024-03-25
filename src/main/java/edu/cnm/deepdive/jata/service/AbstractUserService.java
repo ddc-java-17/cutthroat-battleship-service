@@ -5,16 +5,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- *
+ * This interface is implemented by {@link UserService} and {@link UserService} overrides the
+ * methods in this interface.
  */
 public interface AbstractUserService {
 
   /**
-   * Gets or creates {@link User} instance when requested
+   * Gets or creates {@link User} instance when requested.
    *
-   * @param oauthKey
-   * @param displayName
-   * @return
+   * @param oauthKey oauthKey of a given {@code user}.
+   * @param displayName Display name of a given {@code user}.
+   * @return {@code user}
    */
   User getOrCreate(String oauthKey, String displayName);
 
@@ -28,7 +29,6 @@ public interface AbstractUserService {
 
   /**
    * Gets {@link User} instance by {@link UUID}.
-   * This method is @ in {@link UserService}
    *
    * @param key {@link UUID}
    * @return user {@link User}
@@ -37,7 +37,6 @@ public interface AbstractUserService {
 
   /**
    * Updates the current {@link User} instance and then sends the updated {@code user} to the cloud.
-   * This method is overridden in {@link UserService}.
    *
    * @param received The updated {@link User} instance to be PUT into the cloud.
    * @param requester The {@link User} requesting that the instance be updated.
@@ -46,11 +45,10 @@ public interface AbstractUserService {
   User updateUser(User received, User requester);
 
   /**
+   * Gets another user's {@link User} instance from their {@link UUID} {@code key}.
    *
-   * This method is overridden in {@link UserService}
-   *
-   * @param key
-   * @param requester
+   * @param key {@link UUID} {@code key} belonging to another {@code user}
+   * @param requester {@code user} making the request.
    * @return
    */
   Optional<User> get(UUID key, User requester);

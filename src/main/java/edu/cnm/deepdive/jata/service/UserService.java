@@ -8,17 +8,26 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * This class is where the methods with all the operational and transactional elements live.
+ * {@link UserService} implements {@link AbstractUserService} and its methods.  The
+ * {@link edu.cnm.deepdive.jata.controller.UserController} invokes the overridden methods here.
  */
 @Service
 public class UserService implements AbstractUserService{
 
   private final UserRepository userRepository;
 
+  /**
+   * This constructor initializes an instance of {@link UserRepository} that this service class can
+   * use.
+   *
+   * @param userRepository {@link UserRepository} instance to be initialized.
+   */
   public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
+  @Override
   public User getOrCreate(String oauthKey, String displayName) {  // TODO: 2/29/2024 Add parameters for additional user profile info from the bearer token
     return userRepository
         .findUserByOauthKey(oauthKey)
