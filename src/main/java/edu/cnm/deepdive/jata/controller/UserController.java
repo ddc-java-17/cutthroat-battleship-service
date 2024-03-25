@@ -57,7 +57,7 @@ public class UserController {
   }
 
   /**
-   * This method sends a GET request to the server requesting a {@link User} instance by
+   * This method processes a GET request to the server requesting a {@link User} instance by
    * {@link UUID} key
    *
    * @param key The user's {@link UUID} key
