@@ -68,10 +68,10 @@ public class GameService implements AbstractGameService {
   }
 
   private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
-    if (shot.getxCoord() > game.getBoardSizeX()
-    || shot.getxCoord() < 1
-    || shot.getyCoord() > game.getBoardSizeY()
-    || shot.getyCoord() < 1)
+    if (shot.getShotCoordX() > game.getBoardSizeX()
+    || shot.getShotCoordX() < 1
+    || shot.getShotCoordY() > game.getBoardSizeY()
+    || shot.getShotCoordY() < 1)
     {
       throw new InvalidShotPlacementException("Invalid shot");
     }
