@@ -84,15 +84,12 @@ public class GameService implements AbstractGameService {
   public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
     hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key,
         currentUser).getBoardSizeY()];
-    IntStream.rangeClosed(1, ships.size())
-        .flatMap((number) -> )
-
     if (shipLocationRepository
         .findShipLocationByUserGame(userGameRepository
             .findUserGameByGameKeyAndUser(key, currentUser)
             .orElseThrow())
         .getCount() > 0) {
-      throw new FleetAlreadyExistsException("You has already placed your ships");
+      throw new FleetAlreadyExistsException("You have already placed your ships");
     }
 
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
