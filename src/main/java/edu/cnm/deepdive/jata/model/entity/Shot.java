@@ -45,11 +45,13 @@ public class Shot {
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "from_user_game_id")
   @JsonProperty(access = Access.READ_ONLY)
   private UserGame fromUser;
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "to_user_game_id")
   @JsonProperty(access = Access.READ_WRITE)
   private UserGame toUser;
 

@@ -12,8 +12,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.Instant;
@@ -27,6 +29,7 @@ import org.springframework.lang.NonNull;
  * This class represents the game.
  */
 @Entity
+@Table(indexes = @Index(columnList = "game_id, boardSizeX, boardSizeY, playerCount"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Game {
@@ -57,7 +60,11 @@ public class Game {
 
   @NonNull
   @JsonProperty(access = Access.READ_WRITE)
-  private String boardPool;
+  private int boardSizeX;
+
+  @NonNull
+  @JsonProperty(access = Access.READ_WRITE)
+  private int boardSizeY;
 
   @NonNull
   @JsonProperty(access = Access.READ_ONLY)
@@ -65,7 +72,6 @@ public class Game {
 
   /**
    * Get game object's id
-   *
    * @return id Game's id
    */
   public Long getId() {
@@ -74,7 +80,6 @@ public class Game {
 
   /**
    * get game's secure UUID key
-   *
    * @return key UUID key
    */
   @NonNull
@@ -84,7 +89,6 @@ public class Game {
 
   /**
    * Get the time and day the game was created.
-   *
    * @return created instant game was created.
    */
   @NonNull
@@ -94,7 +98,6 @@ public class Game {
 
   /**
    * get List of userGame.
-   *
    * @return userGame List of userGame.
    */
   @NonNull
@@ -103,27 +106,43 @@ public class Game {
   }
 
   /**
-   * Get String of boardPool
    *
-   * @return boardPool String of boardPool.
+   * Returns the size of the playing board's x-dimension
+   * @return
    */
-  @NonNull
-  public String getBoardPool() {
-    return boardPool;
+  public int getBoardSizeX() {
+    return boardSizeX;
   }
 
   /**
-   * Set BoardPool
    *
-   * @param boardPool game's boardPool.
+   * Annotates the size of the playing board's x-dimension
+   * @param boardSizeX
    */
-  public void setBoardPool(@NonNull String boardPool) {
-    this.boardPool = boardPool;
+  public void setBoardSizeX(int boardSizeX) {
+    this.boardSizeX = boardSizeX;
+  }
+
+  /**
+   *
+   * Returns the size of the playing board's y-dimension
+   * @return
+   */
+  public int getBoardSizeY() {
+    return boardSizeY;
+  }
+
+  /**
+   *
+   * Annotates the size of the playing board's x-dimension
+   * @param boardSizeY
+   */
+  public void setBoardSizeY(int boardSizeY) {
+    this.boardSizeY = boardSizeY;
   }
 
   /**
    * Get playerCount.
-   *
    * @return playerCount int playerCount.
    */
   public int getPlayerCount() {
