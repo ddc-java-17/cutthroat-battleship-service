@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ * This is the REST Controller that makes and processes HTTP requests to and from the cloud.
  */
 @RestController
 @RequestMapping("/users")
@@ -21,6 +21,12 @@ public class UserController {
 
   private final AbstractUserService userService;
 
+  /**
+   * This auto-wired constructor constructs an instance of the {@link AbstractUserService} that
+   * will send these queries to the server.
+   *
+   * @param userService {@link AbstractUserService}
+   */
   @Autowired
   public UserController(AbstractUserService userService) {
     this.userService = userService;
@@ -37,9 +43,11 @@ public class UserController {
   }
 
   /**
+   * This method sends a PUT request to the server updating the current {@link User} instance.
    *
-   * @param user
-   * @return
+   *
+   * @param user The {@link User} instance.
+   * @return user The updated {@link User} instance.
    */
   @PutMapping(path = "/me",
       consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -49,9 +57,11 @@ public class UserController {
   }
 
   /**
+   * This method sends a GET request to the server requesting a {@link User} instance by
+   * {@link UUID} key
    *
-   * @param key
-   * @return
+   * @param key The user's {@link UUID} key
+   * @return user The {@link User} instance.
    */
   @GetMapping(path = "/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
   public User getUser(@PathVariable UUID key) {
