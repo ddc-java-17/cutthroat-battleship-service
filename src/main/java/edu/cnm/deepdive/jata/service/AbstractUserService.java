@@ -28,7 +28,7 @@ public interface AbstractUserService {
 
   /**
    * Gets {@link User} instance by {@link UUID}.
-   * This method is overridden in {@link UserService}
+   * This method is @ in {@link UserService}
    *
    * @param key {@link UUID}
    * @return user {@link User}
@@ -47,6 +47,7 @@ public interface AbstractUserService {
 
   /**
    *
+   * This method is overridden in {@link UserService}
    *
    * @param key
    * @param requester
