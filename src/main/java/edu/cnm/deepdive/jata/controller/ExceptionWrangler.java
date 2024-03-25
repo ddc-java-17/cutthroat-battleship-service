@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionWrangler {
 
-  @ExceptionHandler(InvalidShipLocationException.class)
-  @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Ship placement invalid")
-  public void invalidShipLocation() {
-  }
+@ExceptionHandler(InvalidShipLocationException.class)
+@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Ship placement invalid, either outside the world or intersecting another ship")
+public void invalidShipLocation(){};
+
+@ExceptionHandler(FleetAlreadyExistsException.class)
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "User has already placed ships")
+public void fleetAlreadyExists() {};
 
   @ExceptionHandler(InvalidShotPlacementException.class)
   @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Shot placement invalid")
   public void invalidShotPlacement() {
   }
 
-@ExceptionHandler(FleetAlreadyExistsException.class)
-@ResponseStatus(code = HttpStatus.CONFLICT, reason = "User has already placed ships")
-public void fleetAlreadyExists() {};
 }
