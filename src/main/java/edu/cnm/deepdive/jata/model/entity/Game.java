@@ -29,6 +29,7 @@ import org.springframework.lang.NonNull;
  * This class represents the game.
  */
 @Entity
+@Table(indexes = @Index(columnList = "game_id, boardSizeX, boardSizeY, playerCount"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Game {
@@ -59,7 +60,11 @@ public class Game {
 
   @NonNull
   @JsonProperty(access = Access.READ_WRITE)
-  private String boardPool;
+  private int boardSizeX;
+
+  @NonNull
+  @JsonProperty(access = Access.READ_WRITE)
+  private int boardSizeY;
 
   @NonNull
   @JsonProperty(access = Access.READ_ONLY)
@@ -101,20 +106,39 @@ public class Game {
   }
 
   /**
-   * Get String of boardPool
-   * @return boardPool String of boardPool.
+   *
+   * Returns the size of the playing board's x-dimension
+   * @return
    */
-  @NonNull
-  public String getBoardPool() {
-    return boardPool;
+  public int getBoardSizeX() {
+    return boardSizeX;
   }
 
   /**
-   * Set BoardPool
-   * @param boardPool game's boardPool.
+   *
+   * Annotates the size of the playing board's x-dimension
+   * @param boardSizeX
    */
-  public void setBoardPool(@NonNull String boardPool) {
-    this.boardPool = boardPool;
+  public void setBoardSizeX(int boardSizeX) {
+    this.boardSizeX = boardSizeX;
+  }
+
+  /**
+   *
+   * Returns the size of the playing board's y-dimension
+   * @return
+   */
+  public int getBoardSizeY() {
+    return boardSizeY;
+  }
+
+  /**
+   *
+   * Annotates the size of the playing board's x-dimension
+   * @param boardSizeY
+   */
+  public void setBoardSizeY(int boardSizeY) {
+    this.boardSizeY = boardSizeY;
   }
 
   /**

@@ -12,15 +12,18 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
 
 /**
  * This class contains a single ship of some type.  Each row represents a single point on the ship.  Ships size is determined by the number of rows in the table
  */
 @Entity
-@Table(indexes = @Index(columnList = "ship_id"))
+@Table(indexes = @Index(columnList = "ship_id, shipNumber"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class ShipLocation {
@@ -34,6 +37,7 @@ public class ShipLocation {
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_game_id")
   @JsonProperty(access = Access.READ_ONLY)
   private UserGame userGame;
 
@@ -43,11 +47,11 @@ public class ShipLocation {
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int xCoord;
+  private int shipCoordX;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int yCoord;
+ private int shipCoordY;
 
   /**
    * Returns the ID of the ship
@@ -67,6 +71,14 @@ public class ShipLocation {
   @NonNull
   public UserGame getUserGame() {
     return userGame;
+  }
+
+  /**
+   * Annotates this ship with its associated user via UserGame
+   * @param userGame
+   */
+  public void setUserGame(@NonNull UserGame userGame) {
+    this.userGame = userGame;
   }
 
   /**
@@ -92,8 +104,8 @@ public class ShipLocation {
    *
    * @return
    */
-  public int getxCoord() {
-    return xCoord;
+  public int getShipCoordX() {
+    return shipCoordX;
   }
 
   /**
@@ -101,8 +113,8 @@ public class ShipLocation {
    *
    * @param xCoord
    */
-  public void setxCoord(int xCoord) {
-    this.xCoord = xCoord;
+  public void setShipCoordX(int xCoord) {
+    this.shipCoordX = xCoord;
   }
 
   /**
@@ -110,8 +122,8 @@ public class ShipLocation {
    *
    * @return
    */
-  public int getyCoord() {
-    return yCoord;
+  public int getShipCoordY() {
+    return shipCoordY;
   }
 
   /**
@@ -119,7 +131,12 @@ public class ShipLocation {
    *
    * @param yCoord
    */
-  public void setyCoord(int yCoord) {
-    this.yCoord = yCoord;
+  public void setShipCoordY(int yCoord) {
+    this.shipCoordY = yCoord;
   }
+
+//  public int[] getCoordinates(int[2] coordinates){
+//    this.coordinates[0] = getShipCoordX();
+//    this.coordinates[1] = getShipCoordY();
+//  }
 }
