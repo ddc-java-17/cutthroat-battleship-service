@@ -12,15 +12,17 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
 
 /**
  * This class contains a single ship of some type.  Each row represents a single point on the ship.  Ships size is determined by the number of rows in the table
  */
 @Entity
-@Table(indexes = @Index(columnList = "ship_id"))
+@Table(indexes = @Index(columnList = "ship_id, shipNumber"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class ShipLocation {
@@ -34,19 +36,23 @@ public class ShipLocation {
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "user_game_id")
   @JsonProperty(access = Access.READ_ONLY)
   private UserGame userGame;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
+  @NotEmpty
   private int shipNumber;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
+  @NotEmpty
   private int shipCoordX;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
+  @NotEmpty
   private int shipCoordY;
 
   /**
@@ -131,8 +137,8 @@ public class ShipLocation {
     this.shipCoordY = yCoord;
   }
 
-  public int[] getCoordinates(int[2] coordinates){
-    this.coordinates[0] = getShipCoordX();
-    this.coordinates[1] = getShipCoordY();
-  }
+//  public int[] getCoordinates(int[2] coordinates){
+//    this.coordinates[0] = getShipCoordX();
+//    this.coordinates[1] = getShipCoordY();
+//  }
 }

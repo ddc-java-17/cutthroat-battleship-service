@@ -12,8 +12,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.Instant;
@@ -27,6 +29,7 @@ import org.springframework.lang.NonNull;
  * This class represents the game.
  */
 @Entity
+@Table(indexes = @Index(columnList = "game_id, boardSizeX, boardSizeY, playerCount"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Game {

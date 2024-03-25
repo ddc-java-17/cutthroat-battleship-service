@@ -15,9 +15,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.lang.NonNull;
 
@@ -58,6 +62,21 @@ public class UserGame {
   @JsonProperty(access = Access.READ_ONLY)
   @JsonIgnore
   private Game game;
+
+  @OneToMany(mappedBy = "userGame", fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  private List<ShipLocation> locations = new LinkedList<>();
+
+  @OneToMany(mappedBy = "fromUser", fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  private List<Shot> fromShots = new LinkedList<>();
+
+  @OneToMany(mappedBy = "toUser", fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  private List<Shot> toShots = new LinkedList<>();
 
   /**
    * Gets this UserGame's identifying number
