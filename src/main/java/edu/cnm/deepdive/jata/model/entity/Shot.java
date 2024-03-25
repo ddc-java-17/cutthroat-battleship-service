@@ -167,5 +167,8 @@ public class Shot {
     return timestamp;
   }
 
+  //public boolean isHit() {
 
-}
+  }
+
+
