@@ -21,6 +21,7 @@ public class GameService implements AbstractGameService {
   private final UserGameRepository userGameRepository;
   private final ShotRepository shotRepository;
   private final ShipLocationRepository shipLocationRepository;
+  private static boolean[][] hits;
 
   @Autowired
   public GameService(
@@ -68,6 +69,7 @@ public class GameService implements AbstractGameService {
 
   @Override
   public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
+    hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key, currentUser).getBoardSizeY()];
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
           ships.forEach((shipLocation) -> {
@@ -82,25 +84,22 @@ public class GameService implements AbstractGameService {
   }
 
   private static void ValidateShipLocationAndBoardEdge(ShipLocation location, Game game) {
-    if (location.getShipCoordX() > game.getBoardSizeX()
-        || location.getShipCoordX() < 1
-        || location.getShipCoordY() > game.getBoardSizeY()
-        || location.getShipCoordY() < 1) {
+    // test versus board edges
+//    if (location.getShipCoordX() > game.getBoardSizeX()
+//        || location.getShipCoordX() < 1
+//        || location.getShipCoordY() > game.getBoardSizeY()
+//        || location.getShipCoordY() < 1) {
+      if (location.getShipCoordX() > game.getBoardSizeX()
+          || location.getShipCoordY() > game.getBoardSizeY()) {
       throw new InvalidShipLocationException("Ships must be placed on the board");
     }
-  }
-
-  private void ValidateShipLocationAndOtherShips(ShipLocation location) {
-    int numberOfShips = location.getShipNumber();
-    if (numberOfShips > 1) {
-      for (int i = 1; i < numberOfShips; i++) {
-        shipLocationRepository
-            .findShipLocationByShipNumber(numberOfShips)
-            .compareTo(
-                shipLocationRepository.findShipLocationByShipNumber(i)
-            );
-      }
+    // test versus other ships
+    if(hits[location.getShipCoordX()][location.getShipCoordY()]){
+      throw new InvalidShipLocationException("Ships must not intersect each other");
+    } else {
+      hits[location.getShipCoordX()][location.getShipCoordY()] = true;
     }
+
   }
 
   @Override
