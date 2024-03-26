@@ -81,7 +81,6 @@ public class UserGame {
   @JsonIgnore
   private List<Shot> toShots = new LinkedList<>();
 
-
   /**
    * Gets this UserGame's identifying number
    * @return id UserGame identification
