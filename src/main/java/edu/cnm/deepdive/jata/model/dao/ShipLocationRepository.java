@@ -6,6 +6,9 @@ import edu.cnm.deepdive.jata.model.entity.UserGame;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+/**
+ * This repository manages ship objects and there location in the ShipLocation table.
+ */
 public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long> {
 
 

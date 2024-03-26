@@ -74,7 +74,7 @@ public class Shot {
   /**
    * Returns the unique ID of this shot
    *
-   * @return
+   * @return id
    */
   @NonNull
   public Long getId() {
@@ -84,7 +84,7 @@ public class Shot {
   /**
    * Returns the user who fired the shot
    *
-   * @return
+   * @return fromUser
    */
   @NonNull
   public UserGame getFromUser() {
@@ -103,7 +103,7 @@ public class Shot {
   /**
    * Returns the user who was fired upon
    *
-   * @return
+   * @return toUser
    */
   @NonNull
   public UserGame getToUser() {
@@ -123,7 +123,7 @@ public class Shot {
   /**
    * Returns the x-coordinate of this shot
    *
-   * @return
+   * @return shotCoordX
    */
   public int getShotCoordX() {
     return shotCoordX;
@@ -141,7 +141,7 @@ public class Shot {
   /**
    * Returns the y-coordinate of this shot
    *
-   * @return
+   * @return shotCoordY
    */
   public int getShotCoordY() {
     return shotCoordY;
@@ -159,7 +159,7 @@ public class Shot {
   /**
    * Returns the time the shot was fired
    *
-   * @return
+   * @return timestamp
    */
   @NonNull
   public Instant getTimestamp() {

@@ -63,7 +63,7 @@ public class ShipLocation {
   /**
    * Returns the ID of the ship
    *
-   * @return
+   * @return id
    */
   @NonNull
   public Long getId() {
@@ -73,7 +73,7 @@ public class ShipLocation {
   /**
    * Returns the userGame of a particular ship
    *
-   * @return
+   * @return userGame
    */
   @NonNull
   public UserGame getUserGame() {
@@ -91,7 +91,7 @@ public class ShipLocation {
   /**
    * Returns the ship number (identifier) for a particular ship belonging to a userGame
    *
-   * @return
+   * @return shipNumber
    */
   public int getShipNumber() {
     return shipNumber;
@@ -109,7 +109,7 @@ public class ShipLocation {
   /**
    * Returns the x-coordinate of a single point on the ship
    *
-   * @return
+   * @return shipCoordX
    */
   public int getShipCoordX() {
     return shipCoordX;
@@ -127,7 +127,7 @@ public class ShipLocation {
   /**
    * Returns the y-coordinate of a single point on the ship
    *
-   * @return
+   * @return shipCoordY
    */
   public int getShipCoordY() {
     return shipCoordY;

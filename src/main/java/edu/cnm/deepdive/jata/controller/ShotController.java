@@ -32,8 +32,8 @@ public class ShotController {
 
   /**
    * This is a constructor for the instance of the controller.
-   * @param gameService
-   * @param userService
+   * @param gameService GameService
+   * @param userService UserService
    */
   @Autowired
   public ShotController(AbstractGameService gameService, AbstractUserService userService) {
@@ -43,9 +43,9 @@ public class ShotController {
 
   /**
    * This is an endpoint that listens for a list of a user's shots.
-   * @param key
-   * @param shots
-   * @return
+   * @param key UUID
+   * @param shots Shots
+   * @return gameService.submitShots
    */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Shot> post(@PathVariable UUID key, @Valid @RequestBody List<Shot> shots) {
@@ -61,9 +61,9 @@ public class ShotController {
 
   /**
    * This is an endpoint that gets the user's shots, it has the game key and shot keys embedded in it.
-   * @param key
-   * @param shotKey
-   * @return
+   * @param key UUID
+   * @param shotKey UUID
+   * @return gameService.getShot
    */
   @GetMapping(path = "/{shotKey}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Shot get(@PathVariable UUID key, @PathVariable UUID shotKey) {
