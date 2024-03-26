@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionWrangler {
 
+  /**
+   * This exception informs the sender that a ship in their fleet either was outside the
+   * playing board boundaries, or intersects another of their own ships
+   */
   @ExceptionHandler(InvalidShipLocationException.class)
   @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Ship placement invalid, either outside the world or intersecting another ship")
   public void invalidShipLocation() {
@@ -18,6 +22,9 @@ public class ExceptionWrangler {
 
   ;
 
+  /**
+   * This exception informs the sender they already have ships on the board and may not add more
+   */
   @ExceptionHandler(FleetAlreadyExistsException.class)
   @ResponseStatus(code = HttpStatus.CONFLICT, reason = "User has already placed ships")
   public void fleetAlreadyExists() {
