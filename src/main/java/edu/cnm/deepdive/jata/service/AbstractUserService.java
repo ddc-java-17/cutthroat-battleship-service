@@ -49,7 +49,7 @@ public interface AbstractUserService {
    *
    * @param key {@link UUID} {@code key} belonging to another {@code user}
    * @param requester {@code user} making the request.
-   * @return
+   * @return user
    */
   Optional<User> get(UUID key, User requester);
 

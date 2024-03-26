@@ -45,7 +45,6 @@ public class UserController {
   /**
    * This method sends a PUT request to the server updating the current {@link User} instance.
    *
-   *
    * @param user The {@link User} instance.
    * @return user The updated {@link User} instance.
    */
