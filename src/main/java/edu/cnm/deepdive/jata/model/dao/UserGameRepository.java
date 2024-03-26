@@ -1,11 +1,11 @@
 package edu.cnm.deepdive.jata.model.dao;
 
-import edu.cnm.deepdive.jata.model.entity.Fleet;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -26,14 +26,7 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    * @param game  Game object relating to this UserGame
    * @return userGame
    */
-  Optional<UserGame> findUserGameByGame(Game game);
-
-  /**
-   * This searches for this UserGame by the Fleet object it points to
-   * @param fleet   Fleet object relative to this UserGame
-   * @return userGame
-   */
-  Optional<UserGame> findUserGameByFleet(Fleet fleet);
+  List<UserGame> findUserGameByGame(Game game);
 
   /**
    * This searches for this UserGame by the game id it points to
@@ -43,11 +36,27 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
   Optional<UserGame> findUserGameById(Long id);
 
   /**
-   * This searches for this UserGame by the fleet object and game object it points to
-    * @param fleet  Fleet object relative to this UserGame
-   * @param game    Game object relative to this UserGame
+   * This searches for this UserGame by UUID key and the Game key.
+   * @param key UUID
+   * @param game Game
    * @return userGame
    */
-  Optional<UserGame> findUserGameByFleetAndGame(Fleet fleet, Game game);
+  Optional<UserGame> findUserGameByKeyAndGame(UUID key, Game game);
+
+  /**
+   * This search finds this UserGame by GameKey and by the user.
+   * @param key UUID
+   * @param user User
+   * @return userGame
+   */
+  Optional<UserGame> findUserGameByGameKeyAndUser(UUID key, User user);
+
+  /**
+   * This searches for this UserGame by the game and  y the user.
+   * @param game Game
+   * @param user User
+   * @return userGame
+   */
+  Optional<UserGame> findUserGameByGameAndUser(Game game, User user);
 
 }

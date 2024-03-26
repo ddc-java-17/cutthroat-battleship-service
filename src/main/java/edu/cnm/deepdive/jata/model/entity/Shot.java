@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.Instant;
+import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -43,27 +44,23 @@ public class Shot {
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
+  @JoinColumn(name = "from_user_game_id")
   @JsonProperty(access = Access.READ_ONLY)
   private UserGame fromUser;
 
   @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
-  @JsonProperty(access = Access.READ_ONLY)
+  @JoinColumn(name = "to_user_game_id")
+  @JsonProperty(access = Access.READ_WRITE)
   private UserGame toUser;
 
-  @NonNull
-  @ManyToOne(optional = false, fetch = FetchType.EAGER)
-  @JoinColumn(name = "game_id", nullable = false, updatable = false)
-  @JsonIgnore
-  private Game game;
+  @Column(nullable = false, updatable = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  private int shotCoordX;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int xCoord;
-
-  @Column(nullable = false, updatable = true)
-  @JsonProperty(access = Access.READ_WRITE)
-  private int yCoord;
+  private int shotCoordY;
 
   @NonNull
   @Column(nullable = false, updatable = false)
@@ -72,10 +69,12 @@ public class Shot {
   @JsonProperty(access = Access.READ_ONLY)
   private Instant timestamp;
 
+
+
   /**
    * Returns the unique ID of this shot
    *
-   * @return
+   * @return id
    */
   @NonNull
   public Long getId() {
@@ -85,7 +84,7 @@ public class Shot {
   /**
    * Returns the user who fired the shot
    *
-   * @return
+   * @return fromUser
    */
   @NonNull
   public UserGame getFromUser() {
@@ -104,7 +103,7 @@ public class Shot {
   /**
    * Returns the user who was fired upon
    *
-   * @return
+   * @return toUser
    */
   @NonNull
   public UserGame getToUser() {
@@ -120,32 +119,14 @@ public class Shot {
     this.toUser = toUser;
   }
 
-  /**
-   * Returns the game associated with this shot
-   *
-   * @return
-   */
-  @NonNull
-  public Game getGame() {
-    return game;
-  }
-
-  /**
-   * Annotates the game associated with this shot
-   *
-   * @param game
-   */
-  public void setGame(@NonNull Game game) {
-    this.game = game;
-  }
 
   /**
    * Returns the x-coordinate of this shot
    *
-   * @return
+   * @return shotCoordX
    */
-  public int getxCoord() {
-    return xCoord;
+  public int getShotCoordX() {
+    return shotCoordX;
   }
 
   /**
@@ -153,17 +134,17 @@ public class Shot {
    *
    * @param xCoord
    */
-  public void setxCoord(int xCoord) {
-    this.xCoord = xCoord;
+  public void setShotCoordX(int xCoord) {
+    this.shotCoordX = xCoord;
   }
 
   /**
    * Returns the y-coordinate of this shot
    *
-   * @return
+   * @return shotCoordY
    */
-  public int getyCoord() {
-    return yCoord;
+  public int getShotCoordY() {
+    return shotCoordY;
   }
 
   /**
@@ -171,19 +152,51 @@ public class Shot {
    *
    * @param yCoord
    */
-  public void setyCoord(int yCoord) {
-    this.yCoord = yCoord;
+  public void setShotCoordY(int yCoord) {
+    this.shotCoordY = yCoord;
   }
 
   /**
    * Returns the time the shot was fired
    *
-   * @return
+   * @return timestamp
    */
   @NonNull
   public Instant getTimestamp() {
     return timestamp;
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hash(toUser, shotCoordX, shotCoordY);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof Shot other) {
+      equals = (this.toUser.equals(other.toUser)
+          && this.shotCoordX == (other.shotCoordX)
+          && this.shotCoordY == (other.shotCoordY));
+    } else {
+      equals = false;
+    }
+    return equals;
+  }
+
+  //public boolean isHit() {
+  /**
+   * Checks to see if a shot is a hit
+   * @return boolean isHit
+   */
+  public boolean isHit() {
+    return toUser.getLocations()
+        .stream()
+        .anyMatch((loc) -> loc.getShipCoordX() == shotCoordX && loc.getShipCoordY() == shotCoordY);
+  }
 
 }
+
+

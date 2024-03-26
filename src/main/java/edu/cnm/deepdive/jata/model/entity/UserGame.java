@@ -15,8 +15,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OrderBy;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 import org.springframework.lang.NonNull;
 
 /**
@@ -40,6 +47,11 @@ public class UserGame {
   private Long id;
 
   @NonNull
+  @Column(name = "external_key", nullable = false, updatable = false, unique = true, columnDefinition = "UUID")
+  @JsonProperty(access = Access.READ_WRITE)
+  private UUID key;
+
+  @NonNull
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
@@ -49,16 +61,25 @@ public class UserGame {
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "game_id", nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_ONLY)
+  @JsonIgnore
   private Game game;
 
-  @NonNull
-  @OneToOne(mappedBy = "userGame",
-      optional = false,
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.ALL,
-      orphanRemoval = true)
-  @JsonProperty(access = Access.READ_ONLY)
-  private Fleet fleet;
+  @OneToMany(mappedBy = "userGame", fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  private List<ShipLocation> locations = new LinkedList<>();
+
+  @OneToMany(mappedBy = "fromUser", fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  @JsonIgnore
+  private List<Shot> fromShots = new LinkedList<>();
+
+  @OneToMany(mappedBy = "toUser", fetch = FetchType.EAGER,
+      cascade = CascadeType.ALL, orphanRemoval = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  @JsonIgnore
+  private List<Shot> toShots = new LinkedList<>();
 
   /**
    * Gets this UserGame's identifying number
@@ -67,6 +88,23 @@ public class UserGame {
   @NonNull
   public Long getId() {
     return id;
+  }
+
+  /**
+   * Gets the UserGame UUID key
+   * @return UUID key
+   */
+  @NonNull
+  public UUID getKey() {
+    return key;
+  }
+
+  /**
+   * Sets the UserGame UUID key
+   * @param key UUID
+   */
+  public void setKey(@NonNull UUID key) {
+    this.key = key;
   }
 
   /**
@@ -104,20 +142,56 @@ public class UserGame {
   }
 
   /**
-   * Gets the fleet associated with this UserGame
-   * @return fleet Fleet object
+   * Returns a ships location
+   * @return List <ShipLocation>
    */
-  @NonNull
-  public Fleet getFleet() {
-    return fleet;
+  public List<ShipLocation> getLocations() {
+    return locations;
   }
 
   /**
-   * Sets the fleet object associated with this UserGame
-   * @param fleet Fleet object
+   * Returns shots from a specific user
+   * @return list<shots>
    */
-  public void setFleet(Fleet fleet) {
-    this.fleet = fleet;
+  public List<Shot> getFromShots() {
+    return fromShots;
   }
 
+  /**
+   * returns shots at a specific user
+   * @return List<shots>
+   */
+  public List<Shot> getToShots() {
+    return toShots;
+  }
+
+  @SuppressWarnings("ConstantValue")
+  @Override
+  public int hashCode() {
+    return (id == null) ? Objects.hash(id) : Objects.hash(user, game);
+  }
+
+  @SuppressWarnings("ConstantValue")
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof UserGame other) {
+      if ((this.id != null && other.id != null) && (this.id.equals(other.id))) {
+        equals = true;
+      } else {
+        equals = (this.user.equals(other.user)
+            && (this.game.equals(other.game)));
+      }
+    } else {
+      equals = false;
+    }
+    return equals;
+  }
+
+  @PrePersist
+  private void generateKey() {
+    key = UUID.randomUUID();
+  }
 }

@@ -13,8 +13,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -27,8 +25,11 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
+/**
+ * This class represents the game.
+ */
 @Entity
-@Table(indexes = @Index(columnList = "game_id"))
+@Table(indexes = @Index(columnList = "game_id, boardSizeX, boardSizeY, playerCount"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Game {
@@ -38,7 +39,7 @@ public class Game {
   @GeneratedValue
   @Column(name = "game_id", nullable = false, updatable = false)
   @JsonIgnore
-  private long id;
+  private Long id;
 
   @NonNull
   @Column(name = "external_key", nullable = false, updatable = false, unique = true, columnDefinition = "UUID")
@@ -53,69 +54,99 @@ public class Game {
   private Instant created;
 
   @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonProperty(access = Access.READ_ONLY)
-  private final List<UserGame> userGame = new LinkedList<>();
-
-  @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER,
-      cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonProperty(access = Access.READ_ONLY)
-  private final List<Fleet> fleets = new LinkedList<>();
+  private final List<UserGame> userGames = new LinkedList<>();
 
   @NonNull
   @JsonProperty(access = Access.READ_WRITE)
-  private String boardPool;
+  private int boardSizeX;
+
+  @NonNull
+  @JsonProperty(access = Access.READ_WRITE)
+  private int boardSizeY;
 
   @NonNull
   @JsonProperty(access = Access.READ_ONLY)
   private int playerCount;
 
-  @NonNull
-  @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JsonProperty(access = Access.READ_ONLY)
-  private final List<Shot> shots = new LinkedList<>();
-
-  public long getId() {
+  /**
+   * Get game object's id
+   * @return id Game's id
+   */
+  public Long getId() {
     return id;
   }
 
+  /**
+   * get game's secure UUID key
+   * @return key UUID key
+   */
   @NonNull
   public UUID getKey() {
     return key;
   }
 
+  /**
+   * Get the time and day the game was created.
+   * @return created instant game was created.
+   */
   @NonNull
   public Instant getCreated() {
     return created;
   }
 
+  /**
+   * get List of userGame.
+   * @return userGame List of userGame.
+   */
   @NonNull
-  public List<UserGame> getUserGame() {
-    return userGame;
+  public List<UserGame> getUserGames() {
+    return userGames;
   }
 
-  @NonNull
-  public List<Fleet> getFleets() {
-    return fleets;
+  /**
+   *
+   * Returns the size of the playing board's x-dimension
+   * @return boardSizeX
+   */
+  public int getBoardSizeX() {
+    return boardSizeX;
   }
 
-  @NonNull
-  public String getBoardPool() {
-    return boardPool;
+  /**
+   *
+   * Annotates the size of the playing board's x-dimension
+   * @param boardSizeX
+   */
+  public void setBoardSizeX(int boardSizeX) {
+    this.boardSizeX = boardSizeX;
   }
 
-  public void setBoardPool(@NonNull String boardPool) {
-    this.boardPool = boardPool;
+  /**
+   *
+   * Returns the size of the playing board's y-dimension
+   * @return boardSizeY
+   */
+  public int getBoardSizeY() {
+    return boardSizeY;
   }
 
+  /**
+   *
+   * Annotates the size of the playing board's x-dimension
+   * @param boardSizeY
+   */
+  public void setBoardSizeY(int boardSizeY) {
+    this.boardSizeY = boardSizeY;
+  }
+
+  /**
+   * Get playerCount.
+   * @return playerCount int playerCount.
+   */
   public int getPlayerCount() {
     return playerCount;
-  }
-
-  @NonNull
-  public List<Shot> getShots() {
-    return shots;
   }
 
   @PrePersist

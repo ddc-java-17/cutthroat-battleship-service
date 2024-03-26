@@ -1,0 +1,102 @@
+###
+PUT http://localhost:18181/jata-world/games/adfbdb36-f4ec-4880-a150-4bdf9c710f3a/ships
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFkZjVlNzEwZWRmZWJlY2JlZmE5YTYxNDk1NjU0ZDAzYzBiOGVkZjgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEta2pqOWdvamNsdmk4ZmhudmVsOHI2bDhoYjNvanJxMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDczNTQyOTc5NjczNzUzNzYwNjQiLCJlbWFpbCI6ImhlbG9za3lib3lAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJSZWVkIFNlYXJsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLdlZSa1pwd0tSRU5SQnJ0QnA4X2liaTdxd0g0M0o0WjEwdmtUWjdVbjhKQT1zOTYtYyIsImdpdmVuX25hbWUiOiJSZWVkIiwiZmFtaWx5X25hbWUiOiJTZWFybGUiLCJpYXQiOjE3MTEzOTMxNzYsImV4cCI6MTcxMTM5Njc3Nn0.gUbPkmdlU2kAsIFfrsAE_duCGBLP5N0dfLBqDqv8_hLRThOmfRZrsRFmDvS0atQWgl5q_jgBme7m64lNM82sBfe9EqceO5qlJstJ6OweLN3_0MekmgOtnqdemzTiscxiXoQ6Ibbb48egp_rW41RIOBXngRoSEaoYpQID8jQYFYbhaqNCNnLexB2jkmg8SNKWu8TuOFRfEuYhh1zCbNqSFe70trvQmNPi_aUpGibT0goSyasBMVufLEIxl0Gbq_5krPacCkrM6Nor3jCh_7fkLXTXBfbDqMmiK6Ioaf21o57_MNVSNsVvHH0o9KJHmLdTK1f_hIe1I428hM7TQ-T0Rg
+Content-Type: application/json
+
+[
+  {
+    "userGame": {},
+    "shipNumber": 1,
+    "shipCoordX": 4,
+    "shipCoordY": 1
+  },
+  {
+    "userGame": {},
+    "shipNumber": 1,
+    "shipCoordX": 4,
+    "shipCoordY": 2
+  },
+  {
+    "userGame": {},
+    "shipNumber": 1,
+    "shipCoordX": 4,
+    "shipCoordY": 3
+  }
+]
+
+<> 2024-03-25T130217.400.json
+<> 2024-03-25T130211.200.json
+<> 2024-03-25T130111.400.json
+<> 2024-03-25T113206.400.json
+<> 2024-03-25T113200.400.json
+<> 2024-03-25T113149.200.json
+<> 2024-03-25T105610.200.json
+<> 2024-03-25T095235.200.json
+<> 2024-03-25T094938.200.json
+<> 2024-03-25T094526.200.json
+<> 2024-03-25T094313.500.json
+<> 2024-03-25T094209.500.json
+<> 2024-03-25T093653.500.json
+<> 2024-03-25T090251.200.json
+<> 2024-03-25T090118.500.json
+<> 2024-03-25T085740.500.json
+<> 2024-03-25T085428.500.json
+
+###
+PUT http://localhost:18181/jata-world/games/d79449b2-9034-4b47-a945-65a51e8cbc6f/ships
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFkZjVlNzEwZWRmZWJlY2JlZmE5YTYxNDk1NjU0ZDAzYzBiOGVkZjgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEta2pqOWdvamNsdmk4ZmhudmVsOHI2bDhoYjNvanJxMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDczNTQyOTc5NjczNzUzNzYwNjQiLCJlbWFpbCI6ImhlbG9za3lib3lAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJSZWVkIFNlYXJsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLdlZSa1pwd0tSRU5SQnJ0QnA4X2liaTdxd0g0M0o0WjEwdmtUWjdVbjhKQT1zOTYtYyIsImdpdmVuX25hbWUiOiJSZWVkIiwiZmFtaWx5X25hbWUiOiJTZWFybGUiLCJpYXQiOjE3MTEzODU2ODcsImV4cCI6MTcxMTM4OTI4N30.st9FeWtJ2uxViIAzuWYZVLfV-Hr0gE082rRhNki_UdSkz46krfaZPw-zIlsv8vaHv5Vvr7rVxCKOTDUX-iBtC4O9XfjVm6-I5U7gkAk9cuBdjoouAa6HEkkL2HSYCX2GNhdyNmq1eCHW5wmWztJN9-jQklv-xQFB54JXJwtUN1mt3pV35qzOkTKlC8L7WujI_I81KKnTo2WE_0Yn9hJbixrGQUhewIBF5FvOakV7nFqgE9iOepaX4xshewDHs5lwIcuW1pmzd11mp8swTZ-hxQFsLnmRMlB2IsaAjZt6gt7UejCuzJPFyvGEFEsu6c_8-VpgHTdhr7RE-5464Ye7Vg
+Content-Type: application/json
+
+[
+  {
+    "userGame": {},
+    "shipNumber": 2,
+    "shipCoordX": 2,
+    "shipCoordY": 1
+  },
+  {
+    "userGame": {},
+    "shipNumber": 2,
+    "shipCoordX": 2,
+    "shipCoordY": 2
+  },
+  {
+    "userGame": {},
+    "shipNumber": 2,
+    "shipCoordX": 2,
+    "shipCoordY": 3
+  }
+]
+
+<> 2024-03-25T110033.200.json
+
+
+
+###
+PUT http://localhost:18181/jata-world/games/d79449b2-9034-4b47-a945-65a51e8cbc6f/ships
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFkZjVlNzEwZWRmZWJlY2JlZmE5YTYxNDk1NjU0ZDAzYzBiOGVkZjgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEta2pqOWdvamNsdmk4ZmhudmVsOHI2bDhoYjNvanJxMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDczNTQyOTc5NjczNzUzNzYwNjQiLCJlbWFpbCI6ImhlbG9za3lib3lAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJSZWVkIFNlYXJsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLdlZSa1pwd0tSRU5SQnJ0QnA4X2liaTdxd0g0M0o0WjEwdmtUWjdVbjhKQT1zOTYtYyIsImdpdmVuX25hbWUiOiJSZWVkIiwiZmFtaWx5X25hbWUiOiJTZWFybGUiLCJpYXQiOjE3MTEzODU2ODcsImV4cCI6MTcxMTM4OTI4N30.st9FeWtJ2uxViIAzuWYZVLfV-Hr0gE082rRhNki_UdSkz46krfaZPw-zIlsv8vaHv5Vvr7rVxCKOTDUX-iBtC4O9XfjVm6-I5U7gkAk9cuBdjoouAa6HEkkL2HSYCX2GNhdyNmq1eCHW5wmWztJN9-jQklv-xQFB54JXJwtUN1mt3pV35qzOkTKlC8L7WujI_I81KKnTo2WE_0Yn9hJbixrGQUhewIBF5FvOakV7nFqgE9iOepaX4xshewDHs5lwIcuW1pmzd11mp8swTZ-hxQFsLnmRMlB2IsaAjZt6gt7UejCuzJPFyvGEFEsu6c_8-VpgHTdhr7RE-5464Ye7Vg
+Content-Type: application/json
+
+[
+  {
+    "userGame": {},
+    "shipNumber": 3,
+    "shipCoordX": 3,
+    "shipCoordY": 1
+  },
+  {
+    "userGame": {},
+    "shipNumber": 3,
+    "shipCoordX": 3,
+    "shipCoordY": 2
+  },
+  {
+    "userGame": {},
+    "shipNumber": 3,
+    "shipCoordX": 3,
+    "shipCoordY": 3
+  }
+]
+
+<> 2024-03-25T110041.200.json
+<> 2024-03-25T095438.200.json

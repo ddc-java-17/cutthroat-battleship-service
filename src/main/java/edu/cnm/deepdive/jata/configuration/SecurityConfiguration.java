@@ -32,7 +32,7 @@ public class SecurityConfiguration {
 
   public SecurityConfiguration(Converter<Jwt, ? extends AbstractAuthenticationToken> converter,
       @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}") String issuerUri,
-      @Value("${spring.security.oauth2.resourceserver.jwt.client-id}") String clientId) {
+      @Value("406236254521-d4lq6nag5ms23gsth2nb6lu98l5smpfb.apps.googleusercontent.com") String clientId) {
     this.converter = converter;
     this.issuerUri = issuerUri;
     this.clientId = clientId;

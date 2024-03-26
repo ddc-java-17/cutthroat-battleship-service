@@ -15,17 +15,22 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
 
 /**
  * This class contains a single ship of some type.  Each row represents a single point on the ship.  Ships size is determined by the number of rows in the table
  */
 @Entity
-@Table(indexes = @Index(columnList = "ship_id"))
+@Table(indexes = @Index(columnList = "ship_id, shipNumber"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
-public class Ship {
+public class ShipLocation {
 
+  public static final int MIN_SHIP_NUMBER = 1;
+  public static final int MIN_X_COORD = 1;
+  public static final int MIN_Y_COORD = 1;
   @NonNull
   @Id
   @GeneratedValue
@@ -33,23 +38,32 @@ public class Ship {
   @JsonIgnore
   private Long id;
 
+  @NonNull
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
-  @JoinColumn(name = "fleet_id", nullable = false, updatable = false)
+  @JoinColumn(name = "user_game_id")
   @JsonProperty(access = Access.READ_ONLY)
-  private Fleet fleet;
+  @JsonIgnore
+  private UserGame userGame;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int xCoord;
+  @Min(MIN_SHIP_NUMBER)
+  private int shipNumber;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  private int yCoord;
+  @Min(MIN_X_COORD)
+  private int shipCoordX;
+
+  @Column(nullable = false, updatable = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  @Min(MIN_Y_COORD)
+ private int shipCoordY;
 
   /**
    * Returns the ID of the ship
    *
-   * @return
+   * @return id
    */
   @NonNull
   public Long getId() {
@@ -57,21 +71,48 @@ public class Ship {
   }
 
   /**
-   * Returns the Fleet associated with this ship
+   * Returns the userGame of a particular ship
    *
-   * @return
+   * @return userGame
    */
-  public Fleet getFleet() {
-    return fleet;
+  @NonNull
+  public UserGame getUserGame() {
+    return userGame;
+  }
+
+  /**
+   * Annotates this ship with its associated user via UserGame
+   * @param userGame
+   */
+  public void setUserGame(@NonNull UserGame userGame) {
+    this.userGame = userGame;
+  }
+
+  /**
+   * Returns the ship number (identifier) for a particular ship belonging to a userGame
+   *
+   * @return shipNumber
+   */
+  public int getShipNumber() {
+    return shipNumber;
+  }
+
+  /**
+   * Annotates the ship number (identifier) for a particular ship belonging to a userGame
+   *
+   * @param shipNumber
+   */
+  public void setShipNumber(int shipNumber) {
+    this.shipNumber = shipNumber;
   }
 
   /**
    * Returns the x-coordinate of a single point on the ship
    *
-   * @return
+   * @return shipCoordX
    */
-  public int getxCoord() {
-    return xCoord;
+  public int getShipCoordX() {
+    return shipCoordX;
   }
 
   /**
@@ -79,17 +120,17 @@ public class Ship {
    *
    * @param xCoord
    */
-  public void setxCoord(int xCoord) {
-    this.xCoord = xCoord;
+  public void setShipCoordX(int xCoord) {
+    this.shipCoordX = xCoord;
   }
 
   /**
    * Returns the y-coordinate of a single point on the ship
    *
-   * @return
+   * @return shipCoordY
    */
-  public int getyCoord() {
-    return yCoord;
+  public int getShipCoordY() {
+    return shipCoordY;
   }
 
   /**
@@ -97,7 +138,12 @@ public class Ship {
    *
    * @param yCoord
    */
-  public void setyCoord(int yCoord) {
-    this.yCoord = yCoord;
+  public void setShipCoordY(int yCoord) {
+    this.shipCoordY = yCoord;
   }
+
+//  public int[] getCoordinates(int[2] coordinates){
+//    this.coordinates[0] = getShipCoordX();
+//    this.coordinates[1] = getShipCoordY();
+//  }
 }
