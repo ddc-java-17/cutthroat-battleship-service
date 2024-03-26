@@ -1,0 +1,26 @@
+###
+POST http://localhost:18181/jata-world/games
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFkZjVlNzEwZWRmZWJlY2JlZmE5YTYxNDk1NjU0ZDAzYzBiOGVkZjgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEta2pqOWdvamNsdmk4ZmhudmVsOHI2bDhoYjNvanJxMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDczNTQyOTc5NjczNzUzNzYwNjQiLCJlbWFpbCI6ImhlbG9za3lib3lAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJSZWVkIFNlYXJsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLdlZSa1pwd0tSRU5SQnJ0QnA4X2liaTdxd0g0M0o0WjEwdmtUWjdVbjhKQT1zOTYtYyIsImdpdmVuX25hbWUiOiJSZWVkIiwiZmFtaWx5X25hbWUiOiJTZWFybGUiLCJpYXQiOjE3MTE0ODkzMDIsImV4cCI6MTcxMTQ5MjkwMn0.lrFiqdDO1UK6ASzyobBdVxjumNyZsakrxlO72Xxm-GqHSkv5mlpPi9nupB44mqbHg9k6wRMvB7OovTIdLfnaMfStJcnvaFaPpuDkEwloKoW64kvktmeQtjFD7C7nhvH5X-FDtEeXXG0dmPeQE7CVWUjHBYqxES_AI19vfyzxn1L3NgU9IRRG0z-ODOmhL5jLQ0j4vlwjYxYFcVX7vbzp1DNPgciZgg1hcZyAdTgvo7_J7M44YkbbVVccWUEcyC2YK2ALdye3R8nKTtv2tdnc8DfY0K07M2CQt5X4vAaqQ-pSXMF9iALyc1JDjStP5NX_GGJmzWkBZFosKfQuYADFEQ
+Content-Type: application/json
+
+{
+  "key": "",
+  "created": {},
+  "userGames": [],
+  "boardSizeX": "5",
+  "boardSizeY": "5",
+  "playerCount": 3
+}
+
+<> 2024-03-26T154214.201.json
+<> 2024-03-25T130154.201.json
+<> 2024-03-25T130013.201.json
+<> 2024-03-25T112551.201.json
+<> 2024-03-25T112110.201.json
+<> 2024-03-25T111903.201.json
+<> 2024-03-25T105545.201.json
+<> 2024-03-25T095409.201.json
+<> 2024-03-25T095206.201.json
+<> 2024-03-25T094919.201.json
+<> 2024-03-25T093637.201.json
+<> 2024-03-25T090048.201.json
