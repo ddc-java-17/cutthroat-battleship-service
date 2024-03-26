@@ -22,12 +22,13 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.springframework.lang.NonNull;
 
 /**
- * This class is the central hub of communication. All information the user needs comes through
- * this class.
+ * This class is the central hub of communication. All information the user needs comes through this
+ * class.
  */
 
 @Entity
@@ -86,6 +87,7 @@ public class UserGame {
 
   /**
    * Gets this UserGame's identifying number
+   *
    * @return id UserGame identification
    */
   @NonNull
@@ -105,6 +107,7 @@ public class UserGame {
 
   /**
    * Gets the user object associated with this UserGame
+   *
    * @return user User object
    */
   @NonNull
@@ -114,7 +117,8 @@ public class UserGame {
 
   /**
    * Sets the user object associated with this UserGame
-   * @param user  User object.
+   *
+   * @param user User object.
    */
   public void setUser(@NonNull User user) {
     this.user = user;
@@ -122,6 +126,7 @@ public class UserGame {
 
   /**
    * Gets the game object associated with this UserGame
+   *
    * @return game Game object
    */
   @NonNull
@@ -131,25 +136,32 @@ public class UserGame {
 
   /**
    * Sets the game associated to this UserGame
-   * @param game  Game object
+   *
+   * @param game Game object
    */
   public void setGame(@NonNull Game game) {
     this.game = game;
   }
 
+  @SuppressWarnings("ConstantValue")
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return (id == null) ? Objects.hash(id) : Objects.hash(user, game);
   }
 
+  @SuppressWarnings("ConstantValue")
   @Override
   public boolean equals(Object obj) {
     boolean equals;
     if (this == obj) {
       equals = true;
     } else if (obj instanceof UserGame other) {
-      equals = (this.user.equals(other.user)
-      &&(this.game.equals(other.game)));
+      if ((this.id != null && other.id != null) && (this.id.equals(other.id))) {
+        equals = true;
+      } else {
+        equals = (this.user.equals(other.user)
+            && (this.game.equals(other.game)));
+      }
     } else {
       equals = false;
     }

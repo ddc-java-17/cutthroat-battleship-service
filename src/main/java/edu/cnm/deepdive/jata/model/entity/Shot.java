@@ -18,6 +18,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.Instant;
+import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -167,7 +168,7 @@ public class Shot {
 
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return Objects.hash(toUser, shotCoordX, shotCoordY);
   }
 
   @Override

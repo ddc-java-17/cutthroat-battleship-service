@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
@@ -163,7 +164,7 @@ public class User {
 
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return Objects.hash(oauthKey);
   }
 
   @Override
