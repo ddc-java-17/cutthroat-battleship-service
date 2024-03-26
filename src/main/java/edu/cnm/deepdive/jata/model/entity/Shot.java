@@ -165,6 +165,26 @@ public class Shot {
     return timestamp;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof Shot other) {
+      equals = (this.toUser.equals(other.toUser)
+          && this.shotCoordX == (other.shotCoordX)
+          && this.shotCoordY == (other.shotCoordY));
+    } else {
+      equals = false;
+    }
+    return equals;
+  }
+
   //public boolean isHit() {
 
   }

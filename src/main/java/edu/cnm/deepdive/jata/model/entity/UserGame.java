@@ -137,6 +137,25 @@ public class UserGame {
     this.game = game;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof UserGame other) {
+      equals = (this.user.equals(other.user)
+      &&(this.game.equals(other.game)));
+    } else {
+      equals = false;
+    }
+    return equals;
+  }
+
   @PrePersist
   private void generateKey() {
     key = UUID.randomUUID();

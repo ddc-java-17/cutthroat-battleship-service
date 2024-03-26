@@ -161,6 +161,24 @@ public class User {
     return userGame;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof User other) {
+      equals = (this.oauthKey.equals(other.oauthKey));
+    } else {
+      equals = false;
+    }
+    return equals;
+  }
+
   @PrePersist
   private void generateKey() {
     key = UUID.randomUUID();
