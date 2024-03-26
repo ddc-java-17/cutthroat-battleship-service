@@ -32,6 +32,9 @@ public class ExceptionWrangler {
 
   ;
 
+  /**
+   * This exception informs the sender that their shot is invalid when placed off the board.
+   */
   @ExceptionHandler(InvalidShotPlacementException.class)
   @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Shot placement invalid")
   public void invalidShotPlacement() {

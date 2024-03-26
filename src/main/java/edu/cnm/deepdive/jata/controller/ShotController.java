@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This is a REST controller that makes and processes HTTP requests from the cloud.
+ */
 @RestController
 @RequestMapping("games/{key}/shot")
 public class ShotController {
@@ -27,12 +30,23 @@ public class ShotController {
   private final AbstractGameService gameService;
   private final AbstractUserService userService;
 
+  /**
+   * This is a constructor for the instance of the controller.
+   * @param gameService
+   * @param userService
+   */
   @Autowired
   public ShotController(AbstractGameService gameService, AbstractUserService userService) {
     this.gameService = gameService;
     this.userService = userService;
   }
 
+  /**
+   * This is an endpoint that listens for a list of a user's shots.
+   * @param key
+   * @param shots
+   * @return
+   */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Shot> post(@PathVariable UUID key, @Valid @RequestBody List<Shot> shots) {
     return gameService.submitShots(key, shots, userService.getCurrentUser());
@@ -45,6 +59,12 @@ public class ShotController {
 //        .body(newShot);
   }
 
+  /**
+   * This is an endpoint that gets the user's shots, it has the game key and shot keys embedded in it.
+   * @param key
+   * @param shotKey
+   * @return
+   */
   @GetMapping(path = "/{shotKey}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Shot get(@PathVariable UUID key, @PathVariable UUID shotKey) {
     return gameService.getShot(key, shotKey, userService.getCurrentUser());
