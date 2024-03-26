@@ -16,6 +16,13 @@ public interface AbstractGameService {
 
   List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser);
 
+  /**
+   * This takes a user's ships and instantiates them into the ShipLocation table
+   * @param key
+   * @param ships
+   * @param currentUser
+   * @return
+   */
   List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser);
 
   Shot getShot(UUID key, UUID guessKey, User currentUser);

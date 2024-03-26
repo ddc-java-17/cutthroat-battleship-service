@@ -80,6 +80,16 @@ public class GameService implements AbstractGameService {
     }
   }
 
+  /**
+   * This method validates the placement of each ship, checking for ships partially, or entirely
+   * off of the board, intersecting ships, or users trying to place ships once a fleet has
+   * already been placed.  If the validation shows the placement is valid and legal,
+   * the ships are saved in the ShipLocation table
+   * @param key
+   * @param ships
+   * @param currentUser
+   * @return
+   */
   @Override
   public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
     hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key,
@@ -107,6 +117,11 @@ public class GameService implements AbstractGameService {
 
   }
 
+  /**
+   * This is the validation method for board edge detection and ship intersection detection
+   * @param location
+   * @param game
+   */
   private static void ValidateShipLocationAndBoardEdge(ShipLocation location, Game game) {
     // test versus board edges
     if (location.getShipCoordX() > game.getBoardSizeX()
@@ -121,6 +136,14 @@ public class GameService implements AbstractGameService {
     }
   }
 
+  /**
+   * This will validate that a particular ship conforms to legal pattern for ships
+   * namely one unit wide, several contiguous units long, and with orientation
+   * of either horizontal or vertical
+   * @param location
+   * @param userGame
+   * @param game
+   */
   private static void ValidateLegalShip(ShipLocation location, UserGame userGame, Game game) {
   }
 
