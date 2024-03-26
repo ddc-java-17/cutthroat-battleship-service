@@ -35,10 +35,28 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    */
   Optional<UserGame> findUserGameById(Long id);
 
+  /**
+   * This searches for this UserGame by UUID key and the Game key.
+   * @param key UUID
+   * @param game Game
+   * @return userGame
+   */
   Optional<UserGame> findUserGameByKeyAndGame(UUID key, Game game);
 
+  /**
+   * This search finds this UserGame by GameKey and by the user.
+   * @param key UUID
+   * @param user User
+   * @return userGame
+   */
   Optional<UserGame> findUserGameByGameKeyAndUser(UUID key, User user);
 
+  /**
+   * This searches for this UserGame by the game and  y the user.
+   * @param game Game
+   * @param user User
+   * @return userGame
+   */
   Optional<UserGame> findUserGameByGameAndUser(Game game, User user);
 
 }

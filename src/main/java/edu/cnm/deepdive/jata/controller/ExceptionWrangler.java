@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * This is where we have added in out own custom exceptions to throw.
+ */
 @RestControllerAdvice
 public class ExceptionWrangler {
 

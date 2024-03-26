@@ -81,9 +81,6 @@ public class UserGame {
   @JsonIgnore
   private List<Shot> toShots = new LinkedList<>();
 
-  @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
-  @OrderBy
-  private final List<ShotStatus> shotStatuses = new LinkedList<>();
 
   /**
    * Gets this UserGame's identifying number
@@ -94,12 +91,19 @@ public class UserGame {
     return id;
   }
 
-
+  /**
+   * Gets the UserGame UUID key
+   * @return UUID key
+   */
   @NonNull
   public UUID getKey() {
     return key;
   }
 
+  /**
+   * Sets the UserGame UUID key
+   * @param key UUID
+   */
   public void setKey(@NonNull UUID key) {
     this.key = key;
   }
