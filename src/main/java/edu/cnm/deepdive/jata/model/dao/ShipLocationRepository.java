@@ -11,7 +11,7 @@ public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long
 
   Integer findShipLocationByShipNumber(int shipNumber);
 
-  Integer findShipLocationByShipNumberAndAndShipCoordXAndAndShipCoordY(int shipNumber, int shipCoordX, int shipCoordY);
+//  Integer findShipLocationByShipNumberAndLocationXAndLocationY(int shipNumber, int shipCoordX, int shipCoordY);
 
   @Query("SELECT count(sl) AS count FROM ShipLocation AS sl WHERE sl.userGame = :userGame")
   ShipsCount findShipLocationByUserGame(UserGame userGame);

@@ -1,10 +1,13 @@
 package edu.cnm.deepdive.jata.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import edu.cnm.deepdive.jata.view.ShotView;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.Min;
 import java.util.Objects;
 
 @Embeddable
+@JsonView({ShotView.Summary.class})
 public class Location {
 
   @Min(1)

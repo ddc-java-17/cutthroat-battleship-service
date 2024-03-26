@@ -15,17 +15,17 @@ create table game
 );
 create table ship_location
 (
-    ship_coordx  integer not null,
-    ship_coordy  integer not null,
-    ship_number  integer not null,
+    ship_number  integer not null check (ship_number >= 1),
+    x            integer,
+    y            integer,
     ship_id      bigint  not null,
     user_game_id bigint  not null,
     primary key (ship_id)
 );
 create table shot
 (
-    x_coord           integer                     not null,
-    y_coord           integer                     not null,
+    x                 integer,
+    y                 integer,
     from_user_game_id bigint                      not null,
     shot_id           bigint                      not null,
     timestamp         timestamp(6) with time zone not null,
