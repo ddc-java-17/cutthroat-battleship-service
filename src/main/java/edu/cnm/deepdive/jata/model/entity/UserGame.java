@@ -80,9 +80,6 @@ public class UserGame {
   @JsonIgnore
   private List<Shot> toShots = new LinkedList<>();
 
-  @OneToMany(mappedBy = "player", fetch = FetchType.LAZY)
-  @OrderBy
-  private final List<ShotStatus> shotStatuses = new LinkedList<>();
 
   /**
    * Gets this UserGame's identifying number
@@ -135,6 +132,30 @@ public class UserGame {
    */
   public void setGame(@NonNull Game game) {
     this.game = game;
+  }
+
+  /**
+   * Returns a ships location
+   * @return List <ShipLocation>
+   */
+  public List<ShipLocation> getLocations() {
+    return locations;
+  }
+
+  /**
+   * Returns shots from a specific user
+   * @return list<shots>
+   */
+  public List<Shot> getFromShots() {
+    return fromShots;
+  }
+
+  /**
+   * returns shots at a specific user
+   * @return List<shots>
+   */
+  public List<Shot> getToShots() {
+    return toShots;
   }
 
   @PrePersist
