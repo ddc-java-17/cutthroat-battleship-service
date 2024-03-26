@@ -27,8 +27,8 @@ import java.util.UUID;
 import org.springframework.lang.NonNull;
 
 /**
- * This class is the central hub of communication. All information the user needs comes through this
- * class.
+ * This class is the central hub of communication. All information the user needs comes through
+ * this class.
  */
 
 @Entity
@@ -87,7 +87,6 @@ public class UserGame {
 
   /**
    * Gets this UserGame's identifying number
-   *
    * @return id UserGame identification
    */
   @NonNull
@@ -107,7 +106,6 @@ public class UserGame {
 
   /**
    * Gets the user object associated with this UserGame
-   *
    * @return user User object
    */
   @NonNull
@@ -117,8 +115,7 @@ public class UserGame {
 
   /**
    * Sets the user object associated with this UserGame
-   *
-   * @param user User object.
+   * @param user  User object.
    */
   public void setUser(@NonNull User user) {
     this.user = user;
@@ -126,7 +123,6 @@ public class UserGame {
 
   /**
    * Gets the game object associated with this UserGame
-   *
    * @return game Game object
    */
   @NonNull
@@ -136,11 +132,34 @@ public class UserGame {
 
   /**
    * Sets the game associated to this UserGame
-   *
-   * @param game Game object
+   * @param game  Game object
    */
   public void setGame(@NonNull Game game) {
     this.game = game;
+  }
+
+  /**
+   * Returns a ships location
+   * @return List <ShipLocation>
+   */
+  public List<ShipLocation> getLocations() {
+    return locations;
+  }
+
+  /**
+   * Returns shots from a specific user
+   * @return list<shots>
+   */
+  public List<Shot> getFromShots() {
+    return fromShots;
+  }
+
+  /**
+   * returns shots at a specific user
+   * @return List<shots>
+   */
+  public List<Shot> getToShots() {
+    return toShots;
   }
 
   @SuppressWarnings("ConstantValue")

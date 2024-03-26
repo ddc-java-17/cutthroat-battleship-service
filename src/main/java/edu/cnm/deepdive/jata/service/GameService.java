@@ -4,6 +4,7 @@ import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.ShotRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
+import edu.cnm.deepdive.jata.model.dao.UserRepository;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
@@ -14,7 +15,11 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+/**
+ * This class is where the methods with all the operational and transactional elements live.
+ * {@link GameService} implements {@link AbstractGameService} and its methods.  The
+ * {@link edu.cnm.deepdive.jata.controller.GameController} invokes the overridden methods here.
+ */
 @Service
 public class GameService implements AbstractGameService {
 
@@ -24,7 +29,12 @@ public class GameService implements AbstractGameService {
   private final ShotRepository shotRepository;
   private final ShipLocationRepository shipLocationRepository;
   private static boolean[][] hits;
-
+  /**
+   * This constructor initializes an instance of {@link GameRepository} that this service class can
+   * use.
+   *
+   * @param gameRepository {@link GameRepository} instance to be initialized.
+   */
   @Autowired
   public GameService(
       GameRepository gameRepository, UserGameRepository userGameRepository,

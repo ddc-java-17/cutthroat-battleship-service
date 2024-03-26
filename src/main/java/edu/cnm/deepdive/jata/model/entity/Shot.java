@@ -187,7 +187,16 @@ public class Shot {
   }
 
   //public boolean isHit() {
-
+  /**
+   * Checks to see if a shot is a hit
+   * @return boolean isHit
+   */
+  public boolean isHit() {
+    return toUser.getLocations()
+        .stream()
+        .anyMatch((loc) -> loc.getShipCoordX() == shotCoordX && loc.getShipCoordY() == shotCoordY);
   }
+
+}
 
 
