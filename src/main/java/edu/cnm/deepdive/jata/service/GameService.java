@@ -35,17 +35,15 @@ public class GameService implements AbstractGameService {
 
   @Override
   public Game startJoinGame(Game game, User user) {
-    Game checkGame = gameRepository.findGameByUserGamesIsNotNull().orElseThrow();
-    if (checkGame.getUserGames().size() < game.getPlayerCount()) {
-      UserGame checkUserGame = userGameRepository.findUserGameByGame(checkGame).orElseThrow();
-      checkUserGame.setGame(checkGame);
-      checkUserGame.setUser(user);
-    } else {
-      UserGame userGame = new UserGame();
-      userGame.setGame(game);
-      userGame.setUser(user);
-      game.getUserGames().add(userGame);
-    }
+    List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount());
+
+    Game gameToJoin = openGames.isEmpty() ? game : openGames.getFirst();
+
+    UserGame userGame = new UserGame();
+    userGame.setGame(gameToJoin);
+    userGame.setUser(user);
+    gameToJoin.getUserGames().add(userGame);
+
     return gameRepository.save(game);
   }
 

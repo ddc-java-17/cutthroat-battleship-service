@@ -67,7 +67,7 @@ public class Game {
   private int boardSizeY;
 
   @NonNull
-  @JsonProperty(access = Access.READ_ONLY)
+  @JsonProperty(access = Access.READ_WRITE)
   private int playerCount;
 
   /**

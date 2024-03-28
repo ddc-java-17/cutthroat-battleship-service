@@ -3,6 +3,7 @@ package edu.cnm.deepdive.jata.model.dao;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +21,10 @@ public interface GameRepository extends JpaRepository<Game, Long> {
    */
   Optional<Game> findGameByKey(UUID key);
 
-  Optional<Game> findGameByUserGamesIsNotNull();
+  Optional<Game> findGameByUserGamesIsNotEmpty();
+
+  @Query("SELECT g FROM Game AS g JOIN g.userGames as ug WHERE g.playerCount = :reqPlayerCount GROUP BY g.id HAVING COUNT(*) < :reqPlayerCount")
+  List<Game> findOpenGames(int reqPlayerCount);
 
   @Query("SELECT g FROM Game AS g JOIN g.userGames AS ug WHERE g.key = :key AND ug.user = :user")
   Optional<Game> findGameByKeyAndUserGamesUser(UUID key, User user);
