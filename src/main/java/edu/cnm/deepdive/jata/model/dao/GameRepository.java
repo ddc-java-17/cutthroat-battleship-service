@@ -20,6 +20,8 @@ public interface GameRepository extends JpaRepository<Game, Long> {
    */
   Optional<Game> findGameByKey(UUID key);
 
+  Optional<Game> findGameByUserGamesIsNotNull();
+
   @Query("SELECT g FROM Game AS g JOIN g.userGames AS ug WHERE g.key = :key AND ug.user = :user")
   Optional<Game> findGameByKeyAndUserGamesUser(UUID key, User user);
 

@@ -35,20 +35,18 @@ public class GameService implements AbstractGameService {
 
   @Override
   public Game startJoinGame(Game game, User user) {
-    UserGame userGame = new UserGame();
-    userGame.setGame(game);
-    userGame.setUser(user);
-    game.getUserGames().add(userGame);
-//    game.setUser(user);
+    Game checkGame = gameRepository.findGameByUserGamesIsNotNull().orElseThrow();
+    if (checkGame.getUserGames().size() < game.getPlayerCount()) {
+      UserGame checkUserGame = userGameRepository.findUserGameByGame(checkGame).orElseThrow();
+      checkUserGame.setGame(checkGame);
+      checkUserGame.setUser(user);
+    } else {
+      UserGame userGame = new UserGame();
+      userGame.setGame(game);
+      userGame.setUser(user);
+      game.getUserGames().add(userGame);
+    }
     return gameRepository.save(game);
-  }
-
-
-  @Override
-  public Game getGame(UUID key, User user) {
-    return gameRepository
-        .findGameByKeyAndUserGamesUser(key, user)
-        .orElseThrow();
   }
 
   @Override
@@ -70,8 +68,7 @@ public class GameService implements AbstractGameService {
 
   private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
     if (shot.getLocation().getX() > game.getBoardSizeX()
-    || shot.getLocation().getY() > game.getBoardSizeY())
-    {
+        || shot.getLocation().getY() > game.getBoardSizeY()) {
       throw new InvalidShotPlacementException("Invalid shot");
     }
   }
@@ -103,10 +100,6 @@ public class GameService implements AbstractGameService {
 
   private static void ValidateShipLocationAndBoardEdge(ShipLocation location, Game game) {
     // test versus board edges
-//    if (location.getShipCoordX() > game.getBoardSizeX()
-//        || location.getShipCoordX() < 1
-//        || location.getShipCoordY() > game.getBoardSizeY()
-//        || location.getShipCoordY() < 1) {
     if (location.getLocation().getX() > game.getBoardSizeX()
         || location.getLocation().getY() > game.getBoardSizeY()) {
       throw new InvalidShipLocationException("Ships must be placed on the board");
@@ -118,6 +111,11 @@ public class GameService implements AbstractGameService {
       hits[location.getLocation().getX()][location.getLocation().getY()] = true;
     }
 
+  }
+
+  @Override
+  public Game getGame(UUID key, User user) {
+    return null;
   }
 
   @Override

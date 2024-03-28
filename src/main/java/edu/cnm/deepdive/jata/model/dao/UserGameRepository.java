@@ -26,7 +26,7 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    * @param game  Game object relating to this UserGame
    * @return userGame
    */
-  List<UserGame> findUserGameByGame(Game game);
+  Optional<UserGame> findUserGameByGame(Game game);
 
   /**
    * This searches for this UserGame by the game id it points to

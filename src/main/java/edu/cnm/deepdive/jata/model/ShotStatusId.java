@@ -7,6 +7,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import java.io.Serializable;
+import java.util.Objects;
+import org.hibernate.annotations.Subselect;
 
 @Embeddable
 public class ShotStatusId implements Serializable {
@@ -28,5 +30,23 @@ public class ShotStatusId implements Serializable {
 
   public void setShot(Shot shot) {
     this.shot = shot;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(shot);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if(this==obj) {
+      equals = true;
+    } else if(obj instanceof ShotStatusId other) {
+      equals = (this.shot.equals(other.shot));
+    } else {
+      equals = false;
+    }
+    return equals;
   }
 }
