@@ -140,6 +140,7 @@ public class GameService implements AbstractGameService {
   @Override
   public Game getGame(UUID key, User user) {
     return null;
+  }
   /**
    * This will validate that a particular ship conforms to legal pattern for ships
    * namely one unit wide, several contiguous units long, and with orientation
