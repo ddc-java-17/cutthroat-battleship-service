@@ -22,6 +22,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.time.Instant;
+import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.NonNull;
 
@@ -76,7 +77,7 @@ public class Shot {
   /**
    * Returns the unique ID of this shot
    *
-   * @return
+   * @return id
    */
   @NonNull
   public Long getId() {

@@ -30,6 +30,7 @@ import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
@@ -166,6 +167,24 @@ public class User {
   @NonNull
   public List<UserGame> getUserGame() {
     return userGame;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(oauthKey);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof User other) {
+      equals = (this.oauthKey.equals(other.oauthKey));
+    } else {
+      equals = false;
+    }
+    return equals;
   }
 
   @PrePersist

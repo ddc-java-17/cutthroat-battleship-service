@@ -26,6 +26,12 @@ public interface GameRepository extends JpaRepository<Game, Long> {
   @Query("SELECT g FROM Game AS g JOIN g.userGames as ug WHERE g.playerCount = :reqPlayerCount GROUP BY g.id HAVING COUNT(*) < :reqPlayerCount")
   List<Game> findOpenGames(int reqPlayerCount);
 
+  /**
+   * This method finds a game by the gameKey and users
+   * @param key key string type
+   * @param user User
+   * @return Game
+   */
   @Query("SELECT g FROM Game AS g JOIN g.userGames AS ug WHERE g.key = :key AND ug.user = :user")
   Optional<Game> findGameByKeyAndUserGamesUser(UUID key, User user);
 

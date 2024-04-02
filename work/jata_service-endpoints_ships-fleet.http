@@ -1,0 +1,68 @@
+###
+PUT http://localhost:18181/jata-world/games/7201d206-c890-44bb-85a3-b1dc8f094924/ships
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFkZjVlNzEwZWRmZWJlY2JlZmE5YTYxNDk1NjU0ZDAzYzBiOGVkZjgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEta2pqOWdvamNsdmk4ZmhudmVsOHI2bDhoYjNvanJxMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDczNTQyOTc5NjczNzUzNzYwNjQiLCJlbWFpbCI6ImhlbG9za3lib3lAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJSZWVkIFNlYXJsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLdlZSa1pwd0tSRU5SQnJ0QnA4X2liaTdxd0g0M0o0WjEwdmtUWjdVbjhKQT1zOTYtYyIsImdpdmVuX25hbWUiOiJSZWVkIiwiZmFtaWx5X25hbWUiOiJTZWFybGUiLCJpYXQiOjE3MTE0ODkzMDIsImV4cCI6MTcxMTQ5MjkwMn0.lrFiqdDO1UK6ASzyobBdVxjumNyZsakrxlO72Xxm-GqHSkv5mlpPi9nupB44mqbHg9k6wRMvB7OovTIdLfnaMfStJcnvaFaPpuDkEwloKoW64kvktmeQtjFD7C7nhvH5X-FDtEeXXG0dmPeQE7CVWUjHBYqxES_AI19vfyzxn1L3NgU9IRRG0z-ODOmhL5jLQ0j4vlwjYxYFcVX7vbzp1DNPgciZgg1hcZyAdTgvo7_J7M44YkbbVVccWUEcyC2YK2ALdye3R8nKTtv2tdnc8DfY0K07M2CQt5X4vAaqQ-pSXMF9iALyc1JDjStP5NX_GGJmzWkBZFosKfQuYADFEQ
+Content-Type: application/json
+
+[
+  {
+    "userGame": {},
+    "shipNumber": 1,
+    "shipCoordX": 1,
+    "shipCoordY": 1
+  },
+  {
+    "userGame": {},
+    "shipNumber": 1,
+    "shipCoordX": 1,
+    "shipCoordY": 2
+  },
+  {
+    "userGame": {},
+    "shipNumber": 1,
+    "shipCoordX": 1,
+    "shipCoordY": 3
+  },
+  {
+    "userGame": {},
+    "shipNumber": 2,
+    "shipCoordX": 2,
+    "shipCoordY": 1
+  },
+  {
+    "userGame": {},
+    "shipNumber": 2,
+    "shipCoordX": 2,
+    "shipCoordY": 2
+  },
+  {
+    "userGame": {},
+    "shipNumber": 2,
+    "shipCoordX": 2,
+    "shipCoordY": 3
+  },
+  {
+    "userGame": {},
+    "shipNumber": 3,
+    "shipCoordX": 3,
+    "shipCoordY": 1
+  },
+  {
+    "userGame": {},
+    "shipNumber": 3,
+    "shipCoordX": 3,
+    "shipCoordY": 2
+  },
+  {
+    "userGame": {},
+    "shipNumber": 3,
+    "shipCoordX": 3,
+    "shipCoordY": 3
+  }
+]
+
+<> 2024-03-26T154313.200.json
+<> 2024-03-25T112647.200.json
+<> 2024-03-25T112622.200.json
+<> 2024-03-25T112129.400.json
+<> 2024-03-25T112026.200.json
+<> 2024-03-25T111917.500.json

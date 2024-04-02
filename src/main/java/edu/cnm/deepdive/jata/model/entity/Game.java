@@ -108,7 +108,7 @@ public class Game {
   /**
    *
    * Returns the size of the playing board's x-dimension
-   * @return
+   * @return boardSizeX
    */
   public int getBoardSizeX() {
     return boardSizeX;
@@ -126,7 +126,7 @@ public class Game {
   /**
    *
    * Returns the size of the playing board's y-dimension
-   * @return
+   * @return boardSizeY
    */
   public int getBoardSizeY() {
     return boardSizeY;

@@ -4,6 +4,7 @@ import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.ShotRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
+import edu.cnm.deepdive.jata.model.dao.UserRepository;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
@@ -11,9 +12,14 @@ import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+/**
+ * This class is where the methods with all the operational and transactional elements live.
+ * {@link GameService} implements {@link AbstractGameService} and its methods.  The
+ * {@link edu.cnm.deepdive.jata.controller.GameController} invokes the overridden methods here.
+ */
 @Service
 public class GameService implements AbstractGameService {
 
@@ -22,7 +28,12 @@ public class GameService implements AbstractGameService {
   private final ShotRepository shotRepository;
   private final ShipLocationRepository shipLocationRepository;
   private static boolean[][] hits;
-
+  /**
+   * This constructor initializes an instance of {@link GameRepository} that this service class can
+   * use.
+   *
+   * @param gameRepository {@link GameRepository} instance to be initialized.
+   */
   @Autowired
   public GameService(
       GameRepository gameRepository, UserGameRepository userGameRepository,
@@ -71,6 +82,16 @@ public class GameService implements AbstractGameService {
     }
   }
 
+  /**
+   * This method validates the placement of each ship, checking for ships partially, or entirely
+   * off of the board, intersecting ships, or users trying to place ships once a fleet has
+   * already been placed.  If the validation shows the placement is valid and legal,
+   * the ships are saved in the ShipLocation table
+   * @param key
+   * @param ships
+   * @param currentUser
+   * @return
+   */
   @Override
   public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
     hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key,
@@ -80,7 +101,7 @@ public class GameService implements AbstractGameService {
             .findUserGameByGameKeyAndUser(key, currentUser)
             .orElseThrow())
         .getCount() > 0) {
-      throw new InvalidShipLocationException();
+      throw new FleetAlreadyExistsException("You have already placed your ships");
     }
 
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
@@ -96,6 +117,11 @@ public class GameService implements AbstractGameService {
         .orElseThrow();
   }
 
+  /**
+   * This is the validation method for board edge detection and ship intersection detection
+   * @param location
+   * @param game
+   */
   private static void ValidateShipLocationAndBoardEdge(ShipLocation location, Game game) {
     // test versus board edges
     if (location.getLocation().getX() > game.getBoardSizeX()
@@ -114,6 +140,15 @@ public class GameService implements AbstractGameService {
   @Override
   public Game getGame(UUID key, User user) {
     return null;
+  /**
+   * This will validate that a particular ship conforms to legal pattern for ships
+   * namely one unit wide, several contiguous units long, and with orientation
+   * of either horizontal or vertical
+   * @param location
+   * @param userGame
+   * @param game
+   */
+  private static void ValidateLegalShip(ShipLocation location, UserGame userGame, Game game) {
   }
 
   @Override

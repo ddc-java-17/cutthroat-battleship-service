@@ -25,6 +25,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import org.springframework.lang.NonNull;
 
@@ -91,11 +92,19 @@ public class UserGame {
     return id;
   }
 
+  /**
+   * Gets the UserGame UUID key
+   * @return UUID key
+   */
   @NonNull
   public UUID getKey() {
     return key;
   }
 
+  /**
+   * Sets the UserGame UUID key
+   * @param key UUID
+   */
   public void setKey(@NonNull UUID key) {
     this.key = key;
   }

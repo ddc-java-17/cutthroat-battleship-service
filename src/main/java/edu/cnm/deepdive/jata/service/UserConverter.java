@@ -9,6 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
+/**
+ * This class is used to create and verify a user.
+ */
 @Service
 public class UserConverter implements Converter<Jwt, UsernamePasswordAuthenticationToken> {
 
