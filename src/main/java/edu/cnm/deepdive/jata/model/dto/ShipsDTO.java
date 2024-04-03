@@ -8,4 +8,12 @@ public class ShipsDTO {
 
   @JsonProperty(access = Access.READ_WRITE)
   private List<ShipDTO> ships;
+
+  public List<ShipDTO> getShips() {
+    return ships;
+  }
+
+  public void setShips(List<ShipDTO> ships) {
+    this.ships = ships;
+  }
 }

@@ -1,5 +1,9 @@
 package edu.cnm.deepdive.jata.service;
 
+import static edu.cnm.deepdive.jata.model.BoardSize.closestMatch;
+
+import edu.cnm.deepdive.jata.model.BoardSize;
+import edu.cnm.deepdive.jata.model.dto.ShipDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 /**
  * This class is where the methods with all the operational and transactional elements live.
  * {@link GameService} implements {@link AbstractGameService} and its methods.  The
@@ -28,6 +33,7 @@ public class GameService implements AbstractGameService {
   private final ShotRepository shotRepository;
   private final ShipLocationRepository shipLocationRepository;
   private static boolean[][] hits;
+
   /**
    * This constructor initializes an instance of {@link GameRepository} that this service class can
    * use.
@@ -46,6 +52,7 @@ public class GameService implements AbstractGameService {
 
   @Override
   public Game startJoinGame(Game game, User user) {
+    game.setBoardSize(BoardSize.closestMatch(game.getBoardSize()).getBoardSizeX());
     UserGame userGame = new UserGame();
     userGame.setGame(game);
     userGame.setUser(user);
@@ -80,18 +87,18 @@ public class GameService implements AbstractGameService {
   }
 
   private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
-    if (shot.getShotCoordX() > game.getBoardSize().getBoardSizeX()
-    || shot.getShotCoordY() > game.getBoardSize().getBoardSizeY())
-    {
+    if (shot.getShotCoordX() > game.getBoardSize()
+        || shot.getShotCoordY() > game.getBoardSize()) {
       throw new InvalidShotPlacementException("Invalid shot");
     }
   }
 
   /**
-   * This method validates the placement of each ship, checking for ships partially, or entirely
-   * off of the board, intersecting ships, or users trying to place ships once a fleet has
-   * already been placed.  If the validation shows the placement is valid and legal,
-   * the ships are saved in the ShipLocation table
+   * This method validates the placement of each ship, checking for ships partially, or entirely off
+   * of the board, intersecting ships, or users trying to place ships once a fleet has already been
+   * placed.  If the validation shows the placement is valid and legal, the ships are saved in the
+   * ShipLocation table
+   *
    * @param key
    * @param ships
    * @param currentUser
@@ -99,8 +106,8 @@ public class GameService implements AbstractGameService {
    */
   @Override
   public ShipsDTO submitShips(UUID key, ShipsDTO ships, User currentUser) {
-    hits = new boolean[getGame(key, currentUser).getBoardSize().getBoardSizeX()][getGame(key,
-        currentUser).getBoardSize().getBoardSizeY()];
+    hits = new boolean[getGame(key, currentUser).getBoardSize()][getGame(key,
+        currentUser).getBoardSize()];
     if (shipLocationRepository
         .findShipLocationByUserGame(userGameRepository
             .findUserGameByGameKeyAndUser(key, currentUser)
@@ -111,47 +118,64 @@ public class GameService implements AbstractGameService {
 
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
-          ships.forEach((shipLocation) -> {
-            ValidateShipLocationAndBoardEdge(shipLocation,
+          ships.getShips((ShipDTO ship) -> {
+            ValidateShipLocationAndBoardEdge(ship,
                 gameRepository.findGameByKey(key).orElseThrow());
-            shipLocation.setUserGame(
+            CreateShipLocationTableEntry(ship,
+                shipLocationRepository
+                    .findShipLocationByGameAndUserGame(game,
+                        userGameRepository
+                            .findUserGameByGameAndUser(game, currentUser).orElseThrow()).orElseThrow());
+            .setUserGame(
                 userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
           });
           return shipLocationRepository.saveAll(ships);
         })
         .orElseThrow();
-
-
   }
 
   /**
    * This is the validation method for board edge detection and ship intersection detection
-   * @param location
+   *
    * @param game
    */
-  private static void ValidateShipLocationAndBoardEdge(ShipLocation location, Game game) {
+  private static void ValidateShipLocationAndBoardEdge(ShipDTO ship, Game game) {
     // test versus board edges
-    if (location.getShipCoordX() > game.getBoardSize().getBoardSizeX()
-        || location.getShipCoordY() > game.getBoardSize().getBoardSizeY()) {
+    if ((ship.getShipOriginX() + ship.getShipLength()) > game.getBoardSize()
+        || (ship.getShipOriginY() + ship.getShipLength()) > game.getBoardSize()) {
       throw new InvalidShipLocationException("Ships must be placed on the board");
     }
     // test versus other ships
-    if (hits[location.getShipCoordX()][location.getShipCoordY()]) {
-      throw new InvalidShipLocationException("Ships must not intersect each other");
-    } else {
-      hits[location.getShipCoordX()][location.getShipCoordY()] = true;
+    for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
+      if (ship.isVertical()) {
+        if (hits[ship.getShipOriginY() + lengthIndex][ship.getShipOriginX()]) {
+          throw new InvalidShipLocationException("Ships must not intersect each other");
+        } else {
+          hits[ship.getShipOriginY() + lengthIndex][ship.getShipOriginX()] = true;
+        }
+      } else {
+        if (hits[ship.getShipOriginY()][ship.getShipOriginX() + lengthIndex]) {
+          throw new InvalidShipLocationException("Ships must not intersect each other");
+        } else {
+          hits[ship.getShipOriginY()][ship.getShipOriginX() + lengthIndex] = true;
+        }
+      }
     }
   }
 
-  /**
-   * This will validate that a particular ship conforms to legal pattern for ships
-   * namely one unit wide, several contiguous units long, and with orientation
-   * of either horizontal or vertical
-   * @param location
-   * @param userGame
-   * @param game
-   */
-  private static void ValidateLegalShip(ShipLocation location, UserGame userGame, Game game) {
+  private static void CreateShipLocationTableEntry(ShipDTO ship, ShipLocation location) {
+    for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
+      if (ship.isVertical()) {
+        location.setShipCoordX(ship.getShipOriginX());
+        location.setShipCoordY(ship.getShipOriginY() + lengthIndex);
+        } else {
+        location.setShipCoordX(ship.getShipOriginX() + lengthIndex);
+        location.setShipCoordY(ship.getShipOriginY());
+        }
+      }
+    location.setShipNumber(ship.getShipNumber());
+    }
+
   }
 
   @Override
@@ -159,3 +183,5 @@ public class GameService implements AbstractGameService {
     return null;
   }
 }
+
+

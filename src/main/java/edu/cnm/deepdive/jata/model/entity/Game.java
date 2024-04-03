@@ -61,7 +61,7 @@ public class Game {
 
   @NonNull
   @JsonProperty(access = Access.READ_WRITE)
-  private BoardSize boardSize;
+  private int boardSize;
 
   @NonNull
   @JsonProperty(access = Access.READ_ONLY)
@@ -107,7 +107,7 @@ public class Game {
    * Returns the size of the playing board's x-dimension
    * @return boardSize
    */
-  public BoardSize getBoardSize() {
+  public int getBoardSize() {
     return boardSize;
   }
 
@@ -116,7 +116,7 @@ public class Game {
    * Annotates the size of the playing board's x-dimension
    * @param boardSize
    */
-  public void setBoardSize(BoardSize boardSize) {
+  public void setBoardSize(int boardSize) {
     this.boardSize = boardSize;
   }
 

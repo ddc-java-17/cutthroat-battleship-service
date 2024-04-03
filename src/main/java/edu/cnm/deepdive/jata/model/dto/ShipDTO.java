@@ -29,4 +29,44 @@ public class ShipDTO {
 
   @JsonProperty(access = Access.READ_WRITE)
   private boolean isVertical;
+
+  public int getShipNumber() {
+    return shipNumber;
+  }
+
+  public void setShipNumber(int shipNumber) {
+    this.shipNumber = shipNumber;
+  }
+
+  public int getShipOriginX() {
+    return shipOriginX;
+  }
+
+  public void setShipOriginX(int shipOriginX) {
+    this.shipOriginX = shipOriginX;
+  }
+
+  public int getShipOriginY() {
+    return shipOriginY;
+  }
+
+  public void setShipOriginY(int shipOriginY) {
+    this.shipOriginY = shipOriginY;
+  }
+
+  public int getShipLength() {
+    return shipLength;
+  }
+
+  public void setShipLength(int shipLength) {
+    this.shipLength = shipLength;
+  }
+
+  public boolean isVertical() {
+    return isVertical;
+  }
+
+  public void setVertical(boolean vertical) {
+    isVertical = vertical;
+  }
 }

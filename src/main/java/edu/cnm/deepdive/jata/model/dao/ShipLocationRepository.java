@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.jata.model.dao;
 
+import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,6 +23,8 @@ public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long
    */
   @Query("SELECT count(sl) AS count FROM ShipLocation AS sl WHERE sl.userGame = :userGame")
   ShipsCount findShipLocationByUserGame(UserGame userGame);
+
+  Optional<ShipLocation> findShipLocationByGameAndUserGame(Game game, UserGame userGame);
 
   /**
    * This is used to isolate a particular ship to determine the validity of its make-up
