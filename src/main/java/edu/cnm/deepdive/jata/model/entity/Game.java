@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import edu.cnm.deepdive.jata.model.BoardSize;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,11 +61,7 @@ public class Game {
 
   @NonNull
   @JsonProperty(access = Access.READ_WRITE)
-  private int boardSizeX;
-
-  @NonNull
-  @JsonProperty(access = Access.READ_WRITE)
-  private int boardSizeY;
+  private BoardSize boardSize;
 
   @NonNull
   @JsonProperty(access = Access.READ_ONLY)
@@ -108,37 +105,19 @@ public class Game {
   /**
    *
    * Returns the size of the playing board's x-dimension
-   * @return boardSizeX
+   * @return boardSize
    */
-  public int getBoardSizeX() {
-    return boardSizeX;
+  public BoardSize getBoardSize() {
+    return boardSize;
   }
 
   /**
    *
    * Annotates the size of the playing board's x-dimension
-   * @param boardSizeX
+   * @param boardSize
    */
-  public void setBoardSizeX(int boardSizeX) {
-    this.boardSizeX = boardSizeX;
-  }
-
-  /**
-   *
-   * Returns the size of the playing board's y-dimension
-   * @return boardSizeY
-   */
-  public int getBoardSizeY() {
-    return boardSizeY;
-  }
-
-  /**
-   *
-   * Annotates the size of the playing board's x-dimension
-   * @param boardSizeY
-   */
-  public void setBoardSizeY(int boardSizeY) {
-    this.boardSizeY = boardSizeY;
+  public void setBoardSize(BoardSize boardSize) {
+    this.boardSize = boardSize;
   }
 
   /**

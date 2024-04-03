@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Min;
 import java.time.Instant;
 import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,6 +35,9 @@ import org.springframework.lang.NonNull;
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Shot {
+
+  public static final int MIN_X_COORD = 1;
+  public static final int MIN_Y_COORD = 1;
 
   @NonNull
   @Id
@@ -56,10 +60,12 @@ public class Shot {
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
+  @Min(MIN_X_COORD)
   private int shotCoordX;
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
+  @Min(MIN_Y_COORD)
   private int shotCoordY;
 
   @NonNull

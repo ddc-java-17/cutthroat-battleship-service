@@ -1,10 +1,9 @@
 package edu.cnm.deepdive.jata.service;
 
+import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
-import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
-import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +44,7 @@ public interface AbstractGameService {
    * @param currentUser
    * @return
    */
-  List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser);
+  ShipsDTO submitShips(UUID key, ShipsDTO ships, User currentUser);
 
   /**
    * Gets shots from current game.

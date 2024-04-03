@@ -1,10 +1,10 @@
 package edu.cnm.deepdive.jata.service;
 
+import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.ShotRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
-import edu.cnm.deepdive.jata.model.dao.UserRepository;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
@@ -12,7 +12,6 @@ import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 /**
@@ -81,10 +80,8 @@ public class GameService implements AbstractGameService {
   }
 
   private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
-    if (shot.getShotCoordX() > game.getBoardSizeX()
-    || shot.getShotCoordX() < 1
-    || shot.getShotCoordY() > game.getBoardSizeY()
-    || shot.getShotCoordY() < 1)
+    if (shot.getShotCoordX() > game.getBoardSize().getBoardSizeX()
+    || shot.getShotCoordY() > game.getBoardSize().getBoardSizeY())
     {
       throw new InvalidShotPlacementException("Invalid shot");
     }
@@ -101,9 +98,9 @@ public class GameService implements AbstractGameService {
    * @return
    */
   @Override
-  public List<ShipLocation> submitShips(UUID key, List<ShipLocation> ships, User currentUser) {
-    hits = new boolean[getGame(key, currentUser).getBoardSizeX()][getGame(key,
-        currentUser).getBoardSizeY()];
+  public ShipsDTO submitShips(UUID key, ShipsDTO ships, User currentUser) {
+    hits = new boolean[getGame(key, currentUser).getBoardSize().getBoardSizeX()][getGame(key,
+        currentUser).getBoardSize().getBoardSizeY()];
     if (shipLocationRepository
         .findShipLocationByUserGame(userGameRepository
             .findUserGameByGameKeyAndUser(key, currentUser)
@@ -134,8 +131,8 @@ public class GameService implements AbstractGameService {
    */
   private static void ValidateShipLocationAndBoardEdge(ShipLocation location, Game game) {
     // test versus board edges
-    if (location.getShipCoordX() > game.getBoardSizeX()
-        || location.getShipCoordY() > game.getBoardSizeY()) {
+    if (location.getShipCoordX() > game.getBoardSize().getBoardSizeX()
+        || location.getShipCoordY() > game.getBoardSize().getBoardSizeY()) {
       throw new InvalidShipLocationException("Ships must be placed on the board");
     }
     // test versus other ships
