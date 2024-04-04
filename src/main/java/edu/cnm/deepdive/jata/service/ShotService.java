@@ -43,8 +43,8 @@ public class ShotService implements AbstractShotService{
   }
 
   private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
-    if (shot.getShotCoordX() > game.getBoardSize()
-        || shot.getShotCoordY() > game.getBoardSize()) {
+    if (shot.getLocation().getX() > game.getBoardSize()
+        || shot.getLocation().getY() > game.getBoardSize()) {
       throw new InvalidShotPlacementException("Invalid shot");
     }
   }

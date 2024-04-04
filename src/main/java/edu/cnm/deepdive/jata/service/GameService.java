@@ -61,30 +61,6 @@ public class GameService implements AbstractGameService {
   }
 
   @Override
-  public List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser) {
-    return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
-        .map((game) -> {
-          shots.forEach((shot) -> {
-            ValidateShot(game, shot);
-            shot.setToUser(
-                userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
-                    .orElseThrow());
-            shot.setFromUser(
-                userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
-          });
-          return shotRepository.saveAll(shots);
-        })
-        .orElseThrow();
-  }
-
-  private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
-    if (shot.getLocation().getX() > game.getBoardSizeX()
-        || shot.getLocation().getY() > game.getBoardSizeY()) {
-      throw new InvalidShotPlacementException("Invalid shot");
-    }
-  }
-
-  @Override
   public Game getGame(UUID key, User user) {
     return gameRepository
         .findGameByKeyAndUserGamesUser(key, user)
