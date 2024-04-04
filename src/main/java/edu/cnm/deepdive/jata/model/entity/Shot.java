@@ -64,16 +64,8 @@ public class Shot {
   @JsonProperty(access = Access.READ_WRITE)
   private UserGame toUser;
 
-  @Column(nullable = false, updatable = true)
-  @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_X_COORD)
-  private int shotCoordX;
-
-  @Column(nullable = false, updatable = true)
-  @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_Y_COORD)
-  private int shotCoordY;
   @Column(nullable = false, updatable = false)
+  @JsonProperty(access = Access.READ_WRITE)
   private Location location;
 
   @NonNull
@@ -85,6 +77,7 @@ public class Shot {
   private Instant timestamp;
 
   @OneToOne(mappedBy = "id.shot", fetch = FetchType.EAGER)
+  @JsonProperty(access = Access.READ_WRITE)
   private ShotStatus status;
 
   /**

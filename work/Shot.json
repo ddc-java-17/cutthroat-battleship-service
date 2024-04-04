@@ -1,9 +1,7 @@
 {
   "fromUser": {UserGame schema},
   "toUser": {UserGame schema},
-  "shotCoordX": {int},
-  "shotCoordY": {int},
+  "location": {Location schema},
   "timestamp": {Instant}
-  "hit": {boolean}
-  "sunk": {boolean}
+  "status": {boolean}
 }
