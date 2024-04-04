@@ -5,10 +5,9 @@ import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import edu.cnm.deepdive.jata.service.AbstractGameService;
+import edu.cnm.deepdive.jata.service.AbstractShotService;
 import edu.cnm.deepdive.jata.service.AbstractUserService;
-import edu.cnm.deepdive.jata.view.ShotView;
-import edu.cnm.deepdive.jata.view.UserGameView;
-import edu.cnm.deepdive.jata.view.UserView;
+import edu.cnm.deepdive.jata.service.ShotService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -31,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("games/{key}/shot")
 public class ShotController {
 
-  private final AbstractGameService gameService;
+  private final AbstractShotService shotService;
   private final AbstractUserService userService;
 
   /**
@@ -40,8 +39,8 @@ public class ShotController {
    * @param userService UserService
    */
   @Autowired
-  public ShotController(AbstractGameService gameService, AbstractUserService userService) {
-    this.gameService = gameService;
+  public ShotController(AbstractShotService shotService, AbstractGameService gameService, AbstractUserService userService) {
+    this.shotService = shotService;
     this.userService = userService;
   }
 
@@ -54,7 +53,7 @@ public class ShotController {
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @JsonView(ShotView.Summary.class)
   public List<Shot> post(@PathVariable UUID key, @Valid @RequestBody List<Shot> shots) {
-    return gameService.submitShots(key, shots, userService.getCurrentUser());
+    return shotService.submitShots(key, shots, userService.getCurrentUser());
 //    URI location = WebMvcLinkBuilder.linkTo(
 //        WebMvcLinkBuilder.methodOn(ShotController.class)
 //            .get(key, newShot.)
@@ -72,7 +71,7 @@ public class ShotController {
    */
   @GetMapping(path = "/{shotKey}", produces = MediaType.APPLICATION_JSON_VALUE)
   public Shot get(@PathVariable UUID key, @PathVariable UUID shotKey) {
-    return gameService.getShot(key, shotKey, userService.getCurrentUser());
+    return shotService.getShot(key, shotKey, userService.getCurrentUser());
   }
 
 }

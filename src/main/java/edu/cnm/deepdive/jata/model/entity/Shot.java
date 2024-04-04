@@ -21,6 +21,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Min;
 import java.time.Instant;
 import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,6 +40,9 @@ import org.springframework.lang.NonNull;
 @JsonPropertyOrder({""})
 @JsonView(ShotView.Summary.class)
 public class Shot {
+
+  public static final int MIN_X_COORD = 1;
+  public static final int MIN_Y_COORD = 1;
 
   @NonNull
   @Id
@@ -60,6 +64,15 @@ public class Shot {
   @JsonProperty(access = Access.READ_WRITE)
   private UserGame toUser;
 
+  @Column(nullable = false, updatable = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  @Min(MIN_X_COORD)
+  private int shotCoordX;
+
+  @Column(nullable = false, updatable = true)
+  @JsonProperty(access = Access.READ_WRITE)
+  @Min(MIN_Y_COORD)
+  private int shotCoordY;
   @Column(nullable = false, updatable = false)
   private Location location;
 
@@ -144,9 +157,29 @@ public class Shot {
     return status.isHit();
   }
 
+
+  //public boolean isHit() {
+  /**
+   * Checks to see if a shot is a hit
+   * @return boolean isHit
+   */
+  public boolean isHit() {
+    return toUser.getLocations()
+        .stream()
+        .anyMatch((loc) -> loc.getShipCoordX() == shotCoordX &&
+            loc.getShipCoordY() == shotCoordY);
+  }
+
+  public boolean isSunk() {
+    return fromUser.getLocations()
+        .stream()
+        .allMatch((loc)-> loc.getShipCoordX() == shotCoordX &&
+            loc.getShipCoordY() == shotCoordY);
+  }
+
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return Objects.hash(toUser, shotCoordX, shotCoordY);
   }
 
   @SuppressWarnings("ConstantValue")
@@ -162,8 +195,6 @@ public class Shot {
     }
     return equals;
   }
-
-  //public boolean isHit() {
 
 }
 

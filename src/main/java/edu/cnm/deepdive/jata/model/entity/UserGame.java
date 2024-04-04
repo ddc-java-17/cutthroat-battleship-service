@@ -83,6 +83,8 @@ public class UserGame {
   @JsonView(UserGameView.Detailed.class)
   private final List<Shot> toShots = new LinkedList<>();
 
+  @JsonProperty(access = Access.READ_WRITE)
+  private boolean inventoryPlaced;
   /**
    * Gets this UserGame's identifying number
    * @return id UserGame identification
@@ -143,18 +145,39 @@ public class UserGame {
     this.game = game;
   }
 
+  /**
+   * Returns a ships location
+   * @return List <ShipLocation>
+   */
   public List<ShipLocation> getLocations() {
     return locations;
   }
 
+  /**
+   * Returns shots from a specific user
+   * @return list<shots>
+   */
   public List<Shot> getFromShots() {
     return fromShots;
   }
 
+  /**
+   * returns shots at a specific user
+   * @return List<shots>
+   */
   public List<Shot> getToShots() {
     return toShots;
   }
 
+  public boolean isInventoryPlaced() {
+    return inventoryPlaced;
+  }
+
+  public void setInventoryPlaced(boolean placed){
+    this.inventoryPlaced = placed;
+  }
+
+  @SuppressWarnings("ConstantValue")
   public int getShipLocationCount() {
     return locations.size();
   }
@@ -184,12 +207,26 @@ public class UserGame {
 
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return (id == null) ? Objects.hash(id) : Objects.hash(user, game);
   }
 
+  @SuppressWarnings("ConstantValue")
   @Override
   public boolean equals(Object obj) {
-    return super.equals(obj);
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof UserGame other) {
+      if ((this.id != null && other.id != null) && (this.id.equals(other.id))) {
+        equals = true;
+      } else {
+        equals = (this.user.equals(other.user)
+            && (this.game.equals(other.game)));
+      }
+    } else {
+      equals = false;
+    }
+    return equals;
   }
 
   @PrePersist

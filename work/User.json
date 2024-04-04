@@ -1,0 +1,6 @@
+{
+  "key": {UUID},
+  "created": {Instant},
+  "modified": {Instant},
+  "displayName": {String}
+}

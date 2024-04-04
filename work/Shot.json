@@ -1,0 +1,9 @@
+{
+  "fromUser": {UserGame schema},
+  "toUser": {UserGame schema},
+  "shotCoordX": {int},
+  "shotCoordY": {int},
+  "timestamp": {Instant}
+  "hit": {boolean}
+  "sunk": {boolean}
+}

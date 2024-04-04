@@ -1,0 +1,7 @@
+{
+  "shipNumber": {int},
+  "shipOriginX": {int},
+  "shipOriginY": {int},
+  "shipLength": {int},
+  "isVertical": {boolean}
+}

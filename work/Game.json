@@ -1,0 +1,12 @@
+{
+
+  "key": {UUID},
+  "created": {Instant},
+  "shipOriginY": {int},
+  "userGames": [
+    {UserGame schema},
+    ...
+  ],
+  "playerCount": {int}
+
+}
