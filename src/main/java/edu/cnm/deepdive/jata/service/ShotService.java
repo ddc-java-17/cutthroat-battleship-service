@@ -6,12 +6,14 @@ import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
+import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ShotService implements AbstractShotService{
+public class ShotService implements AbstractShotService {
 
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
@@ -24,21 +26,28 @@ public class ShotService implements AbstractShotService{
     this.shotRepository = shotRepository;
   }
 
-
   @Override
   public List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser) {
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
-          shots.forEach((shot) -> {
-            ValidateShot(game, shot);
-            shot.setToUser(
-                userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
-                    .orElseThrow());
-            shot.setFromUser(
-                userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
-          });
-          return shotRepository.saveAll(shots);
-        })
+              Optional<UserGame> fromUserGame = userGameRepository.findUserGameByGameAndUser(game,
+                  currentUser);
+              if (fromUserGame.orElseThrow().getId() == game.getTurnCount()) {
+                shots.forEach((shot) -> {
+                  ValidateShot(game, shot);
+                  shot.setToUser(
+                      userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
+                          .orElseThrow());
+                  shot.setFromUser(
+                      fromUserGame.orElseThrow());
+                });
+                game.setTurnCount((game.getPlayerCount() == game.getTurnCount()) ? 1 : game.getTurnCount() + 1);
+                return shotRepository.saveAll(shots);
+              } else {
+                throw new NotYourTurnException("Please wait your turn");
+              }
+            }
+        )
         .orElseThrow();
   }
 

@@ -33,7 +33,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameService implements AbstractGameService {
 
-  public static final int MAX_SHIPS_PER_PLAYER = 3;
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
 
@@ -62,6 +61,7 @@ public class GameService implements AbstractGameService {
     UserGame userGame = new UserGame();
     userGame.setGame(gameToJoin);
     userGame.setUser(user);
+    userGame.setInventoryPlaced(false);
     gameToJoin.getUserGames().add(userGame);
 
     Map<ShipType, Integer> inventory = boardSize.getInventory();
@@ -85,11 +85,14 @@ public class GameService implements AbstractGameService {
             .toList()
     );
 
+    game.setTurnCount((userGame.getId() == game.getPlayerCount()-1) ? 1 : userGame.getId());
+
     return gameRepository.save(game);
   }
 
   @Override
   public Game getGame(UUID key, User user) {
+
     return gameRepository
         .findGameByKeyAndUserGamesUser(key, user)
         .orElseThrow();

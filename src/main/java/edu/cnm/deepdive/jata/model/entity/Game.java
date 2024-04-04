@@ -67,6 +67,10 @@ public class Game {
   @JsonProperty(access = Access.READ_WRITE)
   private int playerCount;
 
+  @JsonIgnore
+  private long turnCount;
+
+
   /**
    * Get game object's id
    * @return id Game's id
@@ -126,6 +130,24 @@ public class Game {
    */
   public int getPlayerCount() {
     return playerCount;
+  }
+
+  public long getTurnCount() {
+    return turnCount;
+  }
+
+  public void setTurnCount(long turnCount) {
+    this.turnCount = turnCount;
+  }
+
+  public boolean isStarted() {
+    return userGames.size() == playerCount;
+  }
+
+  public boolean isFinished() {
+    return (userGames.stream()
+        .filter(UserGame::isFleetSunk)
+        .count()) >= playerCount - 1;
   }
 
   @PrePersist
