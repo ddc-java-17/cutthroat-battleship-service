@@ -81,6 +81,8 @@ public class UserGame {
   @JsonIgnore
   private List<Shot> toShots = new LinkedList<>();
 
+  @JsonProperty(access = Access.READ_WRITE)
+  private boolean inventoryPlaced;
   /**
    * Gets this UserGame's identifying number
    * @return id UserGame identification
@@ -163,6 +165,14 @@ public class UserGame {
    */
   public List<Shot> getToShots() {
     return toShots;
+  }
+
+  public boolean isInventoryPlaced() {
+    return inventoryPlaced;
+  }
+
+  public void setInventoryPlaced(boolean placed){
+    this.inventoryPlaced = placed;
   }
 
   @SuppressWarnings("ConstantValue")

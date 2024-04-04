@@ -2,6 +2,7 @@ package edu.cnm.deepdive.jata.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import java.util.Collection;
 import java.util.List;
 
 public class ShipsDTO {
@@ -16,4 +17,6 @@ public class ShipsDTO {
   public void setShips(List<ShipDTO> ships) {
     this.ships = ships;
   }
+
+  public Collection<ShipDTO> shipDTOCollection;
 }

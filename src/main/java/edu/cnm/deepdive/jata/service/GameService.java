@@ -30,10 +30,6 @@ public class GameService implements AbstractGameService {
   public static final int MAX_SHIPS_PER_PLAYER = 3;
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
-  private final ShotRepository shotRepository;
-  private final ShipLocationRepository shipLocationRepository;
-  private static boolean[][] hits;
-
   /**
    * This constructor initializes an instance of {@link GameRepository} that this service class can
    * use.
@@ -42,12 +38,9 @@ public class GameService implements AbstractGameService {
    */
   @Autowired
   public GameService(
-      GameRepository gameRepository, UserGameRepository userGameRepository,
-      ShotRepository shotRepository, ShipLocationRepository shipLocationRepository) {
+      GameRepository gameRepository, UserGameRepository userGameRepository) {
     this.gameRepository = gameRepository;
     this.userGameRepository = userGameRepository;
-    this.shotRepository = shotRepository;
-    this.shipLocationRepository = shipLocationRepository;
   }
 
   @Override
@@ -69,119 +62,7 @@ public class GameService implements AbstractGameService {
         .orElseThrow();
   }
 
-  @Override
-  public List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser) {
-    return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
-        .map((game) -> {
-          shots.forEach((shot) -> {
-            ValidateShot(game, shot);
-            shot.setToUser(
-                userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
-                    .orElseThrow());
-            shot.setFromUser(
-                userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
-          });
-          return shotRepository.saveAll(shots);
-        })
-        .orElseThrow();
-  }
 
-  private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
-    if (shot.getShotCoordX() > game.getBoardSize()
-        || shot.getShotCoordY() > game.getBoardSize()) {
-      throw new InvalidShotPlacementException("Invalid shot");
-    }
-  }
-
-  /**
-   * This method validates the placement of each ship, checking for ships partially, or entirely off
-   * of the board, intersecting ships, or users trying to place ships once a fleet has already been
-   * placed.  If the validation shows the placement is valid and legal, the ships are saved in the
-   * ShipLocation table
-   *
-   * @param key
-   * @param ships
-   * @param currentUser
-   * @return
-   */
-  @Override
-  public ShipsDTO submitShips(UUID key, ShipsDTO ships, User currentUser) {
-    hits = new boolean[getGame(key, currentUser).getBoardSize()][getGame(key,
-        currentUser).getBoardSize()];
-    if (shipLocationRepository
-        .findShipLocationByUserGame(userGameRepository
-            .findUserGameByGameKeyAndUser(key, currentUser)
-            .orElseThrow())
-        .getCount() > 0) {
-      throw new FleetAlreadyExistsException("You have already placed your ships");
-    }
-
-    return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
-        .map((game) -> {
-          ships.getShips((ShipDTO ship) -> {
-            ValidateShipLocationAndBoardEdge(ship,
-                gameRepository.findGameByKey(key).orElseThrow());
-            CreateShipLocationTableEntry(ship,
-                shipLocationRepository
-                    .findShipLocationByGameAndUserGame(game,
-                        userGameRepository
-                            .findUserGameByGameAndUser(game, currentUser).orElseThrow()).orElseThrow());
-            .setUserGame(
-                userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
-          });
-          return shipLocationRepository.saveAll(ships);
-        })
-        .orElseThrow();
-  }
-
-  /**
-   * This is the validation method for board edge detection and ship intersection detection
-   *
-   * @param game
-   */
-  private static void ValidateShipLocationAndBoardEdge(ShipDTO ship, Game game) {
-    // test versus board edges
-    if ((ship.getShipOriginX() + ship.getShipLength()) > game.getBoardSize()
-        || (ship.getShipOriginY() + ship.getShipLength()) > game.getBoardSize()) {
-      throw new InvalidShipLocationException("Ships must be placed on the board");
-    }
-    // test versus other ships
-    for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
-      if (ship.isVertical()) {
-        if (hits[ship.getShipOriginY() + lengthIndex][ship.getShipOriginX()]) {
-          throw new InvalidShipLocationException("Ships must not intersect each other");
-        } else {
-          hits[ship.getShipOriginY() + lengthIndex][ship.getShipOriginX()] = true;
-        }
-      } else {
-        if (hits[ship.getShipOriginY()][ship.getShipOriginX() + lengthIndex]) {
-          throw new InvalidShipLocationException("Ships must not intersect each other");
-        } else {
-          hits[ship.getShipOriginY()][ship.getShipOriginX() + lengthIndex] = true;
-        }
-      }
-    }
-  }
-
-  private static void CreateShipLocationTableEntry(ShipDTO ship, ShipLocation location) {
-    for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
-      if (ship.isVertical()) {
-        location.setShipCoordX(ship.getShipOriginX());
-        location.setShipCoordY(ship.getShipOriginY() + lengthIndex);
-        } else {
-        location.setShipCoordX(ship.getShipOriginX() + lengthIndex);
-        location.setShipCoordY(ship.getShipOriginY());
-        }
-      }
-    location.setShipNumber(ship.getShipNumber());
-    }
-
-  }
-
-  @Override
-  public Shot getShot(UUID key, UUID guessKey, User currentUser) {
-    return null;
-  }
 }
 
 

@@ -28,30 +28,4 @@ public interface AbstractGameService {
    */
   Game getGame(UUID key, User user);
 
-  /**
-   * submits shots to a game
-   * @param key {@Link UUID}
-   * @param shots List<Shots>
-   * @param currentUser {@Link user}
-   * @return shots
-   */
-  List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser);
-
-  /**
-   * This takes a user's ships and instantiates them into the ShipLocation table
-   * @param key
-   * @param ships
-   * @param currentUser
-   * @return
-   */
-  ShipsDTO submitShips(UUID key, ShipsDTO ships, User currentUser);
-
-  /**
-   * Gets shots from current game.
-   * @param key
-   * @param guessKey
-   * @param currentUser
-   * @return
-   */
-  Shot getShot(UUID key, UUID guessKey, User currentUser);
 }
