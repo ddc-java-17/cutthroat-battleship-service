@@ -1,0 +1,6 @@
+{
+  "key": {UUID},
+  "user": {User schema},
+  "game": {inGame schema},
+  "inventoryPlaced": {boolean}
+}

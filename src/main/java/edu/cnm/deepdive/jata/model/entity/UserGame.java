@@ -66,7 +66,8 @@ public class UserGame {
 
   @OneToMany(mappedBy = "userGame", fetch = FetchType.EAGER,
       cascade = CascadeType.ALL, orphanRemoval = true)
-  @JsonProperty(access = Access.READ_WRITE)
+//  @JsonProperty(access = Access.READ_WRITE)
+  @JsonIgnore
   private List<ShipLocation> locations = new LinkedList<>();
 
   @OneToMany(mappedBy = "fromUser", fetch = FetchType.EAGER,
