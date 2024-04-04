@@ -10,7 +10,11 @@ import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.User;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,83 +49,54 @@ public class ShipLocationService implements AbstractShipLocationService {
    * @return
    */
   @Override
-  public ShipsDTO submitShips(UUID key, ShipsDTO ships, User currentUser) {
-    hits = new boolean[gameService.getGame(key, currentUser).getBoardSize()]
-        [gameService.getGame(key, currentUser).getBoardSize()];
-    if (shipLocationRepository
-        .findShipLocationByUserGame(userGameRepository
-            .findUserGameByGameKeyAndUser(key, currentUser)
-            .orElseThrow())
-        .getCount() > 0) {
-      throw new FleetAlreadyExistsException("You have already placed your ships");
-    }
-
-    return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
-        .map((game) -> {
-          ships.getShips().forEach((ShipDTO ship) -> {
-            ValidateShipLocationAndBoardEdge(ship,
-                gameRepository.findGameByKey(key).orElseThrow());
-             CreateShipLocationTableEntry(
-                ship,
-                shipLocationRepository
-                    .findShipLocationByGameAndUserGame(game,
-                        userGameRepository
-                            .findUserGameByGameAndUser(game, currentUser).orElseThrow())
-                    .orElseThrow(),
-                gameRepository.findGameByKey(key).orElseThrow(),
-                currentUser);
-          });
-          return shipLocationRepository.saveAll(ShipDTO);
-        })
+  public Game submitShips(UUID key, ShipsDTO ships, User currentUser) {
+    return gameRepository.findGameByKey(key)
+        .flatMap((game) -> userGameRepository.findUserGameByGameKeyAndUser(key, currentUser)
+            .map(userGame -> {
+              int shipCount = shipLocationRepository.findShipLocationByUserGame(userGame)
+                  .getCount();
+              if (shipCount > 0) {
+                throw new FleetAlreadyExistsException(
+                    "You have already placed your ships");
+              }
+              int[] shipNumber = {0};
+              Collection<ShipLocation> locations = ships.getShips().stream()
+                  .flatMap((ship) -> ship.tovalidshiplocations(game.getBoardSize(),
+                      ++shipNumber[0]))
+                  .toList();
+              Set<ShipLocation> distinctLocations = new HashSet<>(locations);
+              if (distinctLocations.size() < locations.size()) {
+                throw new InvalidShipLocationException();
+              }
+              locations.forEach((loc) -> {
+                loc.setUserGame(userGame);
+                loc.setShipNumber(shipNumber[0]);
+              });
+              shipLocationRepository.saveAll(locations);
+              return game;
+            })
+        )
         .orElseThrow();
   }
 
-  /**
-   * This is the validation method for board edge detection and ship intersection detection
-   *
-   * @param game
-   */
-  private static void ValidateShipLocationAndBoardEdge(ShipDTO ship, Game game) {
-    int[] indexMod;
-    indexMod = (ship.isVertical())
-        ? new int[]{Direction.VERTICAL.getVerticalIndex(), Direction.VERTICAL.getHorizontalIndex()}
-        : new int[]{Direction.HORIZONTAL.getVerticalIndex(),
-            Direction.HORIZONTAL.getHorizontalIndex()};
+      .
 
-    // test versus board edges
-    if ((ship.getShipOriginX() + ship.getShipLength()) > game.getBoardSize()
-        || (ship.getShipOriginY() + ship.getShipLength()) > game.getBoardSize()) {
-      throw new InvalidShipLocationException("Ships must be placed on the board");
-    }
-    // test versus other ships
-    for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
-      if (hits[ship.getShipOriginY() + lengthIndex * indexMod[0]]
-          [ship.getShipOriginX() + lengthIndex * indexMod[1]]) {
-        throw new InvalidShipLocationException("Ships must not intersect each other");
-      } else {
-        hits[ship.getShipOriginY() + lengthIndex * indexMod[0]]
-            [ship.getShipOriginX() + lengthIndex * indexMod[1]] = true;
-      }
-    }
-  }
+  map((game) ->
 
+  {
+    ships.getShips().forEach((ship) -> {
+          int index = 1;
+          ship.ToValidShipLocations(game.getBoardSize(), index)
+              .forEach((loc) -> loc.setUserGame(userGameRepository
+                  .findUserGameByGameKeyAndUser(key, currentUser).orElseThrow()));
+        })
+        .toList();
+    return shipLocationRepository.saveAll(ships);
+  })
+      .
 
-  private void CreateShipLocationTableEntry(ShipDTO ship, ShipLocation location, Game game,
-      User currentUser) {
-    int[] indexMod;
-    indexMod = (ship.isVertical())
-        ? new int[]{Direction.VERTICAL.getVerticalIndex(), Direction.VERTICAL.getHorizontalIndex()}
-        : new int[]{Direction.HORIZONTAL.getVerticalIndex(),
-            Direction.HORIZONTAL.getHorizontalIndex()};
+  orElseThrow();
+}
 
-    for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
-      Location local = new Location((ship.getShipOriginY() + lengthIndex * indexMod[0]),
-          (ship.getShipOriginX() + lengthIndex * indexMod[1]));
-      location.setLocation(local);
-      location.setShipNumber(ship.getShipNumber());
-      location.setUserGame(
-          userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());
-    }
-  }
 
 }

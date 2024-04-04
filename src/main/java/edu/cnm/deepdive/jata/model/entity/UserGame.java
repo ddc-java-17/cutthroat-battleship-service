@@ -34,6 +34,7 @@ import org.springframework.lang.NonNull;
  * this class.
  */
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "user_game", indexes = {
     @Index(columnList = "user_game_id, user_id"),

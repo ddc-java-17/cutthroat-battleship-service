@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import edu.cnm.deepdive.jata.model.BoardSize;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +28,7 @@ import org.springframework.lang.NonNull;
 /**
  * This class represents the game.
  */
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(indexes = @Index(columnList = "game_id, boardSizeX, boardSizeY, playerCount"))
 @JsonInclude(Include.NON_NULL)

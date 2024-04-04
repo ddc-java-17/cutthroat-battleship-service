@@ -1,7 +1,10 @@
 package edu.cnm.deepdive.jata.service;
 
 import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
+import edu.cnm.deepdive.jata.model.entity.Game;
+import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.User;
+import java.util.Collection;
 import java.util.UUID;
 
 public interface AbstractShipLocationService {
@@ -12,6 +15,6 @@ public interface AbstractShipLocationService {
    * @param currentUser
    * @return
    */
-  ShipsDTO submitShips(UUID key, ShipsDTO ships, User currentUser);
+  Game submitShips(UUID key, ShipsDTO ships, User currentUser);
 
 }

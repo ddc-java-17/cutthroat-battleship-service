@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.annotation.JsonView;
 import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.view.ShotView;
@@ -21,7 +22,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.validation.constraints.Min;
 import java.time.Instant;
 import java.util.Objects;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,6 +30,7 @@ import org.springframework.lang.NonNull;
 /**
  * This class records every shot taken by every user in the game
  */
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
     indexes = {
@@ -66,6 +67,7 @@ public class Shot {
 
   @Column(nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_WRITE)
+  @JsonUnwrapped
   private Location location;
 
   @NonNull
@@ -151,28 +153,10 @@ public class Shot {
   }
 
 
-  //public boolean isHit() {
-  /**
-   * Checks to see if a shot is a hit
-   * @return boolean isHit
-   */
-  public boolean isHit() {
-    return toUser.getLocations()
-        .stream()
-        .anyMatch((loc) -> loc.getShipCoordX() == shotCoordX &&
-            loc.getShipCoordY() == shotCoordY);
-  }
-
-  public boolean isSunk() {
-    return fromUser.getLocations()
-        .stream()
-        .allMatch((loc)-> loc.getShipCoordX() == shotCoordX &&
-            loc.getShipCoordY() == shotCoordY);
-  }
 
   @Override
   public int hashCode() {
-    return Objects.hash(toUser, shotCoordX, shotCoordY);
+    return Objects.hash(toUser, location);
   }
 
   @SuppressWarnings("ConstantValue")

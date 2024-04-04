@@ -1,42 +1,37 @@
 package edu.cnm.deepdive.jata.model.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import edu.cnm.deepdive.jata.model.Direction;
 import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
+import edu.cnm.deepdive.jata.service.InvalidShipLocationException;
 import jakarta.validation.constraints.Min;
-import java.util.Collection;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class ShipDTO {
+
   public static final int MIN_SHIP_NUMBER = 1;
   public static final int MIN_X_COORD = 1;
   public static final int MIN_Y_COORD = 1;
   public static final int MIN_SHIP_LENGTH = 2;
 
   @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_SHIP_NUMBER)
   private int shipNumber;
 
   @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_X_COORD)
-  private int shipOriginX;
-
-  @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_Y_COORD)
-  private int shipOriginY;
+  @JsonUnwrapped
+  private Location origin;
 
   @JsonProperty(access = Access.READ_WRITE)
   @Min(MIN_SHIP_LENGTH)
-  private int shipLength;
+  private int length;
 
   @JsonProperty(access = Access.READ_WRITE)
-  private boolean isVertical;
-
-  @JsonIgnore
-  private Collection<ShipLocation> shipLocations;
+  private boolean vertical;
 
   public int getShipNumber() {
     return shipNumber;
@@ -46,64 +41,58 @@ public class ShipDTO {
     this.shipNumber = shipNumber;
   }
 
-  public int getShipOriginX() {
-    return shipOriginX;
+  public Location getOrigin() {
+    return origin;
   }
 
-  public void setShipOriginX(int shipOriginX) {
-    this.shipOriginX = shipOriginX;
+  public void setOrigin(Location origin) {
+    this.origin = origin;
   }
 
-  public int getShipOriginY() {
-    return shipOriginY;
+  public int getLength() {
+    return length;
   }
 
-  public void setShipOriginY(int shipOriginY) {
-    this.shipOriginY = shipOriginY;
-  }
-
-  public int getShipLength() {
-    return shipLength;
-  }
-
-  public void setShipLength(int shipLength) {
-    this.shipLength = shipLength;
+  public void setLength(int length) {
+    this.length = length;
   }
 
   public boolean isVertical() {
-    return isVertical;
+    return vertical;
   }
 
   public void setVertical(boolean vertical) {
-    isVertical = vertical;
+    this.vertical = vertical;
   }
 
-  public Collection<ShipLocation> getShipLocations() {
-    return shipLocations;
-  }
+  public Stream<ShipLocation> tovalidshiplocations(int boardSize, int shipNumber) {
+    int offsetX;
+    int offsetY;
 
-  public void setShipLocations(
-      Collection<ShipLocation> shipLocations) {
-    this.shipLocations = shipLocations;
-  }
-
-  private void DtoToCollection(ShipDTO ship){
-    ShipDTO shipDTO;
-    int[] indexMod;
-    indexMod = (ship.isVertical())
-        ? new int[]{Direction.VERTICAL.getVerticalIndex(), Direction.VERTICAL.getHorizontalIndex()}
-        : new int[]{Direction.HORIZONTAL.getVerticalIndex(),
-            Direction.HORIZONTAL.getHorizontalIndex()};
-
-    for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
-      ShipLocation location = new ShipLocation();
-      Location local = new Location((ship.getShipOriginY() + lengthIndex * indexMod[0]),
-          (ship.getShipOriginX() + lengthIndex * indexMod[1]));
-      location.setLocation(local);
-      location.setShipNumber(ship.getShipNumber());
-      location.setUserGame();
-      shipLocations.add(location);
+    if (vertical) {
+      offsetX = Direction.VERTICAL.getVerticalIndex();
+      offsetY = Direction.VERTICAL.getHorizontalIndex();
+    } else {
+      offsetX = Direction.HORIZONTAL.getVerticalIndex();
+      offsetY = Direction.HORIZONTAL.getHorizontalIndex();
     }
+    ValidateBoardEdge(boardSize);
 
+    return IntStream.range(0, length)
+        .mapToObj((index) -> {
+          Location loc = new Location((origin.getX() + index * offsetX),
+              (origin.getX() + index * offsetY));
+          ShipLocation sl = new ShipLocation();
+          sl.setLocation(loc);
+          return sl;
+        });
   }
+
+  private void ValidateBoardEdge(int boardSize) {
+    if (((origin.getX() + length) > boardSize)
+        || ((origin.getY() + length) > boardSize)) {
+      throw new InvalidShipLocationException("Ships must be placed on the board");
+    }
+  }
+
 }
