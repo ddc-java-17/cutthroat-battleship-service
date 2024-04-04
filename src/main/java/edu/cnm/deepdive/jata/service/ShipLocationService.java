@@ -79,24 +79,4 @@ public class ShipLocationService implements AbstractShipLocationService {
         .orElseThrow();
   }
 
-      .
-
-  map((game) ->
-
-  {
-    ships.getShips().forEach((ship) -> {
-          int index = 1;
-          ship.ToValidShipLocations(game.getBoardSize(), index)
-              .forEach((loc) -> loc.setUserGame(userGameRepository
-                  .findUserGameByGameKeyAndUser(key, currentUser).orElseThrow()));
-        })
-        .toList();
-    return shipLocationRepository.saveAll(ships);
-  })
-      .
-
-  orElseThrow();
-}
-
-
 }

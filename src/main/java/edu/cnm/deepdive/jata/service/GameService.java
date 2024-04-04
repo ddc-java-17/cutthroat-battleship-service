@@ -3,6 +3,8 @@ package edu.cnm.deepdive.jata.service;
 import static edu.cnm.deepdive.jata.model.BoardSize.closestMatch;
 
 import edu.cnm.deepdive.jata.model.BoardSize;
+import edu.cnm.deepdive.jata.model.Location;
+import edu.cnm.deepdive.jata.model.ShipType;
 import edu.cnm.deepdive.jata.model.dto.ShipDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
@@ -16,7 +18,9 @@ import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,7 @@ public class GameService implements AbstractGameService {
   public static final int MAX_SHIPS_PER_PLAYER = 3;
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
+
   /**
    * This constructor initializes an instance of {@link GameRepository} that this service class can
    * use.
@@ -47,7 +52,9 @@ public class GameService implements AbstractGameService {
 
   @Override
   public Game startJoinGame(Game game, User user) {
-    game.setBoardSize(BoardSize.closestMatch(game.getBoardSize()).getBoardSizeX());
+
+    BoardSize boardSize = closestMatch(game.getBoardSize());
+    game.setBoardSize(boardSize.getBoardSizeX());
     List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount());
 
     Game gameToJoin = openGames.isEmpty() ? game : openGames.getFirst();
@@ -56,6 +63,27 @@ public class GameService implements AbstractGameService {
     userGame.setGame(gameToJoin);
     userGame.setUser(user);
     gameToJoin.getUserGames().add(userGame);
+
+    Map<ShipType, Integer> inventory = boardSize.getInventory();
+    int[] y = {0};
+    ShipsDTO shipsDTO = new ShipsDTO();
+    shipsDTO.setShips(
+        inventory.entrySet()
+            .stream()
+            .flatMapToInt((entry) -> IntStream.generate(() ->
+                    entry.getKey()
+                        .getShipSize())
+                .limit(entry.getValue()))
+            .mapToObj((length) -> {
+              ShipDTO shipDTO = new ShipDTO();
+              Location loc = new Location(y[0]++, 1);
+              shipDTO.setVertical(false);
+              shipDTO.setLength(length);
+              shipDTO.setOrigin(loc);
+              return shipDTO;
+            })
+            .toList()
+    );
 
     return gameRepository.save(game);
   }
