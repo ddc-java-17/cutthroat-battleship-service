@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.jata.service;
 
 import edu.cnm.deepdive.jata.model.Direction;
+import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
@@ -114,8 +115,9 @@ public class ShipLocationService implements AbstractShipLocationService {
             Direction.HORIZONTAL.getHorizontalIndex()};
 
     for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
-      location.setShipCoordY(ship.getShipOriginY() + lengthIndex * indexMod[0]);
-      location.setShipCoordX(ship.getShipOriginX() + lengthIndex * indexMod[1]);
+      Location local = new Location((ship.getShipOriginY() + lengthIndex * indexMod[0]),
+          (ship.getShipOriginX() + lengthIndex * indexMod[1]));
+      location.setLocation(local);
       location.setShipNumber(ship.getShipNumber());
       location.setUserGame(
           userGameRepository.findUserGameByGameAndUser(game, currentUser).orElseThrow());

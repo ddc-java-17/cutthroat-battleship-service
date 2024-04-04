@@ -1,0 +1,4 @@
+{
+  "shipNumber": {int},
+  "location": {int}
+}

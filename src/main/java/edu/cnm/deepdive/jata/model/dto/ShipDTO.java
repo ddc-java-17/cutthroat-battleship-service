@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import edu.cnm.deepdive.jata.model.Direction;
+import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import jakarta.validation.constraints.Min;
 import java.util.Collection;
@@ -96,8 +97,9 @@ public class ShipDTO {
 
     for (int lengthIndex = 0; lengthIndex < ship.getShipLength(); lengthIndex++) {
       ShipLocation location = new ShipLocation();
-      location.setShipCoordY(ship.getShipOriginY() + lengthIndex * indexMod[0]);
-      location.setShipCoordX(ship.getShipOriginX() + lengthIndex * indexMod[1]);
+      Location local = new Location((ship.getShipOriginY() + lengthIndex * indexMod[0]),
+          (ship.getShipOriginX() + lengthIndex * indexMod[1]));
+      location.setLocation(local);
       location.setShipNumber(ship.getShipNumber());
       location.setUserGame();
       shipLocations.add(location);
