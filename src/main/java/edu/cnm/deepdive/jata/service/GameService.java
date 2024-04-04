@@ -5,6 +5,7 @@ import static edu.cnm.deepdive.jata.model.BoardSize.closestMatch;
 import edu.cnm.deepdive.jata.model.BoardSize;
 import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.ShipType;
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
@@ -12,6 +13,7 @@ import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.ShotRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
 import edu.cnm.deepdive.jata.model.dao.UserRepository;
+import edu.cnm.deepdive.jata.model.dto.UserGameDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
@@ -50,7 +52,7 @@ public class GameService implements AbstractGameService {
   }
 
   @Override
-  public Game startJoinGame(Game game, User user) {
+  public GameDTO startJoinGame(Game game, User user) {
 
     BoardSize boardSize = closestMatch(game.getBoardSize());
     game.setBoardSize(boardSize.getBoardSizeX());
@@ -63,11 +65,21 @@ public class GameService implements AbstractGameService {
     userGame.setUser(user);
     userGame.setInventoryPlaced(false);
     gameToJoin.getUserGames().add(userGame);
+    gameToJoin.setTurnCount((userGame.getId() == gameToJoin.getPlayerCount()-1) ? 1 : userGame.getId());
+
+    gameRepository.save(gameToJoin);
+
+    GameDTO gameDTO = new GameDTO(gameToJoin);
+    UserGameDTO currentDTO = gameDTO.getUserGames().stream()
+        .filter((ug)-> ug.getUser().equals(userGame))
+        .findFirst()
+        .orElseThrow();
 
     Map<ShipType, Integer> inventory = boardSize.getInventory();
     int[] y = {0};
-    ShipsDTO shipsDTO = new ShipsDTO();
-    shipsDTO.setShips(
+    currentDTO.getShips()
+        .getShips()
+        .addAll(
         inventory.entrySet()
             .stream()
             .flatMapToInt((entry) -> IntStream.generate(() ->
@@ -85,9 +97,8 @@ public class GameService implements AbstractGameService {
             .toList()
     );
 
-    game.setTurnCount((userGame.getId() == game.getPlayerCount()-1) ? 1 : userGame.getId());
 
-    return gameRepository.save(game);
+    return gameDTO;
   }
 
   @Override

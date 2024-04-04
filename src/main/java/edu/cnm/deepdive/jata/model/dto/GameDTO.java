@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.jata.model.dto;
 
+import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,9 +8,12 @@ import java.util.UUID;
 
 public class GameDTO {
 
+
+
+
   private UUID key;
 
-  private final List<UserGame> userGames = new LinkedList<>();
+  private List<UserGameDTO> userGames;
 
   private int boardSize;
 
@@ -19,13 +23,32 @@ public class GameDTO {
 
   private boolean finished;
 
+  public GameDTO() {
+  }
+  public GameDTO(Game game) {
+    key = game.getKey();
+    boardSize = game.getBoardSize();
+    playerCount = game.getPlayerCount();
+    started = game.isStarted();
+    finished = game.isFinished();
+    userGames = game.getUserGames().stream()
+        .map(UserGameDTO::new)
+        .toList();
+  }
+
+
+
 
   public UUID getKey() {
     return key;
   }
 
-  public List<UserGame> getUserGames() {
+  public List<UserGameDTO> getUserGames() {
     return userGames;
+  }
+
+  public void setUserGames(List<UserGameDTO> userGames) {
+    this.userGames = userGames;
   }
 
   public int getBoardSize() {

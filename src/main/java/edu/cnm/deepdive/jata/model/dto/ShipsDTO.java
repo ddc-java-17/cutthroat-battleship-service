@@ -10,6 +10,13 @@ public class ShipsDTO {
   @JsonProperty(access = Access.READ_WRITE)
   private List<ShipDTO> ships;
 
+  public ShipsDTO() {
+  }
+
+  public ShipsDTO(List<ShipDTO> ships) {
+    this.ships = ships;
+  }
+
   public List<ShipDTO> getShips() {
     return ships;
   }
@@ -18,5 +25,4 @@ public class ShipsDTO {
     this.ships = ships;
   }
 
-  public Collection<ShipDTO> shipDTOCollection;
 }

@@ -9,14 +9,14 @@ import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.service.InvalidShipLocationException;
 import jakarta.validation.constraints.Min;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class ShipDTO {
 
-  public static final int MIN_SHIP_NUMBER = 1;
-  public static final int MIN_X_COORD = 1;
-  public static final int MIN_Y_COORD = 1;
   public static final int MIN_SHIP_LENGTH = 2;
 
   @JsonProperty(access = Access.READ_WRITE)
@@ -95,4 +95,17 @@ public class ShipDTO {
     }
   }
 
+  public static List<ShipDTO> fromLocations(List<ShipLocation> locations){
+    return locations.stream()
+        .collect(Collectors.groupingBy(ShipLocation::getShipNumber))
+        .values()
+        .stream()
+        .map(ShipDTO::toShipDTO)
+        .collect(Collectors.toList());
+  }
+
+
+  private static ShipDTO toShipDTO(List<ShipLocation> locations) {
+    return null;
+  }
 }
