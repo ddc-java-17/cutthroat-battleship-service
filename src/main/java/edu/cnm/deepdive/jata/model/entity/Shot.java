@@ -78,7 +78,7 @@ public class Shot {
   @JsonView(ShotView.Detailed.class)
   private Instant timestamp;
 
-  @OneToOne(mappedBy = "id.shot", fetch = FetchType.EAGER)
+  @OneToOne(mappedBy = "shot", fetch = FetchType.EAGER)
   @JsonProperty(access = Access.READ_WRITE)
   private ShotStatus status;
 

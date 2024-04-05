@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.jata.controller;
 
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.service.AbstractGameService;
 import edu.cnm.deepdive.jata.service.AbstractUserService;
@@ -42,8 +43,8 @@ public class GameController {
    * @return
    */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Game> post(@Valid @RequestBody Game game) {
-    Game createdGame = gameService.startJoinGame(game, userService.getCurrentUser());
+  public ResponseEntity<GameDTO> post(@Valid @RequestBody Game game) {
+    GameDTO createdGame = gameService.startJoinGame(game, userService.getCurrentUser());
     URI location = WebMvcLinkBuilder.linkTo(
         WebMvcLinkBuilder.methodOn(getClass())
             .get(createdGame.getKey())).toUri();

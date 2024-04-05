@@ -8,6 +8,7 @@ import edu.cnm.deepdive.jata.service.AbstractGameService;
 import edu.cnm.deepdive.jata.service.AbstractShotService;
 import edu.cnm.deepdive.jata.service.AbstractUserService;
 import edu.cnm.deepdive.jata.service.ShotService;
+import edu.cnm.deepdive.jata.view.ShotView;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;

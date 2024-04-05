@@ -29,14 +29,6 @@ public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long
   @Query("SELECT count(sl) AS count FROM ShipLocation AS sl WHERE sl.userGame = :userGame")
   ShipsCount findShipLocationByUserGame(UserGame userGame);
 
-  Optional<ShipLocation> findShipLocationByGameAndUserGame(Game game, UserGame userGame);
+//  Optional<ShipLocation> findShipLocationByGameAndUserGame(Game game, UserGame userGame);
 
-  /**
-   * This is used to isolate a particular ship to determine the validity of its make-up
-   * @param number
-   * @param userGame
-   * @return
-   */
-  @Query("SELECT sl.shipCoordX AS x, sl.shipCoordY AS y FROM ShipLocation AS sl WHERE sl.shipNumber = :number AND sl.userGame = :userGame")
-  ShipValid findShipLocationByShipNumberAndUserGame(int number, UserGame userGame);
 }

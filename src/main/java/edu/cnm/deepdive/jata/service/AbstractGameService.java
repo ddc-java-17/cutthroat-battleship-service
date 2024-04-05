@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.jata.service;
 
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.Shot;
@@ -18,7 +19,7 @@ public interface AbstractGameService {
    * @param user {@link User} for the specified user starting or joining a game.
    * @return {@Code GameService}
    */
-  Game startJoinGame(Game game, User user);
+  GameDTO startJoinGame(Game game, User user);
 
   /**
    * Gets the game key and users currently in that game.
