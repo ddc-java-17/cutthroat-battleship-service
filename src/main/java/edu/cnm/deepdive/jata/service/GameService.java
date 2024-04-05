@@ -86,7 +86,7 @@ public class GameService implements AbstractGameService {
                 .limit(entry.getValue()))
             .mapToObj((length) -> {
               ShipDTO shipDTO = new ShipDTO();
-              Location loc = new Location(y[0]++, 1);
+              Location loc = new Location(1, y[0]++);
               shipDTO.setVertical(false);
               shipDTO.setLength(length);
               shipDTO.setOrigin(loc);

@@ -2,7 +2,7 @@ server:
   error:
     include-message: always
   forward-headers-strategy: native
-  port: 47474
+  port: 18181
   servlet:
     context-path: /jata-world
 

@@ -128,7 +128,7 @@ public class ShipDTO {
       }
     }
     shipDTO.setVertical((maxY - minY) == 0);
-    shipDTO.setLength((shipDTO.isVertical()) ? (maxY - minY) : (maxX - minX));
+    shipDTO.setLength((shipDTO.isVertical()) ? (maxX - minX)+1 : (maxY - minY)+1);
     origin.setX(minX);
     origin.setY(minY);
     shipDTO.setOrigin(origin);
