@@ -62,12 +62,14 @@ public class ShipLocationService implements AbstractShipLocationService {
           Set<ShipLocation> distinctLocations = new HashSet<>(locations);
           if (distinctLocations.size() < locations.size()) {
             throw new InvalidShipLocationException();
+          } else {
+            locations.forEach((loc) -> {
+              loc.setUserGame(userGame);
+            });
+            shipLocationRepository.saveAll(locations);
+            userGame.setInventoryPlaced(true);
+            userGameRepository.save(userGame);
           }
-          locations.forEach((loc) -> {
-            loc.setUserGame(userGame);
-          });
-          shipLocationRepository.saveAll(locations);
-          userGame.setInventoryPlaced(true);
           return game;
         })
         .orElseThrow();
