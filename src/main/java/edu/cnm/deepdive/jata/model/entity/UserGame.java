@@ -86,6 +86,9 @@ public class UserGame {
 
   @JsonProperty(access = Access.READ_WRITE)
   private boolean inventoryPlaced;
+
+  @JsonIgnore
+  private int turnCount;
   /**
    * Gets this UserGame's identifying number
    * @return id UserGame identification
@@ -176,6 +179,14 @@ public class UserGame {
 
   public void setInventoryPlaced(boolean placed){
     this.inventoryPlaced = placed;
+  }
+
+  public int getTurnCount() {
+    return turnCount;
+  }
+
+  public void setTurnCount(int turnCount) {
+    this.turnCount = turnCount;
   }
 
   @SuppressWarnings("ConstantValue")

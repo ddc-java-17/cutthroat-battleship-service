@@ -30,7 +30,7 @@ import org.springframework.lang.NonNull;
  */
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
-@Table(indexes = @Index(columnList = "game_id, boardSizeX, boardSizeY, playerCount"))
+@Table(indexes = @Index(columnList = "game_id, boardSize, playerCount"))
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
 public class Game {

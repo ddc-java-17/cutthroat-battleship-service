@@ -65,13 +65,16 @@ public class GameService implements AbstractGameService {
     userGame.setUser(user);
     userGame.setInventoryPlaced(false);
     gameToJoin.getUserGames().add(userGame);
-    gameToJoin.setTurnCount((userGame.getId() == gameToJoin.getPlayerCount()-1) ? 1 : userGame.getId());
 
     gameRepository.save(gameToJoin);
 
+    List<UserGame> totalUserGames = userGameRepository.findUserGamesByGame(gameToJoin);
+    userGame.setTurnCount(totalUserGames.size()+1);
+    gameToJoin.setTurnCount(userGame.getTurnCount());
+
     GameDTO gameDTO = new GameDTO(gameToJoin);
     UserGameDTO currentDTO = gameDTO.getUserGames().stream()
-        .filter((ug)-> ug.getUser().equals(userGame))
+        .filter((ug)-> ug.getUser().equals(userGame.getUser()))
         .findFirst()
         .orElseThrow();
 
