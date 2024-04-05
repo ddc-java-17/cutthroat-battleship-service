@@ -32,7 +32,7 @@ public class ShotService implements AbstractShotService {
         .map((game) -> {
               Optional<UserGame> fromUserGame = userGameRepository.findUserGameByGameAndUser(game,
                   currentUser);
-              if (fromUserGame.orElseThrow().getId() == game.getTurnCount()) {
+              if (fromUserGame.orElseThrow().getTurnCount() == game.getTurnCount()) {
                 shots.forEach((shot) -> {
                   ValidateShot(game, shot);
                   shot.setToUser(

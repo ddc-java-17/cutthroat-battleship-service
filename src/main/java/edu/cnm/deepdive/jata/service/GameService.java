@@ -56,6 +56,7 @@ public class GameService implements AbstractGameService {
 
     BoardSize boardSize = closestMatch(game.getBoardSize());
     game.setBoardSize(boardSize.getBoardSizeX());
+//    List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount(), user);
     List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount());
 
     Game gameToJoin = openGames.isEmpty() ? game : openGames.getFirst();
@@ -65,12 +66,13 @@ public class GameService implements AbstractGameService {
     userGame.setUser(user);
     userGame.setInventoryPlaced(false);
     gameToJoin.getUserGames().add(userGame);
-
     gameRepository.save(gameToJoin);
 
     List<UserGame> totalUserGames = userGameRepository.findUserGamesByGame(gameToJoin);
-    userGame.setTurnCount(totalUserGames.size()+1);
+    userGame.setTurnCount(totalUserGames.size());
     gameToJoin.setTurnCount(userGame.getTurnCount());
+    userGameRepository.save(userGame);
+    gameRepository.save(gameToJoin);
 
     GameDTO gameDTO = new GameDTO(gameToJoin);
     UserGameDTO currentDTO = gameDTO.getUserGames().stream()

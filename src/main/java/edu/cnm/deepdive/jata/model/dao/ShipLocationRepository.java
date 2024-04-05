@@ -17,8 +17,6 @@ public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long
 
   Integer findShipLocationByShipNumber(int shipNumber);
 
-//  Integer findShipLocationByShipNumberAndLocationXAndLocationY(int shipNumber, int shipCoordX, int shipCoordY);
-
   /**
    * This Query is used to determine if a user already has ships in the ShipLocation table.
    * This returns a count of the total locations in the ShipLocation table associated
@@ -28,7 +26,5 @@ public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long
    */
   @Query("SELECT count(sl) AS count FROM ShipLocation AS sl WHERE sl.userGame = :userGame")
   ShipsCount findShipLocationByUserGame(UserGame userGame);
-
-//  Optional<ShipLocation> findShipLocationByGameAndUserGame(Game game, UserGame userGame);
 
 }

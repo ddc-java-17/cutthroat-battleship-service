@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.jata.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
@@ -9,12 +10,14 @@ import java.util.List;
 
 public class UserGameDTO {
 
+  @JsonProperty(value = "player")
   private User user;
 
   private ShipsDTO ships;
 
   private  List<Shot> toShots;
 
+  @JsonProperty(value = "placed")
   private boolean inventoryPlaced;
 
   public UserGameDTO() {

@@ -1,18 +1,15 @@
 package edu.cnm.deepdive.jata.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.cnm.deepdive.jata.model.entity.Game;
-import edu.cnm.deepdive.jata.model.entity.UserGame;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 public class GameDTO {
 
-
-
-
   private UUID key;
 
+  @JsonProperty(value = "boards")
   private List<UserGameDTO> userGames;
 
   private int boardSize;
@@ -22,6 +19,9 @@ public class GameDTO {
   private boolean started;
 
   private boolean finished;
+
+  @JsonProperty(value = "yourTurn")
+  private boolean isTurn;
 
   public GameDTO() {
   }
@@ -81,5 +81,13 @@ public class GameDTO {
 
   public void setFinished(boolean finished) {
     this.finished = finished;
+  }
+
+  public boolean isTurn() {
+    return isTurn;
+  }
+
+  public void setTurn(boolean turn) {
+    isTurn = turn;
   }
 }
