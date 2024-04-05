@@ -18,6 +18,8 @@ public class UserGameDTO {
   @JsonProperty(value = "placed")
   private boolean inventoryPlaced;
 
+  private boolean fleetSunk;
+
   public UserGameDTO() {
   }
 
@@ -26,6 +28,7 @@ public class UserGameDTO {
     ships = ShipDTO.fromLocations(userGame.getLocations());
     toShots = userGame.getToShots();
     inventoryPlaced = userGame.isInventoryPlaced();
+    fleetSunk = userGame.isFleetSunk();
   }
 
 
@@ -60,5 +63,13 @@ public class UserGameDTO {
 
   public void setInventoryPlaced(boolean inventoryPlaced) {
     this.inventoryPlaced = inventoryPlaced;
+  }
+
+  public boolean isFleetSunk() {
+    return fleetSunk;
+  }
+
+  public void setFleetSunk(boolean fleetSunk) {
+    this.fleetSunk = fleetSunk;
   }
 }
