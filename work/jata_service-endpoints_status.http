@@ -1,43 +1,4 @@
 ###
-PUT http://localhost:18181/jata-world/games/2b8338f0-af73-4844-98d9-488c0a60df44/ships
+GET http://localhost:18181/jata-world/games/2b8338f0-af73-4844-98d9-488c0a60df44
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjkzNGE1ODE2NDY4Yjk1NzAzOTUzZDE0ZTlmMTVkZjVkMDlhNDAxZTQiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEta2pqOWdvamNsdmk4ZmhudmVsOHI2bDhoYjNvanJxMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDczNTQyOTc5NjczNzUzNzYwNjQiLCJlbWFpbCI6ImhlbG9za3lib3lAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJSZWVkIFNlYXJsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLdG56ZlVzVkZiMXl6VHM2ODduYzRxbmhIbFpNd1JnUlRkYm80MkowUUd5ZUFKZFpFPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IlJlZWQiLCJmYW1pbHlfbmFtZSI6IlNlYXJsZSIsImlhdCI6MTcxMjM0NzAwNiwiZXhwIjoxNzEyMzUwNjA2fQ.GHGZ4QluXeCuu36O9B-eo9cTlrJEMKdAIt2KWgAwBwbxdgewkWE2tDHSbpwEBcJFCPBmPK-wHvdFKMNNg4aZd6tAIOUou2ujxaWjQI-Lb16D18LAVWGDhL4_If1mgxoOFmzO_RUgxrrHSi5OvaChRjSH4TGiyBl2MYUw8Ny3ZRDJelHhR_CDkibNOjpPMiEjHxdNS-wYsy_3Rm6JKNvXvpzrKPXgATutAJwzAZt1LEALH9tNTu-LSrwqG3Kh__u7YKKHGUu-QezXek_j5k377bU7XkI8Fbf7seiE35XZJp_-uLWW6azJxFxC2dVZUVPrwUqS8Kx6ePV7XVQYEQrrxQ
 Content-Type: application/json
-
-        [
-          {
-            "shipNumber": 0,
-            "x": 1,
-            "y": 1,
-            "length": 4,
-            "vertical": false
-          },
-          {
-            "shipNumber": 0,
-            "x": 2,
-            "y": 2,
-            "length": 2,
-            "vertical": true
-          },
-          {
-            "shipNumber": 0,
-            "x": 3,
-            "y": 3,
-            "length": 5,
-            "vertical": false
-          },
-          {
-            "shipNumber": 0,
-            "x": 4,
-            "y": 4,
-            "length": 3,
-            "vertical": true
-          }
-        ]
-
-
-<> 2024-03-26T154313.200.json
-<> 2024-03-25T112647.200.json
-<> 2024-03-25T112622.200.json
-<> 2024-03-25T112129.400.json
-<> 2024-03-25T112026.200.json
-<> 2024-03-25T111917.500.json

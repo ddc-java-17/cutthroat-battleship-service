@@ -9,7 +9,6 @@ import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.service.InvalidShipLocationException;
 import jakarta.validation.constraints.Min;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,6 +17,7 @@ import java.util.stream.Stream;
 public class ShipDTO {
 
   public static final int MIN_SHIP_LENGTH = 2;
+  public static final int MAX_SHIP_LENGTH = 8;
 
   @JsonProperty(access = Access.READ_WRITE)
   private int shipNumber;
@@ -66,24 +66,24 @@ public class ShipDTO {
   }
 
   public Stream<ShipLocation> tovalidshiplocations(int boardSize, int shipNumber) {
-    int offsetX;
-    int offsetY;
+    int[] offset;
 
     if (vertical) {
-      offsetX = Direction.VERTICAL.getVerticalIndex();
-      offsetY = Direction.VERTICAL.getHorizontalIndex();
+      offset = new int[]{Direction.VERTICAL.getVerticalIndex(),
+          Direction.VERTICAL.getHorizontalIndex()};
     } else {
-      offsetX = Direction.HORIZONTAL.getVerticalIndex();
-      offsetY = Direction.HORIZONTAL.getHorizontalIndex();
+      offset = new int[]{Direction.HORIZONTAL.getVerticalIndex(),
+          Direction.HORIZONTAL.getHorizontalIndex()};
     }
     ValidateBoardEdge(boardSize);
 
     return IntStream.range(0, length)
         .mapToObj((index) -> {
-          Location loc = new Location((origin.getX() + index * offsetX),
-              (origin.getX() + index * offsetY));
+          Location loc = new Location((origin.getX() + index * offset[0]),
+              (origin.getY() + index * offset[1]));
           ShipLocation sl = new ShipLocation();
           sl.setLocation(loc);
+          sl.setShipNumber(shipNumber);
           return sl;
         });
   }
@@ -95,7 +95,7 @@ public class ShipDTO {
     }
   }
 
-  public static List<ShipDTO> fromLocations(List<ShipLocation> locations){
+  public static List<ShipDTO> fromLocations(List<ShipLocation> locations) {
     return locations.stream()
         .collect(Collectors.groupingBy(ShipLocation::getShipNumber))
         .values()
@@ -106,6 +106,32 @@ public class ShipDTO {
 
 
   private static ShipDTO toShipDTO(List<ShipLocation> locations) {
-    return null;
+    ShipDTO shipDTO = new ShipDTO();
+    Location origin = new Location();
+    int minX = MAX_SHIP_LENGTH;
+    int maxX = 0;
+    int minY = MAX_SHIP_LENGTH;
+    int maxY = 0;
+
+    for (ShipLocation location : locations) {
+      if (location.getLocation().getX() > maxX) {
+        maxX = location.getLocation().getX();
+      }
+      if (location.getLocation().getX() < minX) {
+        minX = location.getLocation().getX();
+      }
+      if (location.getLocation().getY() > maxY) {
+        maxY = location.getLocation().getY();
+      }
+      if (location.getLocation().getY() < minY) {
+        minY = location.getLocation().getY();
+      }
+    }
+    shipDTO.setVertical((maxY - minY) == 0);
+    shipDTO.setLength((shipDTO.isVertical()) ? (maxY - minY) : (maxX - minX));
+    origin.setX(minX);
+    origin.setY(minY);
+    shipDTO.setOrigin(origin);
+    return shipDTO;
   }
 }

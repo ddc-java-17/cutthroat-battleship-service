@@ -1,11 +1,9 @@
 package edu.cnm.deepdive.jata.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
-import java.util.LinkedList;
 import java.util.List;
 
 public class UserGameDTO {
@@ -13,7 +11,7 @@ public class UserGameDTO {
   @JsonProperty(value = "player")
   private User user;
 
-  private ShipsDTO ships;
+  private List<ShipDTO> ships;
 
   private  List<Shot> toShots;
 
@@ -25,7 +23,7 @@ public class UserGameDTO {
 
   public UserGameDTO(UserGame userGame) {
     user = userGame.getUser();
-    ships = new ShipsDTO(ShipDTO.fromLocations(userGame.getLocations()));
+    ships = ShipDTO.fromLocations(userGame.getLocations());
     toShots = userGame.getToShots();
     inventoryPlaced = userGame.isInventoryPlaced();
   }
@@ -40,11 +38,11 @@ public class UserGameDTO {
     this.user = user;
   }
 
-  public ShipsDTO getShips() {
+  public List<ShipDTO> getShips() {
     return ships;
   }
 
-  public void setShips(ShipsDTO ships) {
+  public void setShips(List<ShipDTO> ships) {
     this.ships = ships;
   }
 

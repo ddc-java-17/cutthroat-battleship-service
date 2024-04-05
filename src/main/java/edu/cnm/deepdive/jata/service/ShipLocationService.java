@@ -1,20 +1,17 @@
 package edu.cnm.deepdive.jata.service;
 
-import edu.cnm.deepdive.jata.model.Direction;
-import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
 import edu.cnm.deepdive.jata.model.dto.ShipDTO;
-import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
 import edu.cnm.deepdive.jata.model.entity.User;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -49,33 +46,30 @@ public class ShipLocationService implements AbstractShipLocationService {
    * @return
    */
   @Override
-  public Game submitShips(UUID key, ShipsDTO ships, User currentUser) {
-    return gameRepository.findGameByKey(key)
-        .flatMap((game) -> userGameRepository.findUserGameByGameKeyAndUser(key, currentUser)
-            .map(userGame -> {
-              int shipCount = shipLocationRepository.findShipLocationByUserGame(userGame)
-                  .getCount();
-              if (shipCount > 0) {
-                throw new FleetAlreadyExistsException(
-                    "You have already placed your ships");
-              }
-              int[] shipNumber = {0};
-              Collection<ShipLocation> locations = ships.getShips().stream()
-                  .flatMap((ship) -> ship.tovalidshiplocations(game.getBoardSize(),
-                      ++shipNumber[0]))
-                  .toList();
-              Set<ShipLocation> distinctLocations = new HashSet<>(locations);
-              if (distinctLocations.size() < locations.size()) {
-                throw new InvalidShipLocationException();
-              }
-              locations.forEach((loc) -> {
-                loc.setUserGame(userGame);
-                loc.setShipNumber(shipNumber[0]);
-              });
-              shipLocationRepository.saveAll(locations);
-              return game;
-            })
-        )
+  public Game submitShips(UUID key, List<ShipDTO> ships, User currentUser) {
+    return userGameRepository.findUserGameByGameKeyAndUser(key, currentUser)
+        .map(userGame -> {
+          if (userGame.isInventoryPlaced()) {
+            throw new FleetAlreadyExistsException(
+                "You have already placed your ships");
+          }
+          int[] shipNumber = {1};
+          Game game = userGame.getGame();
+          Collection<ShipLocation> locations = ships.stream()
+              .flatMap((ship) -> ship.tovalidshiplocations(game.getBoardSize(),
+                  shipNumber[0]++))
+              .toList();
+          Set<ShipLocation> distinctLocations = new HashSet<>(locations);
+          if (distinctLocations.size() < locations.size()) {
+            throw new InvalidShipLocationException();
+          }
+          locations.forEach((loc) -> {
+            loc.setUserGame(userGame);
+          });
+          shipLocationRepository.saveAll(locations);
+          userGame.setInventoryPlaced(true);
+          return game;
+        })
         .orElseThrow();
   }
 

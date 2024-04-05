@@ -1,13 +1,11 @@
 package edu.cnm.deepdive.jata.controller;
 
-import edu.cnm.deepdive.jata.model.dto.GameDTO;
-import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
+import edu.cnm.deepdive.jata.model.dto.ShipDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
-import edu.cnm.deepdive.jata.service.AbstractGameService;
 import edu.cnm.deepdive.jata.service.AbstractShipLocationService;
 import edu.cnm.deepdive.jata.service.AbstractUserService;
-import edu.cnm.deepdive.jata.service.ShipLocationService;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -47,7 +45,7 @@ public class ShipLocationController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public Game post(
       @PathVariable UUID gameKey,
-      @Valid @RequestBody ShipsDTO ships) {
+      @Valid @RequestBody List<ShipDTO> ships) {
     return locationService.submitShips(gameKey, ships, userService.getCurrentUser());
   }
 

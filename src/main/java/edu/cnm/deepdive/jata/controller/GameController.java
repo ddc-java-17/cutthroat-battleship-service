@@ -58,7 +58,7 @@ public class GameController {
    */
 
   @GetMapping(path = "/{gameKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Game get(@PathVariable UUID gameKey){
+  public GameDTO get(@PathVariable UUID gameKey){
     return gameService.getGame(gameKey, userService.getCurrentUser());
   }
 

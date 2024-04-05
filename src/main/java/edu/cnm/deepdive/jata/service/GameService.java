@@ -5,24 +5,17 @@ import static edu.cnm.deepdive.jata.model.BoardSize.closestMatch;
 import edu.cnm.deepdive.jata.model.BoardSize;
 import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.ShipType;
+import edu.cnm.deepdive.jata.model.dao.GameRepository;
+import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
 import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipDTO;
-import edu.cnm.deepdive.jata.model.dto.ShipsDTO;
-import edu.cnm.deepdive.jata.model.dao.GameRepository;
-import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
-import edu.cnm.deepdive.jata.model.dao.ShotRepository;
-import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
-import edu.cnm.deepdive.jata.model.dao.UserRepository;
 import edu.cnm.deepdive.jata.model.dto.UserGameDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
-import edu.cnm.deepdive.jata.model.entity.ShipLocation;
-import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,9 +75,8 @@ public class GameService implements AbstractGameService {
         .orElseThrow();
 
     Map<ShipType, Integer> inventory = boardSize.getInventory();
-    int[] y = {0};
+    int[] y = {1};
     currentDTO.getShips()
-        .getShips()
         .addAll(
         inventory.entrySet()
             .stream()
@@ -108,11 +100,11 @@ public class GameService implements AbstractGameService {
   }
 
   @Override
-  public Game getGame(UUID key, User user) {
+  public GameDTO getGame(UUID key, User user) {
 
-    return gameRepository
+    return new GameDTO(gameRepository
         .findGameByKeyAndUserGamesUser(key, user)
-        .orElseThrow();
+        .orElseThrow());
   }
 
 

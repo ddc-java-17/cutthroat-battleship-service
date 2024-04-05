@@ -21,7 +21,7 @@ public class GameDTO {
   private boolean finished;
 
   @JsonProperty(value = "yourTurn")
-  private boolean isTurn;
+  private boolean usersTurn;
 
   public GameDTO() {
   }
@@ -83,11 +83,11 @@ public class GameDTO {
     this.finished = finished;
   }
 
-  public boolean isTurn() {
-    return isTurn;
+  public boolean isUsersTurn() {
+    return usersTurn;
   }
 
-  public void setTurn(boolean turn) {
-    isTurn = turn;
+  public void setUsersTurn(boolean usersTurn) {
+    this.usersTurn = usersTurn;
   }
 }
