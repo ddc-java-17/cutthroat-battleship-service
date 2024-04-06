@@ -1,6 +1,8 @@
 package edu.cnm.deepdive.jata.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
@@ -20,6 +22,9 @@ public class UserGameDTO {
 
   private boolean fleetSunk;
 
+  @JsonProperty(value = "mine")
+  private boolean yourBoard;
+
   public UserGameDTO() {
   }
 
@@ -29,6 +34,7 @@ public class UserGameDTO {
     toShots = userGame.getToShots();
     inventoryPlaced = userGame.isInventoryPlaced();
     fleetSunk = userGame.isFleetSunk();
+    yourBoard = userGame.isYourBoard();
   }
 
 
@@ -71,5 +77,13 @@ public class UserGameDTO {
 
   public void setFleetSunk(boolean fleetSunk) {
     this.fleetSunk = fleetSunk;
+  }
+
+  public boolean isYourBoard() {
+    return yourBoard;
+  }
+
+  public void setYourBoard(boolean yourBoard) {
+    this.yourBoard = yourBoard;
   }
 }

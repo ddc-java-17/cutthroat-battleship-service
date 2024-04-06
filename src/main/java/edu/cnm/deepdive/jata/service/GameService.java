@@ -54,7 +54,6 @@ public class GameService implements AbstractGameService {
     if(!currentGames.isEmpty()){
       gameDTO = new GameDTO(currentGames.getFirst());
     } else {
-
       List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount(), user);
       // Test code that doesn't check for same user multiple times in one game
 //    List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount());
@@ -66,6 +65,7 @@ public class GameService implements AbstractGameService {
       userGame.setUser(user);
       userGame.setInventoryPlaced(false);
       gameToJoin.getUserGames().add(userGame);
+      gameToJoin.setCurrentUserGame(userGame);
       gameRepository.save(gameToJoin);
 
       List<UserGame> totalUserGames = userGameRepository.findUserGamesByGame(gameToJoin);

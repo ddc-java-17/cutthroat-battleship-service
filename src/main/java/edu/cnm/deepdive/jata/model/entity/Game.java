@@ -83,6 +83,7 @@ public class Game {
 
   /**
    * Get game object's id
+   *
    * @return id Game's id
    */
   public Long getId() {
@@ -91,6 +92,7 @@ public class Game {
 
   /**
    * get game's secure UUID key
+   *
    * @return key UUID key
    */
   @NonNull
@@ -100,6 +102,7 @@ public class Game {
 
   /**
    * Get the time and day the game was created.
+   *
    * @return created instant game was created.
    */
   @NonNull
@@ -117,6 +120,7 @@ public class Game {
 
   /**
    * get List of userGame.
+   *
    * @return userGame List of userGame.
    */
   @NonNull
@@ -125,8 +129,8 @@ public class Game {
   }
 
   /**
-   *
    * Returns the size of the playing board's x-dimension
+   *
    * @return boardSize
    */
   public int getBoardSize() {
@@ -134,8 +138,8 @@ public class Game {
   }
 
   /**
-   *
    * Annotates the size of the playing board's x-dimension
+   *
    * @param boardSize
    */
   public void setBoardSize(int boardSize) {
@@ -144,6 +148,7 @@ public class Game {
 
   /**
    * Get playerCount.
+   *
    * @return playerCount int playerCount.
    */
   public int getPlayerCount() {
@@ -170,6 +175,10 @@ public class Game {
 
   public void setFinished(boolean finished) {
     this.finished = finished;
+  }
+
+  public boolean isUsersTurn() {
+    return (currentUserGame.getTurnCount() == turnCount) && isStarted() && !isFinished();
   }
 
   @PrePersist

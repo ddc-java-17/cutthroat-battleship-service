@@ -88,6 +88,8 @@ public class UserGame {
 
   @JsonIgnore
   private int turnCount;
+
+
   /**
    * Gets this UserGame's identifying number
    * @return id UserGame identification
@@ -203,6 +205,10 @@ public class UserGame {
 
   public boolean isFleetSunk() {
     return getToShotHits() >= getShipLocationCount();
+  }
+
+  public boolean isYourBoard() {
+    return user == game.getCurrentUserGame().getUser();
   }
 
   @JsonProperty("locations")

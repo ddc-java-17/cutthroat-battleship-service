@@ -11,9 +11,6 @@ public class GameDTO {
 
   private UUID key;
 
-  @JsonIgnore
-  private UserGame currentUserGame;
-
   @JsonProperty(value = "boards")
   private List<UserGameDTO> userGames;
 
@@ -39,6 +36,7 @@ public class GameDTO {
     playerCount = game.getPlayerCount();
     started = game.isStarted();
     finished = game.isFinished();
+    usersTurn = game.isUsersTurn();
     userGames = game.getUserGames().stream()
         .map(UserGameDTO::new)
         .toList();
@@ -100,7 +98,7 @@ public class GameDTO {
   }
 
   public boolean isUsersTurn() {
-    return (currentUserGame.getTurnCount() == turnCount) && isStarted() && !isFinished();
+    return isUsersTurn();
   }
 
   public void setUsersTurn(boolean usersTurn) {
