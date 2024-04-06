@@ -7,6 +7,9 @@ import edu.cnm.deepdive.jata.service.AbstractUserService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.UUID;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 /**
  * This is a REST controller that makes and sends HTTP requests to and from the cloud.
@@ -24,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/games")
 public class GameController {
 
+  public static final long POLL_TIMEOUT_VALUE = 30000L;
+  public static final int SHORT_POLL_TIMEOUT = 5000;
   private final AbstractUserService userService;
   private final AbstractGameService gameService;
 
@@ -57,9 +63,26 @@ public class GameController {
    * @return
    */
 
+  private ExecutorService referees = Executors.newCachedThreadPool();
+
+
   @GetMapping(path = "/{gameKey}", produces = MediaType.APPLICATION_JSON_VALUE)
   public GameDTO get(@PathVariable UUID gameKey){
-    return gameService.getGame(gameKey, userService.getCurrentUser());
+    int[] prePollTurnCount = {0};
+    DeferredResult<GameDTO> getGameDTO = new DeferredResult<>(POLL_TIMEOUT_VALUE);
+    GameDTO gameDTO = gameService.getGame(gameKey, userService.getCurrentUser());
+    referees.execute(() ->
+    {
+      prePollTurnCount[0] =  gameDTO.getTurnCount();
+      try {
+        Thread.sleep(SHORT_POLL_TIMEOUT);
+        if(prePollTurnCount[0] != gameDTO.getTurnCount()){
+          getGameDTO.setResult(gameDTO);
+        }
+        getGameDTO.onTimeout(()-> {});
+      } catch (Exception e) {}
+    });
+    return gameDTO;
   }
 
 }

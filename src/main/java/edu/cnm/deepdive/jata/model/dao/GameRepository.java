@@ -22,7 +22,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 
   Optional<Game> findGameByUserGamesIsNotEmpty();
 
-  @Query("SELECT g FROM Game AS g Join UserGame AS ug WHERE NOT g.finished AND ug.user := user")
+  @Query("SELECT g FROM Game AS g Join UserGame AS ug WHERE NOT g.finished AND ug.user = :user")
   List<Game> findCurrentGames(User user);
 
   @Query("SELECT g FROM Game AS g JOIN g.userGames as ug WHERE g.playerCount = :reqPlayerCount AND ug.user != :user GROUP BY g.id HAVING COUNT(*) < :reqPlayerCount")
