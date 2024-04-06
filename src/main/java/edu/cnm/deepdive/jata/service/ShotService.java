@@ -41,7 +41,12 @@ public class ShotService implements AbstractShotService {
                   shot.setFromUser(
                       fromUserGame.orElseThrow());
                 });
-                game.setTurnCount((game.getPlayerCount() == game.getTurnCount()) ? 1 : game.getTurnCount() + 1);
+                game.setTurnCount((game.getPlayerCount() >= game.getTurnCount()) ? 1 : game.getTurnCount() + 1);
+                while(userGameRepository
+                    .findUserGameByGameAndTurnCount(game,
+                        game.getTurnCount()).orElseThrow().isFleetSunk()){
+                  game.setTurnCount(game.getTurnCount() + 1);
+                }
                 return shotRepository.saveAll(shots);
               } else {
                 throw new NotYourTurnException("Please wait your turn");

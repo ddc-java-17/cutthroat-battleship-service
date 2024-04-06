@@ -49,53 +49,62 @@ public class GameService implements AbstractGameService {
 
     BoardSize boardSize = closestMatch(game.getBoardSize());
     game.setBoardSize(boardSize.getBoardSizeX());
-    List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount(), user);
-    // Test code that doesn't check for same user multiple times in one game
+    GameDTO gameDTO = new GameDTO();
+    List<Game> currentGames = gameRepository.findCurrentGames(user);
+    if(!currentGames.isEmpty()){
+      gameDTO = new GameDTO(currentGames.getFirst());
+    } else {
+
+      List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount(), user);
+      // Test code that doesn't check for same user multiple times in one game
 //    List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount());
 
-    Game gameToJoin = openGames.isEmpty() ? game : openGames.getFirst();
+      Game gameToJoin = openGames.isEmpty() ? game : openGames.getFirst();
 
-    UserGame userGame = new UserGame();
-    userGame.setGame(gameToJoin);
-    userGame.setUser(user);
-    userGame.setInventoryPlaced(false);
-    gameToJoin.getUserGames().add(userGame);
-    gameRepository.save(gameToJoin);
+      UserGame userGame = new UserGame();
+      userGame.setGame(gameToJoin);
+      userGame.setUser(user);
+      userGame.setInventoryPlaced(false);
+      gameToJoin.getUserGames().add(userGame);
+      gameRepository.save(gameToJoin);
 
-    List<UserGame> totalUserGames = userGameRepository.findUserGamesByGame(gameToJoin);
-    userGame.setTurnCount(totalUserGames.size());
-    gameToJoin.setTurnCount(userGame.getTurnCount());
-    userGameRepository.save(userGame);
-    gameRepository.save(gameToJoin);
+      List<UserGame> totalUserGames = userGameRepository.findUserGamesByGame(gameToJoin);
+      userGame.setTurnCount(totalUserGames.size());
+      gameToJoin.setTurnCount(userGame.getTurnCount());
+      userGameRepository.save(userGame);
+      gameRepository.save(gameToJoin);
 
-    GameDTO gameDTO = new GameDTO(gameToJoin);
-    UserGameDTO currentDTO = gameDTO.getUserGames().stream()
-        .filter((ug)-> ug.getUser().equals(userGame.getUser()))
-        .findFirst()
-        .orElseThrow();
+      gameDTO = new GameDTO(gameToJoin);
+      UserGameDTO currentDTO = gameDTO.getUserGames().stream()
+          .filter((ug) -> ug.getUser().equals(userGame.getUser()))
+          .findFirst()
+          .orElseThrow();
 
-    Map<ShipType, Integer> inventory = boardSize.getInventory();
-    int[] y = {1};
-    currentDTO.getShips()
-        .addAll(
-        inventory.entrySet()
-            .stream()
-            .flatMapToInt((entry) -> IntStream.generate(() ->
-                    entry.getKey()
-                        .getShipSize())
-                .limit(entry.getValue()))
-            .mapToObj((length) -> {
-              ShipDTO shipDTO = new ShipDTO();
-              Location loc = new Location(1, y[0]++);
-              shipDTO.setVertical(false);
-              shipDTO.setLength(length);
-              shipDTO.setOrigin(loc);
-              return shipDTO;
-            })
-            .toList()
-    );
+      Map<ShipType, Integer> inventory = boardSize.getInventory();
+      int[] y = {1};
+      currentDTO.getShips()
+          .addAll(
+              inventory.entrySet()
+                  .stream()
+                  .flatMapToInt((entry) -> IntStream.generate(() ->
+                          entry.getKey()
+                              .getShipSize())
+                      .limit(entry.getValue()))
+                  .mapToObj((length) -> {
+                    ShipDTO shipDTO = new ShipDTO();
+                    Location loc = new Location(1, y[0]++);
+                    shipDTO.setVertical(false);
+                    shipDTO.setLength(length);
+                    shipDTO.setOrigin(loc);
+                    return shipDTO;
+                  })
+                  .toList()
+          );
 
-
+      game.setFinished((totalUserGames.stream()
+          .filter(UserGame::isFleetSunk)
+          .count()) >= game.getPlayerCount() - 1);
+    }
     return gameDTO;
   }
 

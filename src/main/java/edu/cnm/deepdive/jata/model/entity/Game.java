@@ -13,7 +13,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -54,6 +56,11 @@ public class Game {
   @JsonProperty(access = Access.READ_ONLY)
   private Instant created;
 
+  @OneToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "current_user_game_id")
+  @JsonIgnore
+  private UserGame currentUserGame;
+
   @NonNull
   @OneToMany(mappedBy = "game", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonProperty(access = Access.READ_ONLY)
@@ -69,6 +76,9 @@ public class Game {
 
   @JsonIgnore
   private long turnCount;
+
+  @JsonIgnore
+  private boolean finished;
 
 
   /**
@@ -95,6 +105,14 @@ public class Game {
   @NonNull
   public Instant getCreated() {
     return created;
+  }
+
+  public UserGame getCurrentUserGame() {
+    return currentUserGame;
+  }
+
+  public void setCurrentUserGame(UserGame currentUserGame) {
+    this.currentUserGame = currentUserGame;
   }
 
   /**
@@ -148,6 +166,10 @@ public class Game {
     return (userGames.stream()
         .filter(UserGame::isFleetSunk)
         .count()) >= playerCount - 1;
+  }
+
+  public void setFinished(boolean finished) {
+    this.finished = finished;
   }
 
   @PrePersist

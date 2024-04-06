@@ -61,4 +61,6 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    */
   Optional<UserGame> findUserGameByGameAndUser(Game game, User user);
 
+  Optional<UserGame> findUserGameByGameAndTurnCount(Game game, long turnCount);
+
 }
