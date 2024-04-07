@@ -44,7 +44,7 @@ public class UserGameDTO {
   }
 
   public List<ShipDTO> getShips() {
-    return ships;
+    return isYourBoard() ? ships: null;
   }
 
   public void setShips(List<ShipDTO> ships) {

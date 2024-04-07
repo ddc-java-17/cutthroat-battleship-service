@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * This is a REST controller that makes and processes HTTP requests from the cloud.
  */
 @RestController
-@RequestMapping("games/{key}/shot")
+@RequestMapping("games/{key}/shots")
 public class ShotController {
 
   private final AbstractShotService shotService;
