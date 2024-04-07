@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.jata.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import edu.cnm.deepdive.jata.model.dto.ShotDTO;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.service.AbstractGameService;
 import edu.cnm.deepdive.jata.service.AbstractShotService;
@@ -47,7 +48,7 @@ public class ShotController {
    */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @JsonView(ShotView.Summary.class)
-  public List<Shot> post(@PathVariable UUID key, @Valid @RequestBody List<Shot> shots) {
+  public List<ShotDTO> post(@PathVariable UUID key, @Valid @RequestBody List<ShotDTO> shots) {
     return shotService.submitShots(key, shots, userService.getCurrentUser());
 //    URI location = WebMvcLinkBuilder.linkTo(
 //        WebMvcLinkBuilder.methodOn(ShotController.class)
@@ -65,7 +66,7 @@ public class ShotController {
    * @return gameService.getShot
    */
   @GetMapping(path = "/{shotKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public Shot get(@PathVariable UUID key, @PathVariable UUID shotKey) {
+  public ShotDTO get(@PathVariable UUID key, @PathVariable UUID shotKey) {
     return shotService.getShot(key, shotKey, userService.getCurrentUser());
   }
 

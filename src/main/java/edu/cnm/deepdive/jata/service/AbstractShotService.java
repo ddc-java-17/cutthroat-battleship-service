@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.jata.service;
 
+import edu.cnm.deepdive.jata.model.dto.ShotDTO;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface AbstractShotService {
    * @param currentUser {@Link user}
    * @return shots
    */
-  List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser);
+  List<ShotDTO> submitShots(UUID key, List<ShotDTO> shots, User currentUser);
 
 
   /**
@@ -23,6 +24,6 @@ public interface AbstractShotService {
    * @param currentUser
    * @return
    */
-  Shot getShot(UUID key, UUID guessKey, User currentUser);
+  ShotDTO getShot(UUID key, UUID guessKey, User currentUser);
 
 }

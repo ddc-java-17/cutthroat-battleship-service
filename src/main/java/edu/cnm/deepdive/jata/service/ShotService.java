@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.jata.service;
 
+import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShotRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
+import edu.cnm.deepdive.jata.model.dto.ShotDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
@@ -28,7 +30,7 @@ public class ShotService implements AbstractShotService {
   }
 
   @Override
-  public List<Shot> submitShots(UUID key, List<Shot> shots, User currentUser) {
+  public List<ShotDTO> submitShots(UUID key, List<ShotDTO> shotsDTO, User currentUser) {
     return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
         .map((game) -> {
               Optional<UserGame> fromUserGame = userGameRepository.findUserGameByGameAndUser(game,
@@ -40,15 +42,17 @@ public class ShotService implements AbstractShotService {
                     .getUserGames()
                     .stream().filter(userGame -> !userGame.isFleetSunk())
                     .count();
-                shots.forEach((shot) -> {
+                shotsDTO.forEach((shotDTO) -> {
                   shotsAllowed--;
-                  if (shotsAllowed == 0) {
-                    ValidateShot(game, shot);
+                  if (shotsAllowed != 0) {
+                    Shot shot = new Shot();
+                    shot.setLocation(ValidateShot(game, shotDTO));
                     shot.setToUser(
-                        userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
+                        userGameRepository.findUserGameByKeyAndGame(shotDTO.getToUser().getKey(), game)
                             .orElseThrow());
                     shot.setFromUser(
                         fromUserGame.orElseThrow());
+                    shotRepository.save(shot);
                   }
                 });
                 game.setTurnCount(
@@ -58,7 +62,7 @@ public class ShotService implements AbstractShotService {
                         game.getTurnCount()).orElseThrow().isFleetSunk()) {
                   game.setTurnCount(game.getTurnCount() + 1);
                 }
-                return shotRepository.saveAll(shots);
+                return shotRepository.saveAll(shotsDTO);
               } else {
                 throw new NotYourTurnException("Please wait your turn");
               }
@@ -67,10 +71,12 @@ public class ShotService implements AbstractShotService {
         .orElseThrow();
   }
 
-  private static void ValidateShot(Game game, Shot shot) throws InvalidShotPlacementException {
+  private static Location ValidateShot(Game game, ShotDTO shot) throws InvalidShotPlacementException {
     if (shot.getLocation().getX() > game.getBoardSize()
         || shot.getLocation().getY() > game.getBoardSize()) {
       throw new InvalidShotPlacementException("Invalid shot");
+    } else {
+      return shot.getLocation();
     }
   }
 
