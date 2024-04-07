@@ -237,7 +237,7 @@ public class UserGame {
    * @return
    */
   public boolean isFleetSunk() {
-    return getToShotHits() >= getShipLocationCount();
+    return game.isStarted() && (getToShotHits() >= getShipLocationCount());
   }
 
   /**
