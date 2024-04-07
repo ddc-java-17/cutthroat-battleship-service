@@ -69,7 +69,9 @@ public class ShipLocationService implements AbstractShipLocationService {
             });
             shipLocationRepository.saveAll(locations);
             userGame.setInventoryPlaced(true);
+            game.setCurrentUserGame(userGame);
             userGameRepository.save(userGame);
+            gameRepository.save(game);
           }
           return new GameDTO(game);
         })

@@ -122,10 +122,12 @@ public class GameService implements AbstractGameService {
 
   @Override
   public GameDTO getGame(UUID key, User user) {
-
-    return new GameDTO(gameRepository
+    Game game = gameRepository
         .findGameByKeyAndUserGamesUser(key, user)
-        .orElseThrow());
+        .orElseThrow();
+    game.setCurrentUserGame(
+        userGameRepository.findUserGameByGameKeyAndUser(key, user).orElseThrow());
+    return new GameDTO(game);
   }
 
   @Override
