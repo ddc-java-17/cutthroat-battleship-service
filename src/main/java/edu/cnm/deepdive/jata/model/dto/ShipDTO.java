@@ -89,8 +89,8 @@ public class ShipDTO {
   }
 
   private void ValidateBoardEdge(int boardSize) {
-    if ((!vertical && (origin.getX() + length) > boardSize)
-        || (vertical && (origin.getY() + length) > boardSize)) {
+    if ((!vertical && (origin.getX() + length-1) > boardSize)
+        || (vertical && (origin.getY() + length-1) > boardSize)) {
       throw new InvalidShipLocationException("Ships must be placed on the board");
     }
   }
