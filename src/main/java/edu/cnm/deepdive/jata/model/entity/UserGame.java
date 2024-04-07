@@ -29,8 +29,8 @@ import java.util.UUID;
 import org.springframework.lang.NonNull;
 
 /**
- * This class is the central hub of communication. All information the user needs comes through
- * this class.
+ * This class is the association of a user and a specific game.  As ship locations
+ * and shots are specific to a user, the associate to each is included in this entity
  */
 
 @SuppressWarnings("JpaDataSourceORMInspection")
@@ -174,27 +174,54 @@ public class UserGame {
     return toShots;
   }
 
+  /**
+   * Returns the value of inventory placed for a specific user in a specific game.
+   * Used to prohibit users from placing more ships once their fleet has been placed
+   * @return
+   */
   public boolean isInventoryPlaced() {
     return inventoryPlaced;
   }
 
+  /**
+   * annotates the parameter inventoryPlaced
+   * @param placed
+   */
   public void setInventoryPlaced(boolean placed){
     this.inventoryPlaced = placed;
   }
 
+  /**
+   * Returns the turnCount for a given userGame.  This represents when a users turn is in a game
+   * @return
+   */
   public int getTurnCount() {
     return turnCount;
   }
 
+  /**
+   * Annotates the paramter turnCount
+   * @param turnCount
+   */
   public void setTurnCount(int turnCount) {
     this.turnCount = turnCount;
   }
 
+  /**
+   * Returns the total number of locations a users fleet occupies on a board.
+   * This is used in determining if a fleet has been sunk and in shot hit/miss statistics.
+   * @return
+   */
   @SuppressWarnings("ConstantValue")
   public int getShipLocationCount() {
     return locations.size();
   }
 
+  /**
+   * Returns the number of shots on a particular board that have hit ship locations
+   * on that same board.  Used to determine if a fleet has been sunk
+   * @return
+   */
   public int getToShotHits() {
     return (int) toShots
         .stream()
@@ -203,10 +230,20 @@ public class UserGame {
         .count();
   }
 
+  /**
+   * Returns flag indicating if fleet has been sunk for a particular user.
+   * used to prohibit user from firing more shots, even getting a turn, and
+   * end of game
+   * @return
+   */
   public boolean isFleetSunk() {
     return getToShotHits() >= getShipLocationCount();
   }
 
+  /**
+   * returns flag letting user know they are looking at their own board
+   * @return
+   */
   public boolean isYourBoard() {
     return user == game.getCurrentUserGame().getUser();
   }

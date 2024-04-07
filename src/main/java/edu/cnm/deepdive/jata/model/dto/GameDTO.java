@@ -19,7 +19,7 @@ public class GameDTO {
   private int playerCount;
 
   @JsonIgnore
-  private int turnCount;
+  private long turnCount;
 
   private boolean started;
 
@@ -81,11 +81,11 @@ public class GameDTO {
     this.started = started;
   }
 
-  public int getTurnCount() {
+  public long getTurnCount() {
     return turnCount;
   }
 
-  public void setTurnCount(int turnCount) {
+  public void setTurnCount(long turnCount) {
     this.turnCount = turnCount;
   }
 
@@ -98,7 +98,7 @@ public class GameDTO {
   }
 
   public boolean isUsersTurn() {
-    return isUsersTurn();
+    return usersTurn;
   }
 
   public void setUsersTurn(boolean usersTurn) {

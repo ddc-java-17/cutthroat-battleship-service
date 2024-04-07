@@ -130,10 +130,18 @@ public class Shot {
     this.toUser = toUser;
   }
 
+  /**
+   * Returns the x and y coordinates of a particular shot
+   * @return
+   */
   public Location getLocation() {
     return location;
   }
 
+  /**
+   * Annotates the x and y coordinates of a particular shot
+   * @param location
+   */
   public void setLocation(Location location) {
     this.location = location;
   }
@@ -148,6 +156,10 @@ public class Shot {
     return timestamp;
   }
 
+  /**
+   * Returns a flag indicating this shot hit a ship on that board
+   * @return
+   */
   public boolean isHit() {
     return status.isHit();
   }

@@ -18,6 +18,7 @@ public class ShotService implements AbstractShotService {
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
   private final ShotRepository shotRepository;
+  private int shotsAllowed;
 
   public ShotService(GameRepository gameRepository, UserGameRepository userGameRepository,
       ShotRepository shotRepository) {
@@ -33,18 +34,28 @@ public class ShotService implements AbstractShotService {
               Optional<UserGame> fromUserGame = userGameRepository.findUserGameByGameAndUser(game,
                   currentUser);
               if (fromUserGame.orElseThrow().getTurnCount() == game.getTurnCount()) {
+                shotsAllowed = (int) gameRepository
+                    .findGameByKey(key)
+                    .orElseThrow()
+                    .getUserGames()
+                    .stream().filter(userGame -> !userGame.isFleetSunk())
+                    .count();
                 shots.forEach((shot) -> {
-                  ValidateShot(game, shot);
-                  shot.setToUser(
-                      userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
-                          .orElseThrow());
-                  shot.setFromUser(
-                      fromUserGame.orElseThrow());
+                  shotsAllowed--;
+                  if (shotsAllowed == 0) {
+                    ValidateShot(game, shot);
+                    shot.setToUser(
+                        userGameRepository.findUserGameByKeyAndGame(shot.getToUser().getKey(), game)
+                            .orElseThrow());
+                    shot.setFromUser(
+                        fromUserGame.orElseThrow());
+                  }
                 });
-                game.setTurnCount((game.getPlayerCount() >= game.getTurnCount()) ? 1 : game.getTurnCount() + 1);
-                while(userGameRepository
+                game.setTurnCount(
+                    (game.getPlayerCount() >= game.getTurnCount()) ? 1 : game.getTurnCount() + 1);
+                while (userGameRepository
                     .findUserGameByGameAndTurnCount(game,
-                        game.getTurnCount()).orElseThrow().isFleetSunk()){
+                        game.getTurnCount()).orElseThrow().isFleetSunk()) {
                   game.setTurnCount(game.getTurnCount() + 1);
                 }
                 return shotRepository.saveAll(shots);

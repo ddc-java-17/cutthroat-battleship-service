@@ -37,8 +37,6 @@ public class UserGameDTO {
     yourBoard = userGame.isYourBoard();
   }
 
-
-
   public User getUser() {
     return user;
   }

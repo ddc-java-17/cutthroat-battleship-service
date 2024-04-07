@@ -110,10 +110,18 @@ public class Game {
     return created;
   }
 
+  /**
+   * Returns the current user's userGame
+   * @return
+   */
   public UserGame getCurrentUserGame() {
     return currentUserGame;
   }
 
+  /**
+   * Annotates the current user's userGame
+   * @param currentUserGame
+   */
   public void setCurrentUserGame(UserGame currentUserGame) {
     this.currentUserGame = currentUserGame;
   }
@@ -155,28 +163,54 @@ public class Game {
     return playerCount;
   }
 
+  /**
+   * Returns the current turn count. A player's turn is when this turn count
+   * matched the turn count in their userGame
+   * @return
+   */
   public long getTurnCount() {
     return turnCount;
   }
 
+  /**
+   * Annotates the game's turn count
+   * @param turnCount
+   */
   public void setTurnCount(long turnCount) {
     this.turnCount = turnCount;
   }
 
+  /**
+   * Returns a value to the users that this game has been filled and is in progress
+   * @return
+   */
   public boolean isStarted() {
-    return userGames.size() == playerCount;
+    return userGames.stream().filter((UserGame::isInventoryPlaced))
+        .count() == playerCount;
   }
 
+  /**
+   * Returns a persisted flag indicating this game has been finished.
+   * @return
+   */
   public boolean isFinished() {
     return (userGames.stream()
         .filter(UserGame::isFleetSunk)
         .count()) >= playerCount - 1;
   }
 
+  /**
+   * Annotates that this game has been finished
+   * @param finished
+   */
   public void setFinished(boolean finished) {
     this.finished = finished;
   }
 
+  /**
+   * Returns flag indicating to the user that it is their turn
+   * @return
+   */
   public boolean isUsersTurn() {
     return (currentUserGame.getTurnCount() == turnCount) && isStarted() && !isFinished();
   }

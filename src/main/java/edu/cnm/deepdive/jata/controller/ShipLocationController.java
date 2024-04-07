@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.jata.controller;
 
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.service.AbstractShipLocationService;
@@ -43,7 +44,7 @@ public class ShipLocationController {
    */
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public Game post(
+  public GameDTO post(
       @PathVariable UUID gameKey,
       @Valid @RequestBody List<ShipDTO> ships) {
     return locationService.submitShips(gameKey, ships, userService.getCurrentUser());

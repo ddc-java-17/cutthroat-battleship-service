@@ -3,6 +3,7 @@ package edu.cnm.deepdive.jata.service;
 import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.User;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -25,5 +26,7 @@ public interface AbstractGameService {
    * @return gameKey
    */
   GameDTO getGame(UUID key, User user);
+
+  long getTurnCount(UUID key, User user);
 
 }

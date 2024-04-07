@@ -93,10 +93,18 @@ public class ShipLocation {
     this.shipNumber = shipNumber;
   }
 
+  /**
+   * Returns the x and y coordinates of a location on a user's ship
+   * @return
+   */
   public Location getLocation() {
     return location;
   }
 
+  /**
+   * Annotates the x and y coordinates of a location on a user's ship
+   * @param location
+   */
   public void setLocation(Location location) {
     this.location = location;
   }

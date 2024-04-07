@@ -15,6 +15,7 @@ import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +50,18 @@ public class GameService implements AbstractGameService {
 
     BoardSize boardSize = closestMatch(game.getBoardSize());
     game.setBoardSize(boardSize.getBoardSizeX());
-    GameDTO gameDTO = new GameDTO();
+    GameDTO gameDTO;
     List<Game> currentGames = gameRepository.findCurrentGames(user);
-    if(!currentGames.isEmpty()){
-      gameDTO = new GameDTO(currentGames.getFirst());
+    if (!currentGames.isEmpty()) {
+      Game currentGame = currentGames.getFirst();
+      gameDTO = new GameDTO(currentGame);
+      List<UserGameDTO> userGames = gameDTO.getUserGames();
+      UserGameDTO currentUserGameDTO = userGames.stream()
+          .filter((userGame -> userGame.getUser().equals(user)))
+          .findFirst().orElseThrow();
+      if (!currentUserGameDTO.isInventoryPlaced()) {
+        PlaceInitial(boardSize, currentUserGameDTO);
+      }
     } else {
       List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount(), user);
       // Test code that doesn't check for same user multiple times in one game
@@ -68,8 +77,7 @@ public class GameService implements AbstractGameService {
       gameToJoin.setCurrentUserGame(userGame);
       gameRepository.save(gameToJoin);
 
-      List<UserGame> totalUserGames = userGameRepository.findUserGamesByGame(gameToJoin);
-      userGame.setTurnCount(totalUserGames.size());
+      userGame.setTurnCount(game.getUserGames().size());
       gameToJoin.setTurnCount(userGame.getTurnCount());
       userGameRepository.save(userGame);
       gameRepository.save(gameToJoin);
@@ -80,32 +88,36 @@ public class GameService implements AbstractGameService {
           .findFirst()
           .orElseThrow();
 
-      Map<ShipType, Integer> inventory = boardSize.getInventory();
-      int[] y = {1};
-      currentDTO.getShips()
-          .addAll(
-              inventory.entrySet()
-                  .stream()
-                  .flatMapToInt((entry) -> IntStream.generate(() ->
-                          entry.getKey()
-                              .getShipSize())
-                      .limit(entry.getValue()))
-                  .mapToObj((length) -> {
-                    ShipDTO shipDTO = new ShipDTO();
-                    Location loc = new Location(1, y[0]++);
-                    shipDTO.setVertical(false);
-                    shipDTO.setLength(length);
-                    shipDTO.setOrigin(loc);
-                    return shipDTO;
-                  })
-                  .toList()
-          );
+      PlaceInitial(boardSize, currentDTO);
 
-      game.setFinished((totalUserGames.stream()
+      game.setFinished((game.getUserGames().stream()
           .filter(UserGame::isFleetSunk)
           .count()) >= game.getPlayerCount() - 1);
     }
     return gameDTO;
+  }
+
+  private static void PlaceInitial(BoardSize boardSize, UserGameDTO currentDTO) {
+    Map<ShipType, Integer> inventory = boardSize.getInventory();
+    int[] y = {1};
+    currentDTO.getShips()
+        .addAll(
+            inventory.entrySet()
+                .stream()
+                .flatMapToInt((entry) -> IntStream.generate(() ->
+                        entry.getKey()
+                            .getShipSize())
+                    .limit(entry.getValue()))
+                .mapToObj((length) -> {
+                  ShipDTO shipDTO = new ShipDTO();
+                  Location loc = new Location(1, y[0]++);
+                  shipDTO.setVertical(false);
+                  shipDTO.setLength(length);
+                  shipDTO.setOrigin(loc);
+                  return shipDTO;
+                })
+                .toList()
+        );
   }
 
   @Override
@@ -116,7 +128,13 @@ public class GameService implements AbstractGameService {
         .orElseThrow());
   }
 
+  @Override
+  public long getTurnCount(UUID key, User user) {
+    return gameRepository.getTurnCount(key, user)
+        .map((obj) -> ((long) obj[0]))
+        .orElseThrow();
 
+  }
 }
 
 

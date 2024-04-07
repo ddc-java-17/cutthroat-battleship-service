@@ -58,7 +58,9 @@ public class GameController {
   }
 
   /**
-   * This is a endpoint that gets a created game. The game key is embedded in the path.
+   * This endpoint gets a created game. The game key is embedded in the path.
+   * This uses a long poll to search for state changes (turnCount changed) and returns the
+   * current game.  This will also allow a user to rejoin a game in progress.
    * @param gameKey
    * @return
    */
@@ -67,22 +69,27 @@ public class GameController {
 
 
   @GetMapping(path = "/{gameKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public GameDTO get(@PathVariable UUID gameKey){
-    int[] prePollTurnCount = {0};
+  public DeferredResult<GameDTO> get(@PathVariable UUID gameKey){
     DeferredResult<GameDTO> getGameDTO = new DeferredResult<>(POLL_TIMEOUT_VALUE);
-    GameDTO gameDTO = gameService.getGame(gameKey, userService.getCurrentUser());
     referees.execute(() ->
     {
-      prePollTurnCount[0] =  gameDTO.getTurnCount();
       try {
-        Thread.sleep(SHORT_POLL_TIMEOUT);
-        if(prePollTurnCount[0] != gameDTO.getTurnCount()){
-          getGameDTO.setResult(gameDTO);
+        long turnCounter = gameService.getTurnCount(gameKey, userService.getCurrentUser());
+        getGameDTO.onTimeout(()-> {
+          getGameDTO.setResult(gameService.getGame(gameKey, userService.getCurrentUser()));
+        });
+        while (true) {
+          Thread.sleep(SHORT_POLL_TIMEOUT);
+          if(gameService.getTurnCount(gameKey, userService.getCurrentUser()) != turnCounter){
+            getGameDTO.setResult(gameService.getGame(gameKey, userService.getCurrentUser()));
+            break;
+          }
         }
-        getGameDTO.onTimeout(()-> {});
-      } catch (Exception e) {}
+      } catch (InterruptedException e) {
+        // no action needed
+      }
     });
-    return gameDTO;
+    return getGameDTO;
   }
 
 }

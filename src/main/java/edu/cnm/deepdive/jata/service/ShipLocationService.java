@@ -3,6 +3,7 @@ package edu.cnm.deepdive.jata.service;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShipLocationRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.dto.ShipDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
@@ -46,7 +47,7 @@ public class ShipLocationService implements AbstractShipLocationService {
    * @return
    */
   @Override
-  public Game submitShips(UUID key, List<ShipDTO> ships, User currentUser) {
+  public GameDTO submitShips(UUID key, List<ShipDTO> ships, User currentUser) {
     return userGameRepository.findUserGameByGameKeyAndUser(key, currentUser)
         .map(userGame -> {
           if (userGame.isInventoryPlaced()) {
@@ -70,7 +71,7 @@ public class ShipLocationService implements AbstractShipLocationService {
             userGame.setInventoryPlaced(true);
             userGameRepository.save(userGame);
           }
-          return game;
+          return new GameDTO(game);
         })
         .orElseThrow();
   }
