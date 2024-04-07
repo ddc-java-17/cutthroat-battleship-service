@@ -47,13 +47,16 @@ public class GameService implements AbstractGameService {
 
   @Override
   public GameDTO startJoinGame(Game game, User user) {
-Game startJoinGame;
+    Game startJoinGame;
+    GameDTO gameDTO;
     BoardSize boardSize = closestMatch(game.getBoardSize());
     game.setBoardSize(boardSize.getBoardSizeX());
-    GameDTO gameDTO;
     List<Game> currentGames = gameRepository.findCurrentGames(user);
     if (!currentGames.isEmpty()) {
       startJoinGame = currentGames.getFirst();
+      startJoinGame.setCurrentUserGame(
+          userGameRepository.findUserGameByGameAndUser(game, user).orElseThrow());
+//      gameRepository.save(startJoinGame);
       gameDTO = new GameDTO(startJoinGame);
       List<UserGameDTO> userGames = gameDTO.getUserGames();
       UserGameDTO currentUserGameDTO = userGames.stream()
@@ -75,10 +78,12 @@ Game startJoinGame;
       userGame.setInventoryPlaced(false);
       startJoinGame.getUserGames().add(userGame);
       startJoinGame.setCurrentUserGame(userGame);
-      gameRepository.save(startJoinGame);
+      startJoinGame.setCurrentUserGame(
+          userGameRepository.findUserGameByGameAndUser(game, user).orElseThrow());
 
       userGame.setTurnCount(game.getUserGames().size());
       userGameRepository.save(userGame);
+      gameRepository.save(startJoinGame);
 
       gameDTO = new GameDTO(startJoinGame);
       UserGameDTO currentDTO = gameDTO.getUserGames().stream()
@@ -92,9 +97,6 @@ Game startJoinGame;
           .filter(UserGame::isFleetSunk)
           .count()) >= game.getPlayerCount() - 1);
     }
-    startJoinGame.setCurrentUserGame(
-        userGameRepository.findUserGameByGameAndUser(game, user).orElseThrow());
-    gameRepository.save(startJoinGame);
 
     return gameDTO;
   }
