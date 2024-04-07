@@ -2,6 +2,7 @@ package edu.cnm.deepdive.jata.controller;
 
 import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
+import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.service.AbstractGameService;
 import edu.cnm.deepdive.jata.service.AbstractUserService;
 import jakarta.validation.Valid;
@@ -28,8 +29,8 @@ import org.springframework.web.context.request.async.DeferredResult;
 @RequestMapping("/games")
 public class GameController {
 
-  public static final long POLL_TIMEOUT_VALUE = 30000L;
-  public static final int SHORT_POLL_TIMEOUT = 5000;
+  public static final long POLL_TIMEOUT_VALUE = 10000L;
+  public static final int SHORT_POLL_TIMEOUT = 2000;
   private final AbstractUserService userService;
   private final AbstractGameService gameService;
 
@@ -71,17 +72,18 @@ public class GameController {
   @GetMapping(path = "/{gameKey}", produces = MediaType.APPLICATION_JSON_VALUE)
   public DeferredResult<GameDTO> get(@PathVariable UUID gameKey){
     DeferredResult<GameDTO> getGameDTO = new DeferredResult<>(POLL_TIMEOUT_VALUE);
+        User currentUser = userService.getCurrentUser();
     referees.execute(() ->
     {
       try {
-        long turnCounter = gameService.getTurnCount(gameKey, userService.getCurrentUser());
+        long turnCounter = gameService.getTurnCount(gameKey, currentUser);
         getGameDTO.onTimeout(()-> {
-          getGameDTO.setResult(gameService.getGame(gameKey, userService.getCurrentUser()));
+          getGameDTO.setResult(gameService.getGame(gameKey, currentUser));
         });
         while (true) {
           Thread.sleep(SHORT_POLL_TIMEOUT);
-          if(gameService.getTurnCount(gameKey, userService.getCurrentUser()) != turnCounter){
-            getGameDTO.setResult(gameService.getGame(gameKey, userService.getCurrentUser()));
+          if(gameService.getTurnCount(gameKey, currentUser) != turnCounter){
+            getGameDTO.setResult(gameService.getGame(gameKey, currentUser));
             break;
           }
         }
