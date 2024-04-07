@@ -47,14 +47,14 @@ public class GameService implements AbstractGameService {
 
   @Override
   public GameDTO startJoinGame(Game game, User user) {
-
+Game startJoinGame;
     BoardSize boardSize = closestMatch(game.getBoardSize());
     game.setBoardSize(boardSize.getBoardSizeX());
     GameDTO gameDTO;
     List<Game> currentGames = gameRepository.findCurrentGames(user);
     if (!currentGames.isEmpty()) {
-      Game currentGame = currentGames.getFirst();
-      gameDTO = new GameDTO(currentGame);
+      startJoinGame = currentGames.getFirst();
+      gameDTO = new GameDTO(startJoinGame);
       List<UserGameDTO> userGames = gameDTO.getUserGames();
       UserGameDTO currentUserGameDTO = userGames.stream()
           .filter((userGame -> userGame.getUser().equals(user)))
@@ -67,22 +67,20 @@ public class GameService implements AbstractGameService {
       // Test code that doesn't check for same user multiple times in one game
 //    List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount());
 
-      Game gameToJoin = openGames.isEmpty() ? game : openGames.getFirst();
+      startJoinGame = openGames.isEmpty() ? game : openGames.getFirst();
 
       UserGame userGame = new UserGame();
-      userGame.setGame(gameToJoin);
+      userGame.setGame(startJoinGame);
       userGame.setUser(user);
       userGame.setInventoryPlaced(false);
-      gameToJoin.getUserGames().add(userGame);
-      gameToJoin.setCurrentUserGame(userGame);
-      gameRepository.save(gameToJoin);
+      startJoinGame.getUserGames().add(userGame);
+      startJoinGame.setCurrentUserGame(userGame);
+      gameRepository.save(startJoinGame);
 
       userGame.setTurnCount(game.getUserGames().size());
-      gameToJoin.setTurnCount(userGame.getTurnCount());
       userGameRepository.save(userGame);
-      gameRepository.save(gameToJoin);
 
-      gameDTO = new GameDTO(gameToJoin);
+      gameDTO = new GameDTO(startJoinGame);
       UserGameDTO currentDTO = gameDTO.getUserGames().stream()
           .filter((ug) -> ug.getUser().equals(userGame.getUser()))
           .findFirst()
@@ -94,6 +92,10 @@ public class GameService implements AbstractGameService {
           .filter(UserGame::isFleetSunk)
           .count()) >= game.getPlayerCount() - 1);
     }
+    startJoinGame.setCurrentUserGame(
+        userGameRepository.findUserGameByGameAndUser(game, user).orElseThrow());
+    gameRepository.save(startJoinGame);
+
     return gameDTO;
   }
 
