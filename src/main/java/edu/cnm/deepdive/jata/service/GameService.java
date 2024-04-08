@@ -15,7 +15,6 @@ import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class GameService implements AbstractGameService {
           .filter((userGame -> userGame.getUser().equals(user)))
           .findFirst().orElseThrow();
       if (!currentUserGameDTO.isInventoryPlaced()) {
-        PlaceInitial(boardSize, currentUserGameDTO);
+        placeInitial(boardSize, currentUserGameDTO);
       }
     } else {
       List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount(), user);
@@ -79,7 +78,7 @@ public class GameService implements AbstractGameService {
       gameRepository.save(gameToJoin);
       gameToJoin.getUserGames().add(userGame);
       gameToJoin.setCurrentUserGame(userGame);
-      userGame.setTurnCount(game.getUserGames().size());
+      userGame.setTurnCount(game.getUserGames().size()-1);
       gameToJoin.setTurnCount(userGame.getTurnCount());
       userGameRepository.save(userGame);
       gameRepository.save(gameToJoin);
@@ -90,7 +89,9 @@ public class GameService implements AbstractGameService {
           .findFirst()
           .orElseThrow();
 
-      PlaceInitial(boardSize, currentDTO);
+      if (!userGame.isInventoryPlaced()) {
+        placeInitial(boardSize, currentDTO);
+      }
 
       game.setFinished((game.getUserGames().stream()
           .filter(UserGame::isFleetSunk)
@@ -99,7 +100,7 @@ public class GameService implements AbstractGameService {
     return gameDTO;
   }
 
-  private static void PlaceInitial(BoardSize boardSize, UserGameDTO currentDTO) {
+  private static void placeInitial(BoardSize boardSize, UserGameDTO currentDTO) {
     Map<ShipType, Integer> inventory = boardSize.getInventory();
     int[] y = {1};
     currentDTO.getShips()
@@ -128,7 +129,9 @@ public class GameService implements AbstractGameService {
         .findGameByKeyAndUserGamesUser(key, user)
         .orElseThrow();
     game.setCurrentUserGame(
-        userGameRepository.findUserGameByGameKeyAndUser(key, user).orElseThrow());
+        userGameRepository.findUserGameByGameKeyAndUser(key, user)
+            .orElseThrow());
+    gameRepository.save(game);
     return new GameDTO(game);
   }
 

@@ -7,6 +7,10 @@ import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * This serves as the interface between the outside world and the server internals for the Game
+ * entity.  The GameDTO determines what a user may see.
+ */
 public class GameDTO {
 
   private UUID key;
@@ -17,9 +21,6 @@ public class GameDTO {
   private int boardSize;
 
   private int playerCount;
-
-  @JsonIgnore
-  private long turnCount;
 
   private boolean started;
 
@@ -79,14 +80,6 @@ public class GameDTO {
 
   public void setStarted(boolean started) {
     this.started = started;
-  }
-
-  public long getTurnCount() {
-    return turnCount;
-  }
-
-  public void setTurnCount(long turnCount) {
-    this.turnCount = turnCount;
   }
 
   public boolean isFinished() {
