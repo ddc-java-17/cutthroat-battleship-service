@@ -15,6 +15,7 @@ import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +54,8 @@ public class GameService implements AbstractGameService {
     List<Game> currentGames = gameRepository.findCurrentGames(user);
     if (!currentGames.isEmpty()) {
       Game currentGame = currentGames.getFirst();
-      currentGame.setCurrentUserGame(
+      gameDTO = new GameDTO(currentGame,
           userGameRepository.findUserGameByGameAndUser(currentGame, user).orElseThrow());
-      gameRepository.save(currentGame);
-      gameDTO = new GameDTO(currentGame);
       List<UserGameDTO> userGames = gameDTO.getUserGames();
       UserGameDTO currentUserGameDTO = userGames.stream()
           .filter((userGame -> userGame.getUser().equals(user)))
@@ -75,15 +74,12 @@ public class GameService implements AbstractGameService {
       userGame.setGame(gameToJoin);
       userGame.setUser(user);
       userGame.setInventoryPlaced(false);
-      gameRepository.save(gameToJoin);
       gameToJoin.getUserGames().add(userGame);
-      gameToJoin.setCurrentUserGame(userGame);
-      userGame.setTurnCount(game.getUserGames().size()-1);
+      userGame.setTurnCount(game.getUserGames().size() - 1);
       gameToJoin.setTurnCount(userGame.getTurnCount());
-      userGameRepository.save(userGame);
       gameRepository.save(gameToJoin);
 
-      gameDTO = new GameDTO(gameToJoin);
+      gameDTO = new GameDTO(gameToJoin, userGame);
       UserGameDTO currentDTO = gameDTO.getUserGames().stream()
           .filter((ug) -> ug.getUser().equals(userGame.getUser()))
           .findFirst()
@@ -125,14 +121,9 @@ public class GameService implements AbstractGameService {
 
   @Override
   public GameDTO getGame(UUID key, User user) {
-    Game game = gameRepository
-        .findGameByKeyAndUserGamesUser(key, user)
+    return userGameRepository.findUserGameByGameKeyAndUser(key, user)
+        .map((userGame) -> new GameDTO(userGame.getGame(), userGame))
         .orElseThrow();
-    game.setCurrentUserGame(
-        userGameRepository.findUserGameByGameKeyAndUser(key, user)
-            .orElseThrow());
-    gameRepository.save(game);
-    return new GameDTO(game);
   }
 
   @Override

@@ -31,7 +31,7 @@ public class GameDTO {
 
   public GameDTO() {
   }
-  public GameDTO(Game game) {
+  public GameDTO(Game game, UserGame userGame) {
     key = game.getKey();
     boardSize = game.getBoardSize();
     playerCount = game.getPlayerCount();
@@ -39,7 +39,7 @@ public class GameDTO {
     finished = game.isFinished();
     usersTurn = game.isUsersTurn();
     userGames = game.getUserGames().stream()
-        .map(UserGameDTO::new)
+        .map(userGame1 -> new UserGameDTO(userGame1, userGame))
         .toList();
   }
 

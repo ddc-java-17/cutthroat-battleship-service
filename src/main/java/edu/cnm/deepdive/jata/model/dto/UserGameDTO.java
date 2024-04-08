@@ -27,7 +27,7 @@ public class UserGameDTO {
   public UserGameDTO() {
   }
 
-  public UserGameDTO(UserGame userGame) {
+  public UserGameDTO(UserGame userGame, UserGame currentUserGame) {
     user = userGame.getUser();
     ships = ShipDTO.fromLocations(userGame.getLocations());
     toShots = userGame.getToShots().stream()
@@ -35,7 +35,7 @@ public class UserGameDTO {
         .toList();
     inventoryPlaced = userGame.isInventoryPlaced();
     fleetSunk = userGame.isFleetSunk();
-    usersBoard = userGame.isYourBoard();
+    usersBoard = userGame.equals(currentUserGame);
   }
 
   public User getUser() {
