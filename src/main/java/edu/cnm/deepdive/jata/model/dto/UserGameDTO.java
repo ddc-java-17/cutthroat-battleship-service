@@ -5,6 +5,7 @@ import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserGameDTO {
 
@@ -13,7 +14,7 @@ public class UserGameDTO {
 
   private List<ShipDTO> ships;
 
-  private  List<Shot> toShots;
+  private  List<ShotDTO> toShots;
 
   @JsonProperty(value = "placed")
   private boolean inventoryPlaced;
@@ -29,7 +30,9 @@ public class UserGameDTO {
   public UserGameDTO(UserGame userGame) {
     user = userGame.getUser();
     ships = ShipDTO.fromLocations(userGame.getLocations());
-    toShots = userGame.getToShots();
+    toShots = userGame.getToShots().stream()
+        .map(ShotDTO::new)
+        .toList();
     inventoryPlaced = userGame.isInventoryPlaced();
     fleetSunk = userGame.isFleetSunk();
     usersBoard = userGame.isYourBoard();
@@ -44,18 +47,18 @@ public class UserGameDTO {
   }
 
   public List<ShipDTO> getShips() {
-    return isYourBoard() ? ships: null;
+    return isUsersBoard() ? ships: null;
   }
 
   public void setShips(List<ShipDTO> ships) {
     this.ships = ships;
   }
 
-  public List<Shot> getToShots() {
+  public List<ShotDTO> getToShots() {
     return toShots;
   }
 
-  public void setToShots(List<Shot> toShots) {
+  public void setToShots(List<ShotDTO> toShots) {
     this.toShots = toShots;
   }
 

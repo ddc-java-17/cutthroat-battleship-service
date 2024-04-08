@@ -4,7 +4,9 @@ import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.dao.GameRepository;
 import edu.cnm.deepdive.jata.model.dao.ShotRepository;
 import edu.cnm.deepdive.jata.model.dao.UserGameRepository;
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.dto.ShotDTO;
+import edu.cnm.deepdive.jata.model.dto.UserGameDTO;
 import edu.cnm.deepdive.jata.model.entity.Game;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.model.entity.User;
@@ -30,43 +32,42 @@ public class ShotService implements AbstractShotService {
   }
 
   @Override
-  public List<ShotDTO> submitShots(UUID key, List<ShotDTO> shotsDTO, User currentUser) {
-    return gameRepository.findGameByKeyAndUserGamesUser(key, currentUser)
-        .map((game) -> {
-              Optional<UserGame> fromUserGame = userGameRepository.findUserGameByGameAndUser(game,
-                  currentUser);
-              if (fromUserGame.orElseThrow().getTurnCount() == game.getTurnCount()) {
-                shotsAllowed = (int) gameRepository
-                    .findGameByKey(key)
-                    .orElseThrow()
-                    .getUserGames()
-                    .stream().filter(userGame -> !userGame.isFleetSunk())
+  public GameDTO submitShots(UUID key, List<ShotDTO> shotsDTO, User currentUser) {
+    return userGameRepository.findUserGameByGameKeyAndUser(key, currentUser)
+        .map((userGame) -> {
+              Game game = userGame.getGame();
+              int gameTurnCount = (int) game.getTurnCount();
+              if (userGame.getTurnCount() == gameTurnCount) {
+                List<UserGame> userGames = game.getUserGames();
+                shotsAllowed = (int) userGames
+                    .stream()
+                    .filter(userGame1 -> !userGame1.isFleetSunk())
                     .count();
-                shotsDTO.forEach((shotDTO) -> {
-                  shotsAllowed--;
-                  if (shotsAllowed != 0) {
-                    Shot shot = new Shot();
-                    shot.setLocation(ValidateShot(game, shotDTO));
-                    shot.setToUser(
-                        userGameRepository.findUserGameByKeyAndGame(shotDTO.getToUser().getKey(), game)
-                            .orElseThrow());
-                    shot.setFromUser(
-                        fromUserGame.orElseThrow());
-                    shotRepository.save(shot);
-                  }
-                });
-                game.setTurnCount(
-                    (game.getPlayerCount() >= game.getTurnCount()) ? 1 : game.getTurnCount() + 1);
-                while (userGameRepository
-                    .findUserGameByGameAndTurnCount(game,
-                        game.getTurnCount()).orElseThrow().isFleetSunk()) {
-                  game.setTurnCount(game.getTurnCount() + 1);
-                }
-                return shotRepository.saveAll(shotsDTO);
-                game.setCurrentUserGame(
-                    userGameRepository.findUserGameByGameKeyAndUser(key, currentUser).orElseThrow());
+                List<Shot> shots = shotsDTO.subList(0, shotsAllowed)
+                    .stream()
+                    .map((shotDTO) -> {
+                      Shot shot = new Shot();
+                      shot.setLocation(ValidateShot(game, shotDTO));
+                      UserGame toUserGame = userGames.stream()
+                          .filter((ug) -> ug.getUser().getKey().equals(shotDTO.getToUser().getKey()))
+                          .findFirst()
+                          .orElseThrow();
+                      shot.setToUser(toUserGame);
+                      shot.setFromUser(userGame);
+                      toUserGame.getToShots().add(shot);
+                      return shot;
+                    })
+                    .toList();
+                userGame.getFromShots().addAll(shots);
                 gameRepository.save(game);
-                return shotRepository.saveAll(shots);
+                do {
+                  gameTurnCount++;
+                  gameTurnCount = (gameTurnCount > game.getPlayerCount()) ? 1 : gameTurnCount;
+                } while (userGames.get(gameTurnCount-1).isFleetSunk());
+                // TODO: 4/8/2024  Check for current user being only one left
+                game.setTurnCount(gameTurnCount);
+                game.setCurrentUserGame(userGame);
+                return new GameDTO(gameRepository.save(game));
               } else {
                 throw new NotYourTurnException("Please wait your turn");
               }
@@ -75,7 +76,8 @@ public class ShotService implements AbstractShotService {
         .orElseThrow();
   }
 
-  private static Location ValidateShot(Game game, ShotDTO shot) throws InvalidShotPlacementException {
+  private static Location ValidateShot(Game game, ShotDTO shot)
+      throws InvalidShotPlacementException {
     if (shot.getLocation().getX() > game.getBoardSize()
         || shot.getLocation().getY() > game.getBoardSize()) {
       throw new InvalidShotPlacementException("Invalid shot");
@@ -84,9 +86,4 @@ public class ShotService implements AbstractShotService {
     }
   }
 
-
-  @Override
-  public Shot getShot(UUID key, UUID guessKey, User currentUser) {
-    return null;
-  }
 }

@@ -55,8 +55,8 @@ public class GameService implements AbstractGameService {
     if (!currentGames.isEmpty()) {
       Game currentGame = currentGames.getFirst();
       currentGame.setCurrentUserGame(
-          userGameRepository.findUserGameByGameAndUser(game, user).orElseThrow());
-
+          userGameRepository.findUserGameByGameAndUser(currentGame, user).orElseThrow());
+      gameRepository.save(currentGame);
       gameDTO = new GameDTO(currentGame);
       List<UserGameDTO> userGames = gameDTO.getUserGames();
       UserGameDTO currentUserGameDTO = userGames.stream()
@@ -76,7 +76,7 @@ public class GameService implements AbstractGameService {
       userGame.setGame(gameToJoin);
       userGame.setUser(user);
       userGame.setInventoryPlaced(false);
-
+      gameRepository.save(gameToJoin);
       gameToJoin.getUserGames().add(userGame);
       gameToJoin.setCurrentUserGame(userGame);
       userGame.setTurnCount(game.getUserGames().size());

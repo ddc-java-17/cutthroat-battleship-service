@@ -132,6 +132,7 @@ public class Shot {
 
   /**
    * Returns the x and y coordinates of a particular shot
+   *
    * @return
    */
   public Location getLocation() {
@@ -140,6 +141,7 @@ public class Shot {
 
   /**
    * Annotates the x and y coordinates of a particular shot
+   *
    * @param location
    */
   public void setLocation(Location location) {
@@ -158,12 +160,19 @@ public class Shot {
 
   /**
    * Returns a flag indicating this shot hit a ship on that board
+   *
    * @return
    */
   public boolean isHit() {
-    return status.isHit();
+    return toUser
+        .getLocations()
+        .stream()
+        .anyMatch((shotLoc) -> {
+          Location location1 = shotLoc.getLocation();
+          return location1.getX() == location.getX()
+              && location1.getY() == location.getY();
+        });
   }
-
 
 
   @Override

@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.jata.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
 import edu.cnm.deepdive.jata.model.dto.ShotDTO;
 import edu.cnm.deepdive.jata.model.entity.Shot;
 import edu.cnm.deepdive.jata.service.AbstractGameService;
@@ -47,8 +48,7 @@ public class ShotController {
    * @return gameService.submitShots
    */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @JsonView(ShotView.Summary.class)
-  public List<ShotDTO> post(@PathVariable UUID key, @Valid @RequestBody List<ShotDTO> shots) {
+  public GameDTO post(@PathVariable UUID key, @Valid @RequestBody List<ShotDTO> shots) {
     return shotService.submitShots(key, shots, userService.getCurrentUser());
 //    URI location = WebMvcLinkBuilder.linkTo(
 //        WebMvcLinkBuilder.methodOn(ShotController.class)
@@ -57,17 +57,6 @@ public class ShotController {
 //        .toUri();
 //    return ResponseEntity.created(location)
 //        .body(newShot);
-  }
-
-  /**
-   * This is an endpoint that gets the user's shots, it has the game key and shot keys embedded in it.
-   * @param key UUID
-   * @param shotKey UUID
-   * @return gameService.getShot
-   */
-  @GetMapping(path = "/{shotKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ShotDTO get(@PathVariable UUID key, @PathVariable UUID shotKey) {
-    return shotService.getShot(key, shotKey, userService.getCurrentUser());
   }
 
 }

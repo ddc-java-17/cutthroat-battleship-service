@@ -1,22 +1,22 @@
 ###
-POST http://localhost:18181/jata-world/games/7201d206-c890-44bb-85a3-b1dc8f094924/shot
-Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFkZjVlNzEwZWRmZWJlY2JlZmE5YTYxNDk1NjU0ZDAzYzBiOGVkZjgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEtNDE3cnZiZW1xOTNscjRpNGtoZ3RmdnU5dDE1aGhkZ2wuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDc5NTc5MDY0NTI1NzYxMDgxOTYiLCJlbWFpbCI6InNjb3R0LjEzLmRhbmllbGxlQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJuYW1lIjoiRGFuaWVsbGUgU2NvdHQiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jS1JzRDl2WWpyeElpRi03V2JPai1iTnFUSDF2Q3B0WnJEcFNhU3BVYUY0PXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkRhbmllbGxlIiwiZmFtaWx5X25hbWUiOiJTY290dCIsImlhdCI6MTcxMTQ4OTYwNCwiZXhwIjoxNzExNDkzMjA0fQ.X1L-2uvrjyxqUO0JfOyT4dKxYRiFMJumwjlx8vOfFeZqIrQtvVYIIJFhCTnVWlw2aOXEpoz741dM7tGRpo5u1yYkZd6cmVXaRT7JoNl5xXXKNKVtRkZaMxnsl_8A6RXKETd_NR_FvLIx5XP7A01lsZ5mFTVxI-xcvndYIfpRIgrMTR8aH5Fd4mNP9gdAWFG-2P_zdEmT49mVKWoe6HLazHFyRqAID1OL11Ao5ZYAggaydRotX6LfaXivEWbUJ_74OPXHAGMc6NS1EdxGsmAy9nTSNfikaRtbO1KNUomj-NdOhuGVBfB-ljAwb77QWWikFi_y6wdsrlIeOTtIwSKMig
+POST http://localhost:18181/jata-world/games/dceee05d-87e5-4061-8fa0-72d4fd72277c/shots
+Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjkzYjQ5NTE2MmFmMGM4N2NjN2E1MTY4NjI5NDA5NzA0MGRhZjNiNDMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI0MDYyMzYyNTQ1MjEta2pqOWdvamNsdmk4ZmhudmVsOHI2bDhoYjNvanJxMjguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI0MDYyMzYyNTQ1MjEtZDRscTZuYWc1bXMyM2dzdGgybmI2bHU5OGw1c21wZmIuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDczNTQyOTc5NjczNzUzNzYwNjQiLCJlbWFpbCI6ImhlbG9za3lib3lAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5hbWUiOiJSZWVkIFNlYXJsZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLdG56ZlVzVkZiMXl6VHM2ODduYzRxbmhIbFpNd1JnUlRkYm80MkowUUd5ZUFKZFpFPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IlJlZWQiLCJmYW1pbHlfbmFtZSI6IlNlYXJsZSIsImlhdCI6MTcxMjU5MDIxOSwiZXhwIjoxNzEyNTkzODE5fQ.v-L2FyNpYlHBY248eaWoSj9Dbv3EhPmFno1Leip3D-0deYKinVHLIDkKRN561nmQbuvkKIVnuzRZTsgLoVKl1KL_uq1C2fj78uS3HphN0ggGa4jin45JxuLXcDpKLBbwid3uSHn7C8e0dgXg-vgyQbAatX21XUm-QndXFz75IHnb8KyD_cakK1Thg3mRD1zVE7mV0uLnAsckqLabEx4rV_vHxXgWIlVHscIZUPYny5O_9mdVj8vrF_kxI9HA15snuYy6zLnR6eg7_v6tEDx6iF_KUAtk94SxyPX2TEz9spb3Uh83aQpNM02eX16rQPKhK2hObljhCRO8nXciZqGtow
 Content-Type: application/json
 
 [
   {
     "toUser": {
-      "key": "94061ddc-2d9d-4385-a56e-96a31cc1bf51"
+      "key": "76600510-6f0d-479c-bd6d-260c9506eea4"
     },
-    "shotCoordX": 1,
-    "shotCoordY": 1
+    "x": 1,
+    "y": 1
   },
   {
     "toUser": {
-      "key": "94061ddc-2d9d-4385-a56e-96a31cc1bf51"
+      "key": "76600510-6f0d-479c-bd6d-260c9506eea4"
     },
-    "shotCoordX": 4,
-    "shotCoordY": 4
+    "x": 4,
+    "y": 4
   }
 ]
 

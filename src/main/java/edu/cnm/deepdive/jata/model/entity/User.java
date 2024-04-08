@@ -56,16 +56,14 @@ public class User {
   @Column(nullable = false, updatable = false)
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
-  @JsonProperty(access = Access.READ_ONLY)
-  @JsonView(UserView.Internal.class)
+  @JsonIgnore
   private Instant created;
 
   @NonNull
   @Column(nullable = false)
   @UpdateTimestamp
   @Temporal(TemporalType.TIMESTAMP)
-  @JsonProperty(access = Access.READ_ONLY)
-  @JsonView(UserView.Internal.class)
+  @JsonIgnore
   private Instant modified;
 
   @NonNull
@@ -85,6 +83,7 @@ public class User {
 
   /**
    * Gets user object's id.
+   *
    * @return id   User's id
    */
   @NonNull
@@ -94,6 +93,7 @@ public class User {
 
   /**
    * Gets User's secure UUID key
+   *
    * @return key  UUID key
    */
   @NonNull
@@ -103,6 +103,7 @@ public class User {
 
   /**
    * Gets the time and day that User was created.
+   *
    * @return created  Instant the User was created
    */
   @NonNull
@@ -112,6 +113,7 @@ public class User {
 
   /**
    * Gets the last time the User modified their displayName.
+   *
    * @return modified  Instant User was last modified.
    */
   @NonNull
@@ -121,6 +123,7 @@ public class User {
 
   /**
    * Gets User's current display name.
+   *
    * @return displayName  User's display name
    */
   @NonNull
@@ -130,6 +133,7 @@ public class User {
 
   /**
    * Sets User's current display name
+   *
    * @param displayName User's display name
    */
   public void setDisplayName(@NonNull String displayName) {
@@ -138,6 +142,7 @@ public class User {
 
   /**
    * Gets User's OauthKey
+   *
    * @return OauthKey User's OauthKey
    */
   @NonNull
@@ -147,6 +152,7 @@ public class User {
 
   /**
    * Sets User's OauthKey
+   *
    * @param oauthKey User's OauthKey
    */
   public void setOauthKey(@NonNull String oauthKey) {
@@ -155,6 +161,7 @@ public class User {
 
   /**
    * Gets User's UserGame.
+   *
    * @return userGame UserGame object that the User points to
    */
   @NonNull

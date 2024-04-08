@@ -1,5 +1,8 @@
 package edu.cnm.deepdive.jata.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import edu.cnm.deepdive.jata.model.Location;
 import edu.cnm.deepdive.jata.model.entity.Shot;
@@ -7,12 +10,13 @@ import edu.cnm.deepdive.jata.model.entity.UserGame;
 
 public class ShotDTO {
 
+  @JsonProperty(access = Access.WRITE_ONLY)
   private UserGame toUser;
 
   @JsonUnwrapped
   private Location location;
 
-  private boolean isHit;
+  private boolean hit;
 
 
   public ShotDTO() {
@@ -21,7 +25,7 @@ public class ShotDTO {
   public ShotDTO(Shot shot) {
     toUser = shot.getToUser();
     location = shot.getLocation();
-    isHit = shot.isHit();
+    hit = shot.isHit();
   }
 
   public UserGame getToUser() {
@@ -41,10 +45,10 @@ public class ShotDTO {
   }
 
   public boolean isHit() {
-    return isHit;
+    return hit;
   }
 
   public void setHit(boolean hit) {
-    isHit = hit;
+    this.hit = hit;
   }
 }
