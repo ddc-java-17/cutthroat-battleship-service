@@ -32,11 +32,19 @@ public class GameService implements AbstractGameService {
   private final GameRepository gameRepository;
   private final UserGameRepository userGameRepository;
 
-  /**
+  /*
    * This constructor initializes an instance of {@link GameRepository} that this service class can
    * use.
    *
    * @param gameRepository {@link GameRepository} instance to be initialized.
+   */
+
+  /**
+   * This constructor initializes an instance of {@link GameRepository} and
+   * {@link UserGameRepository}that this service class can
+   * use.
+   * @param gameRepository
+   * @param userGameRepository
    */
   @Autowired
   public GameService(
@@ -45,6 +53,15 @@ public class GameService implements AbstractGameService {
     this.userGameRepository = userGameRepository;
   }
 
+  /**
+   * THis method performs three functions: Start a game that doesn't exist yet, join a game that has
+   * already started, and rejoin a game that has started.  The method checks if the user is already in
+   * a game and forces the user to finish any game they have started.
+   *
+   * @param game {@Link GameService} for a specific game.
+   * @param user {@link User} for the specified user starting or joining a game.
+   * @return
+   */
   @Override
   public GameDTO startJoinGame(Game game, User user) {
 
@@ -117,6 +134,13 @@ public class GameService implements AbstractGameService {
         );
   }
 
+  /**
+   * This is the status method.
+   *
+   * @param key {@Link UUID}
+   * @param user {@Link User}
+   * @return
+   */
   @Override
   public GameDTO getGame(UUID key, User user) {
     return userGameRepository.findUserGameByGameKeyAndUser(key, user)
@@ -124,6 +148,12 @@ public class GameService implements AbstractGameService {
         .orElseThrow();
   }
 
+  /**
+   * This method returns the current turn count for a specific game
+   * @param key
+   * @param user
+   * @return
+   */
   @Override
   public long getTurnCount(UUID key, User user) {
     return gameRepository.getTurnCount(key, user)
