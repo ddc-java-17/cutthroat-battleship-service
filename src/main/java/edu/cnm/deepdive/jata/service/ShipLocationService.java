@@ -67,7 +67,7 @@ public class ShipLocationService implements AbstractShipLocationService {
             locations.forEach((loc) -> {
               loc.setUserGame(userGame);
             });
-            shipLocationRepository.saveAll(locations);
+            userGame.getLocations().addAll(locations);
             userGame.setInventoryPlaced(true);
             game.setTurnCount(userGame.getTurnCount());
             gameRepository.save(game);

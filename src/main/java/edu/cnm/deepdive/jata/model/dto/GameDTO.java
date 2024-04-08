@@ -37,14 +37,11 @@ public class GameDTO {
     playerCount = game.getPlayerCount();
     started = game.isStarted();
     finished = game.isFinished();
-    usersTurn = game.isUsersTurn();
     userGames = game.getUserGames().stream()
         .map(userGame1 -> new UserGameDTO(userGame1, userGame))
         .toList();
+    usersTurn = (userGame.getTurnCount() == game.getTurnCount()) && isStarted() && !isFinished();
   }
-
-
-
 
   public UUID getKey() {
     return key;

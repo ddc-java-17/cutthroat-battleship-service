@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+/**
+ *
+ */
 public class ShipDTO {
 
   public static final int MIN_SHIP_LENGTH = 2;
@@ -79,8 +82,8 @@ public class ShipDTO {
 
     return IntStream.range(0, length)
         .mapToObj((index) -> {
-          Location loc = new Location((origin.getX() + index * offset[0]),
-              (origin.getY() + index * offset[1]));
+          Location loc = new Location((origin.getX() + index * offset[1]),
+              (origin.getY() + index * offset[0]));
           ShipLocation sl = new ShipLocation();
           sl.setLocation(loc);
           sl.setShipNumber(shipNumber);
@@ -127,8 +130,8 @@ public class ShipDTO {
         minY = location.getLocation().getY();
       }
     }
-    shipDTO.setVertical((maxY - minY) == 0);
-    shipDTO.setLength((shipDTO.isVertical()) ? (maxX - minX)+1 : (maxY - minY)+1);
+    shipDTO.setVertical((maxX - minX) == 0);
+    shipDTO.setLength((shipDTO.isVertical()) ? (maxY - minY)+1 : (maxX - minX)+1);
     origin.setX(minX);
     origin.setY(minY);
     shipDTO.setOrigin(origin);

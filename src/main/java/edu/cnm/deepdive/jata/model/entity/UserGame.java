@@ -261,7 +261,7 @@ public class UserGame {
 
   @Override
   public int hashCode() {
-    return (id == null) ? Objects.hash(id) : Objects.hash(user, game);
+    return (id != null) ? Objects.hash(id) : Objects.hash(user, game);
   }
 
   @SuppressWarnings("ConstantValue")

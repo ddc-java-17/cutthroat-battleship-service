@@ -215,6 +215,24 @@ public class Game {
     return (currentUserGame.getTurnCount() == turnCount) && isStarted() && !isFinished();
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    boolean equals;
+    if (this == obj) {
+      equals = true;
+    } else if (obj instanceof Game other) {
+      equals = (this.key.equals(other.key));
+    } else {
+      equals = false;
+    }
+    return equals;
+  }
+
   @PrePersist
   private void generateKey() {
     key = UUID.randomUUID();

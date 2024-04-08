@@ -75,8 +75,11 @@ public class GameService implements AbstractGameService {
       userGame.setUser(user);
       userGame.setInventoryPlaced(false);
       gameToJoin.getUserGames().add(userGame);
-      userGame.setTurnCount(game.getUserGames().size() - 1);
+      userGame.setTurnCount(gameToJoin.getUserGames().size() - 1);
       gameToJoin.setTurnCount(userGame.getTurnCount());
+      gameToJoin.setFinished((gameToJoin.getUserGames().stream()
+          .filter(UserGame::isFleetSunk)
+          .count()) >= gameToJoin.getPlayerCount() - 1);
       gameRepository.save(gameToJoin);
 
       gameDTO = new GameDTO(gameToJoin, userGame);
@@ -89,9 +92,6 @@ public class GameService implements AbstractGameService {
         placeInitial(boardSize, currentDTO);
       }
 
-      game.setFinished((game.getUserGames().stream()
-          .filter(UserGame::isFleetSunk)
-          .count()) >= game.getPlayerCount() - 1);
     }
     return gameDTO;
   }
