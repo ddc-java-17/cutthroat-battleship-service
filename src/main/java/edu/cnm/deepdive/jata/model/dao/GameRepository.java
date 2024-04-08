@@ -17,7 +17,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
   /**
    * this method finds a game object by a game key
    * @param key key string type.
-   * @return game   Game object
+   * @return game Game object
    */
   Optional<Game> findGameByKey(UUID key);
 
@@ -39,11 +39,13 @@ public interface GameRepository extends JpaRepository<Game, Long> {
    * @param user
    * @return
    */
-  @Query("SELECT g FROM Game AS g JOIN g.userGames as ug WHERE g.playerCount = :reqPlayerCount AND ug.user != :user GROUP BY g.id HAVING COUNT(*) < :reqPlayerCount")
+  @Query("SELECT g FROM Game AS g JOIN g.userGames as ug "
+      + "WHERE g.playerCount = :reqPlayerCount AND NOT EXISTS "
+      + "(SELECT ug2 FROM UserGame AS ug2 WHERE ug2.game = g AND ug2.user = :user) "
+      + "AND NOT g.finished "
+      + "GROUP BY g.id "
+      + "HAVING COUNT(*) < :reqPlayerCount")
   List<Game> findOpenGames(int reqPlayerCount, User user);
-  // Test code that doesn't check for same user multiple times in one game
-//@Query("SELECT g FROM Game AS g JOIN g.userGames as ug WHERE g.playerCount = :reqPlayerCount GROUP BY g.id HAVING COUNT(*) < :reqPlayerCount")
-//List<Game> findOpenGames(int reqPlayerCount);
 
   /**
    * This method finds a game by the gameKey and users
@@ -54,6 +56,13 @@ public interface GameRepository extends JpaRepository<Game, Long> {
   @Query("SELECT g FROM Game AS g JOIN g.userGames AS ug WHERE g.key = :key AND ug.user = :user")
   Optional<Game> findGameByKeyAndUserGamesUser(UUID key, User user);
 
+  /**
+   *
+   * This finds the turn count of a game where only the game key and the user are known
+   * @param key
+   * @param user
+   * @return
+   */
   @Query("SELECT g.turnCount FROM Game AS g JOIN g.userGames AS ug WHERE g.key = :key AND ug.user = :user")
   Optional<Object[]> getTurnCount(UUID key, User user);
 }

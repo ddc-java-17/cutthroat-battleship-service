@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.jata.model.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
@@ -15,15 +16,15 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- *
+ * This class acts as an interface between the user and the server.  It implements the translation
+ * between the vector definition of a ship that the user has and the cartesian definition
+ * that the server uses.  This translation acts both ways.  Further, validation of ships
+ * against the far board edge, and against ship intersections, is performed on the inbound ships.
  */
 public class ShipDTO {
 
-  public static final int MIN_SHIP_LENGTH = 2;
-  public static final int MAX_SHIP_LENGTH = 8;
-
-  @JsonProperty(access = Access.READ_WRITE)
-  private int shipNumber;
+  private static final int MIN_SHIP_LENGTH = 2;
+  private static final int MAX_SHIP_LENGTH = 8;
 
   @JsonProperty(access = Access.READ_WRITE)
   @JsonUnwrapped
@@ -35,14 +36,6 @@ public class ShipDTO {
 
   @JsonProperty(access = Access.READ_WRITE)
   private boolean vertical;
-
-  public int getShipNumber() {
-    return shipNumber;
-  }
-
-  public void setShipNumber(int shipNumber) {
-    this.shipNumber = shipNumber;
-  }
 
   public Location getOrigin() {
     return origin;

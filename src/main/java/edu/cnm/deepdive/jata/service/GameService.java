@@ -65,8 +65,6 @@ public class GameService implements AbstractGameService {
       }
     } else {
       List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount(), user);
-      // Test code that doesn't check for same user multiple times in one game
-//    List<Game> openGames = gameRepository.findOpenGames(game.getPlayerCount());
 
       Game gameToJoin = openGames.isEmpty() ? game : openGames.getFirst();
 
