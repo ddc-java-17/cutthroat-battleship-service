@@ -111,6 +111,13 @@ public class GameService implements AbstractGameService {
     return gameDTO;
   }
 
+  /**
+   * This looks up the type and number of ships for a given game and returns the ships in default
+   * positions in vector format
+   *
+   * @param boardSize
+   * @param currentDTO
+   */
   private static void placeInitial(BoardSize boardSize, UserGameDTO currentDTO) {
     Map<ShipType, Integer> inventory = boardSize.getInventory();
     int[] y = {1};

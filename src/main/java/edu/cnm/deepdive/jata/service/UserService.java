@@ -28,14 +28,13 @@ public class UserService implements AbstractUserService{
   }
 
   @Override
-  public User getOrCreate(String oauthKey, String displayName) {  // TODO: 2/29/2024 Add parameters for additional user profile info from the bearer token
+  public User getOrCreate(String oauthKey, String displayName) {
     return userRepository
         .findUserByOauthKey(oauthKey)
         .orElseGet(()->{
           User user = new User();
           user.setOauthKey(oauthKey);
           user.setDisplayName(displayName);
-          // TODO: 2/29/2024 Assign any additional fields of user.
           return userRepository.save(user);
         });
   }

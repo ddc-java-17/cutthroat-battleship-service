@@ -27,6 +27,14 @@ public interface AbstractGameService {
    */
   GameDTO getGame(UUID key, User user);
 
+  /**
+   * Returns a value of turn count for a given game key and user. Used in the long polling logic
+   * of the status end point
+   *
+   * @param key
+   * @param user
+   * @return
+   */
   long getTurnCount(UUID key, User user);
 
 }
