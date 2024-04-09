@@ -46,26 +46,58 @@ public class ShipDTO {
     return origin;
   }
 
+  /**
+   * Annotates the origin of a ship
+   * @param origin
+   */
   public void setOrigin(Location origin) {
     this.origin = origin;
   }
 
+  /**
+   * Returns the length of a ship.  This is the total length including the origin.  All
+   * values are positive!
+   * @return
+   */
   public int getLength() {
     return length;
   }
 
+  /**
+   * Annotates the length of a ship
+   * @param length
+   */
   public void setLength(int length) {
     this.length = length;
   }
 
+  /**
+   * Returns the value of the vertical flag.  If the vertical flag is set, the ship occupies
+   * one column and several rows.  If the vertical flag is not set, the ship occupies
+   * one row and several columns
+   *
+   * @return
+   */
   public boolean isVertical() {
     return vertical;
   }
 
+  /**
+   * Annotates the value of the vertical flag
+   * @param vertical
+   */
   public void setVertical(boolean vertical) {
     this.vertical = vertical;
   }
 
+  /**
+   * This method validates incoming ships and, once validated, converts them from the
+   * vector format the users have to the cartesian format the server uses.
+   *
+   * @param boardSize
+   * @param shipNumber
+   * @return
+   */
   public Stream<ShipLocation> tovalidshiplocations(int boardSize, int shipNumber) {
     int[] offset;
 
@@ -89,6 +121,11 @@ public class ShipDTO {
         });
   }
 
+  /**
+   * This method validates each ship against the far edge of board.  Board size is determined
+   * by the bard size enum.  Verticality is used to determine which edge to check against.
+   * @param boardSize
+   */
   private void ValidateBoardEdge(int boardSize) {
     if ((!vertical && (origin.getX() + length-1) > boardSize)
         || (vertical && (origin.getY() + length-1) > boardSize)) {
@@ -96,6 +133,13 @@ public class ShipDTO {
     }
   }
 
+  /**
+   * This method takes ships in cartesian format from the server and translates them into vector
+   * format for transmiossion to the user.
+   *
+   * @param locations
+   * @return
+   */
   public static List<ShipDTO> fromLocations(List<ShipLocation> locations) {
     return locations.stream()
         .collect(Collectors.groupingBy(ShipLocation::getShipNumber))
@@ -106,6 +150,11 @@ public class ShipDTO {
   }
 
 
+  /**
+   * This method implements the cartesian-to-vector mathematics
+   * @param locations
+   * @return
+   */
   private static ShipDTO toShipDTO(List<ShipLocation> locations) {
     ShipDTO shipDTO = new ShipDTO();
     Location origin = new Location();

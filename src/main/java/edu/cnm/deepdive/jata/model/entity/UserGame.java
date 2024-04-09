@@ -248,17 +248,6 @@ public class UserGame {
     return user == game.getCurrentUserGame().getUser();
   }
 
-  @JsonProperty("locations")
-  public List<ShipLocation> getExposedLocations() {
-    return isFleetSunk() ? locations : null;
-  }
-
-  @JsonProperty("myLocations")
-  @JsonView(UserGameView.Detailed.class)
-  public List<ShipLocation> getMyLocations() {
-    return locations;
-  }
-
   @Override
   public int hashCode() {
     return (id != null) ? Objects.hash(id) : Objects.hash(user, game);
