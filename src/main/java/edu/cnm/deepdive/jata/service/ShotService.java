@@ -46,10 +46,9 @@ public class ShotService implements AbstractShotService {
    * turn counter and skips over users who are already sunk. Lastly, this set the Finished flag
    * if only one user remains.
    *
-   * @param key {@Link UUID}
-   * @param shotsDTO List<Shots>
-   * @param currentUser {@Link user}
-   * @return
+   * @param key
+   * @param shotsDTO List of shots
+   * @param currentUser
    */
   @Override
   public GameDTO submitShots(UUID key, List<ShotDTO> shotsDTO, User currentUser) {

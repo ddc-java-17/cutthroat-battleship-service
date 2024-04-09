@@ -56,7 +56,7 @@ public class ShotDTO {
   }
 
   /**
-   * Returns the x & y location of the shot itself
+   * Returns the x and y location of the shot itself
    * @return
    */
   public Location getLocation() {

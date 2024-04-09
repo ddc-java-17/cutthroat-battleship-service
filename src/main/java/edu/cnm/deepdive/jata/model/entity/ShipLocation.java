@@ -50,7 +50,6 @@ public class ShipLocation {
   /**
    * Returns the ID of the ship
    *
-   * @return
    */
   @NonNull
   public Long getId() {
@@ -60,7 +59,6 @@ public class ShipLocation {
   /**
    * Returns the userGame of a particular ship
    *
-   * @return
    */
   @NonNull
   public UserGame getUserGame() {
@@ -69,7 +67,6 @@ public class ShipLocation {
 
   /**
    * Annotates this ship with its associated user via UserGame
-   * @param userGame
    */
   public void setUserGame(@NonNull UserGame userGame) {
     this.userGame = userGame;
@@ -78,7 +75,6 @@ public class ShipLocation {
   /**
    * Returns the ship number (identifier) for a particular ship belonging to a userGame
    *
-   * @return
    */
   public int getShipNumber() {
     return shipNumber;
@@ -87,7 +83,6 @@ public class ShipLocation {
   /**
    * Annotates the ship number (identifier) for a particular ship belonging to a userGame
    *
-   * @param shipNumber
    */
   public void setShipNumber(int shipNumber) {
     this.shipNumber = shipNumber;
@@ -95,7 +90,6 @@ public class ShipLocation {
 
   /**
    * Returns the x and y coordinates of a location on a user's ship
-   * @return
    */
   public Location getLocation() {
     return location;
@@ -103,7 +97,6 @@ public class ShipLocation {
 
   /**
    * Annotates the x and y coordinates of a location on a user's ship
-   * @param location
    */
   public void setLocation(Location location) {
     this.location = location;

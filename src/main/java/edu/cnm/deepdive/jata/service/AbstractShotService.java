@@ -10,9 +10,9 @@ import java.util.UUID;
 public interface AbstractShotService {
   /**
    * submits shots to a game
-   * @param key {@Link UUID}
-   * @param shots List<Shots>
-   * @param currentUser {@Link user}
+   * @param key UUID
+   * @param shots List of Shots
+   * @param currentUser user
    * @return shots
    */
   GameDTO submitShots(UUID key, List<ShotDTO> shots, User currentUser);

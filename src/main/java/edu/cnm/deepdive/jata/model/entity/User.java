@@ -84,7 +84,6 @@ public class User {
   /**
    * Gets user object's id.
    *
-   * @return id   User's id
    */
   @NonNull
   public Long getId() {
@@ -94,7 +93,6 @@ public class User {
   /**
    * Gets User's secure UUID key
    *
-   * @return key  UUID key
    */
   @NonNull
   public UUID getKey() {
@@ -104,7 +102,6 @@ public class User {
   /**
    * Gets the time and day that User was created.
    *
-   * @return created  Instant the User was created
    */
   @NonNull
   public Instant getCreated() {
@@ -114,7 +111,6 @@ public class User {
   /**
    * Gets the last time the User modified their displayName.
    *
-   * @return modified  Instant User was last modified.
    */
   @NonNull
   public Instant getModified() {
@@ -124,7 +120,6 @@ public class User {
   /**
    * Gets User's current display name.
    *
-   * @return displayName  User's display name
    */
   @NonNull
   public String getDisplayName() {
@@ -134,7 +129,6 @@ public class User {
   /**
    * Sets User's current display name
    *
-   * @param displayName User's display name
    */
   public void setDisplayName(@NonNull String displayName) {
     this.displayName = displayName;
@@ -143,7 +137,6 @@ public class User {
   /**
    * Gets User's OauthKey
    *
-   * @return OauthKey User's OauthKey
    */
   @NonNull
   public String getOauthKey() {
@@ -153,7 +146,6 @@ public class User {
   /**
    * Sets User's OauthKey
    *
-   * @param oauthKey User's OauthKey
    */
   public void setOauthKey(@NonNull String oauthKey) {
     this.oauthKey = oauthKey;
@@ -162,7 +154,6 @@ public class User {
   /**
    * Gets User's UserGame.
    *
-   * @return userGame UserGame object that the User points to
    */
   @NonNull
   public List<UserGame> getUserGame() {

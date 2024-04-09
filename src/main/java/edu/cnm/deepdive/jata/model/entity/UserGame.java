@@ -92,7 +92,6 @@ public class UserGame {
 
   /**
    * Gets this UserGame's identifying number
-   * @return id UserGame identification
    */
   @NonNull
   public Long getId() {
@@ -101,7 +100,6 @@ public class UserGame {
 
   /**
    * Gets the UserGame UUID key
-   * @return UUID key
    */
   @NonNull
   public UUID getKey() {
@@ -110,7 +108,6 @@ public class UserGame {
 
   /**
    * Sets the UserGame UUID key
-   * @param key UUID
    */
   public void setKey(@NonNull UUID key) {
     this.key = key;
@@ -118,7 +115,6 @@ public class UserGame {
 
   /**
    * Gets the user object associated with this UserGame
-   * @return user User object
    */
   @NonNull
   public User getUser() {
@@ -127,7 +123,6 @@ public class UserGame {
 
   /**
    * Sets the user object associated with this UserGame
-   * @param user  User object.
    */
   public void setUser(@NonNull User user) {
     this.user = user;
@@ -135,7 +130,6 @@ public class UserGame {
 
   /**
    * Gets the game object associated with this UserGame
-   * @return game Game object
    */
   @NonNull
   public Game getGame() {
@@ -144,7 +138,6 @@ public class UserGame {
 
   /**
    * Sets the game associated to this UserGame
-   * @param game  Game object
    */
   public void setGame(@NonNull Game game) {
     this.game = game;
@@ -152,7 +145,6 @@ public class UserGame {
 
   /**
    * Returns a ships location
-   * @return List <ShipLocation>
    */
   public List<ShipLocation> getLocations() {
     return locations;
@@ -160,7 +152,6 @@ public class UserGame {
 
   /**
    * Returns shots from a specific user
-   * @return list<shots>
    */
   public List<Shot> getFromShots() {
     return fromShots;
@@ -168,7 +159,6 @@ public class UserGame {
 
   /**
    * returns shots at a specific user
-   * @return List<shots>
    */
   public List<Shot> getToShots() {
     return toShots;
@@ -177,7 +167,6 @@ public class UserGame {
   /**
    * Returns the value of inventory placed for a specific user in a specific game.
    * Used to prohibit users from placing more ships once their fleet has been placed
-   * @return
    */
   public boolean isInventoryPlaced() {
     return inventoryPlaced;
@@ -185,7 +174,6 @@ public class UserGame {
 
   /**
    * annotates the parameter inventoryPlaced
-   * @param placed
    */
   public void setInventoryPlaced(boolean placed){
     this.inventoryPlaced = placed;
@@ -193,7 +181,6 @@ public class UserGame {
 
   /**
    * Returns the turnCount for a given userGame.  This represents when a users turn is in a game
-   * @return
    */
   public int getTurnCount() {
     return turnCount;
@@ -201,7 +188,6 @@ public class UserGame {
 
   /**
    * Annotates the paramter turnCount
-   * @param turnCount
    */
   public void setTurnCount(int turnCount) {
     this.turnCount = turnCount;
@@ -210,7 +196,6 @@ public class UserGame {
   /**
    * Returns the total number of locations a users fleet occupies on a board.
    * This is used in determining if a fleet has been sunk and in shot hit/miss statistics.
-   * @return
    */
   @SuppressWarnings("ConstantValue")
   public int getShipLocationCount() {
@@ -220,7 +205,6 @@ public class UserGame {
   /**
    * Returns the number of shots on a particular board that have hit ship locations
    * on that same board.  Used to determine if a fleet has been sunk
-   * @return
    */
   public int getToShotHits() {
     return (int) toShots

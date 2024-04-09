@@ -84,7 +84,6 @@ public class Game {
   /**
    * Get game object's id
    *
-   * @return id Game's id
    */
   public Long getId() {
     return id;
@@ -93,7 +92,6 @@ public class Game {
   /**
    * get game's secure UUID key
    *
-   * @return key UUID key
    */
   @NonNull
   public UUID getKey() {
@@ -103,7 +101,6 @@ public class Game {
   /**
    * Get the time and day the game was created.
    *
-   * @return created instant game was created.
    */
   @NonNull
   public Instant getCreated() {
@@ -112,7 +109,6 @@ public class Game {
 
   /**
    * Returns the current user's userGame
-   * @return
    */
   public UserGame getCurrentUserGame() {
     return currentUserGame;
@@ -120,7 +116,6 @@ public class Game {
 
   /**
    * Annotates the current user's userGame
-   * @param currentUserGame
    */
   public void setCurrentUserGame(UserGame currentUserGame) {
     this.currentUserGame = currentUserGame;
@@ -129,7 +124,6 @@ public class Game {
   /**
    * get List of userGame.
    *
-   * @return userGame List of userGame.
    */
   @NonNull
   public List<UserGame> getUserGames() {
@@ -139,7 +133,6 @@ public class Game {
   /**
    * Returns the size of the playing board's x-dimension
    *
-   * @return boardSize
    */
   public int getBoardSize() {
     return boardSize;
@@ -148,7 +141,6 @@ public class Game {
   /**
    * Annotates the size of the playing board's x-dimension
    *
-   * @param boardSize
    */
   public void setBoardSize(int boardSize) {
     this.boardSize = boardSize;
@@ -157,7 +149,6 @@ public class Game {
   /**
    * Get playerCount.
    *
-   * @return playerCount int playerCount.
    */
   public int getPlayerCount() {
     return playerCount;
@@ -166,7 +157,6 @@ public class Game {
   /**
    * Returns the current turn count. A player's turn is when this turn count
    * matched the turn count in their userGame
-   * @return
    */
   public long getTurnCount() {
     return turnCount;
@@ -174,7 +164,6 @@ public class Game {
 
   /**
    * Annotates the game's turn count
-   * @param turnCount
    */
   public void setTurnCount(long turnCount) {
     this.turnCount = turnCount;
@@ -182,7 +171,6 @@ public class Game {
 
   /**
    * Returns a value to the users that this game has been filled and is in progress
-   * @return
    */
   public boolean isStarted() {
     return userGames.stream().filter((UserGame::isInventoryPlaced))
@@ -191,7 +179,6 @@ public class Game {
 
   /**
    * Returns a persisted flag indicating this game has been finished.
-   * @return
    */
   public boolean isFinished() {
     return (userGames.stream()
@@ -201,7 +188,6 @@ public class Game {
 
   /**
    * Annotates that this game has been finished
-   * @param finished
    */
   public void setFinished(boolean finished) {
     this.finished = finished;
@@ -209,7 +195,6 @@ public class Game {
 
   /**
    * Returns flag indicating to the user that it is their turn
-   * @return
    */
   public boolean isUsersTurn() {
     return (currentUserGame.getTurnCount() == turnCount) && isStarted() && !isFinished();

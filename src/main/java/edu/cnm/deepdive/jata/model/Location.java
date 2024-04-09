@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Min;
 import java.util.Objects;
 
 /**
- * This is a helper class that maintains the x & y coordinates in one field
+ * This is a helper class that maintains the x and y coordinates in one field
  */
 @Embeddable
 @JsonView({ShotView.Summary.class})
@@ -26,9 +26,10 @@ public class Location {
   }
 
   /**
-   * Constructor that passes the x & y values
-   * @param x
-   * @param y
+   * Constructor that passes the x and y values
+   *
+    * @param x  abscissa of the location
+   * @param y  ordinate of the location
    */
   public Location(int x, int y) {
     this.x = x;
@@ -36,15 +37,17 @@ public class Location {
   }
 
   /**
-   * Returns the x value of a location
-   * @return
+   *
+    * @return Returns the x value of a location
    */
   public int getX() {
     return x;
   }
 
-  /*
-  Annotates the x value of a location
+  /**
+   * Annotates the x value of a location
+   *
+   * @param x  abscissa of the location
    */
   public void setX(int x) {
     this.x = x;
@@ -52,7 +55,8 @@ public class Location {
 
   /**
    * Returns the y value of a location
-   * @return
+   *
+    * @return  y value of a location
    */
   public int getY() {
     return y;
@@ -60,7 +64,8 @@ public class Location {
 
   /**
    * Annotates the y value of a location
-   * @param y
+   *
+   * @param y  ordinate of the location
    */
   public void setY(int y) {
     this.y = y;

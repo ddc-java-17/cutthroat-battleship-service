@@ -81,7 +81,6 @@ public class Shot {
   /**
    * Returns the unique ID of this shot
    *
-   * @return id
    */
   @NonNull
   public Long getId() {
@@ -91,7 +90,6 @@ public class Shot {
   /**
    * Returns the user who fired the shot
    *
-   * @return
    */
   @NonNull
   public UserGame getFromUser() {
@@ -101,7 +99,6 @@ public class Shot {
   /**
    * Annotates the user who fired the shot
    *
-   * @param fromUser
    */
   public void setFromUser(@NonNull UserGame fromUser) {
     this.fromUser = fromUser;
@@ -110,7 +107,6 @@ public class Shot {
   /**
    * Returns the user who was fired upon
    *
-   * @return
    */
   @NonNull
   public UserGame getToUser() {
@@ -120,7 +116,6 @@ public class Shot {
   /**
    * Annotates the user who was fired upon
    *
-   * @param toUser
    */
   public void setToUser(@NonNull UserGame toUser) {
     this.toUser = toUser;
@@ -129,7 +124,6 @@ public class Shot {
   /**
    * Returns the x and y coordinates of a particular shot
    *
-   * @return
    */
   public Location getLocation() {
     return location;
@@ -138,7 +132,6 @@ public class Shot {
   /**
    * Annotates the x and y coordinates of a particular shot
    *
-   * @param location
    */
   public void setLocation(Location location) {
     this.location = location;
@@ -147,7 +140,6 @@ public class Shot {
   /**
    * Returns the time the shot was fired
    *
-   * @return
    */
   @NonNull
   public Instant getTimestamp() {
@@ -158,7 +150,6 @@ public class Shot {
    * Returns a flag indicating this shot hit a ship on that board by all ship locations
    * and looking for any hits in the shot table
    *
-   * @return
    */
   public boolean isHit() {
     return toUser

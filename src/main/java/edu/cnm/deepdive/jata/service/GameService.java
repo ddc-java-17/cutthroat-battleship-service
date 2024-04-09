@@ -58,8 +58,8 @@ public class GameService implements AbstractGameService {
    * already started, and rejoin a game that has started.  The method checks if the user is already in
    * a game and forces the user to finish any game they have started.
    *
-   * @param game {@Link GameService} for a specific game.
-   * @param user {@link User} for the specified user starting or joining a game.
+   * @param game GameService for a specific game.
+   * @param user User for the specified user starting or joining a game.
    * @return
    */
   @Override
@@ -144,8 +144,8 @@ public class GameService implements AbstractGameService {
   /**
    * This is the status method.
    *
-   * @param key {@Link UUID}
-   * @param user {@Link User}
+   * @param key UUID
+   * @param user User
    * @return
    */
   @Override

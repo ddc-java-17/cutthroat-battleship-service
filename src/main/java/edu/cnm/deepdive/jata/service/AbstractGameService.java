@@ -7,23 +7,25 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * This interface is used by {@Link GameService} and {@Link GameService} overrides the methods in this interface.
+ * This interface is used by GameService overrides the methods in this interface.
  */
 public interface AbstractGameService {
 
   /**
-   * Starts or joins {@Link GameService} when requested.
-   * @param game {@Link GameService} for a specific game.
-   * @param user {@link User} for the specified user starting or joining a game.
-   * @return {@Code GameService}
+   * Starts or joins game Service when requested.
+   *
+    * @param game
+   * @param user
+   * @return
    */
   GameDTO startJoinGame(Game game, User user);
 
   /**
    * Gets the game key and users currently in that game.
-   * @param key {@Link UUID}
-   * @param user {@Link User}
-   * @return gameKey
+   *
+    * @param key
+   * @param user
+   * @return
    */
   GameDTO getGame(UUID key, User user);
 
