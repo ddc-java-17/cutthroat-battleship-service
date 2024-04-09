@@ -2,6 +2,10 @@ package edu.cnm.deepdive.jata.model;
 
 import java.util.Map;
 
+/**
+ * This enum specifies the only valid values of board size.  Once a board size is determined,
+ * the type and number of ships is given
+ */
 public enum BoardSize {
 
   SMALL(8, 8,
@@ -32,18 +36,38 @@ public enum BoardSize {
     this.inventory = inventory;
   }
 
+  /**
+   * Returns the value of board size in the x direction
+   * @return
+   */
   public int getBoardSizeX() {
     return boardSizeX;
   }
 
+  /**
+   * Returns the value of board size in the y-direction
+   * @return
+   */
   public int getBoardSizeY() {
     return boardSizeY;
   }
 
+  /**
+   * Returns the inventory of ship for a given board size.  THis will cascade into the ShipType
+   * enum
+   *
+   * @return
+   */
   public Map<ShipType, Integer> getInventory() {
     return inventory;
   }
 
+  /**
+   * This determines the closest legal match to a users requested board size.
+   *
+   * @param requestedSize
+   * @return
+   */
   public static BoardSize closestMatch(int requestedSize){
     if(requestedSize <= SMALL.getBoardSizeX()) {
       return SMALL;
