@@ -10,10 +10,6 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long> {
 
-
-
-  Integer findShipLocationByShipNumber(int shipNumber);
-
   /**
    * This Query is used to determine if a user already has ships in the ShipLocation table.
    * This returns a count of the total locations in the ShipLocation table associated

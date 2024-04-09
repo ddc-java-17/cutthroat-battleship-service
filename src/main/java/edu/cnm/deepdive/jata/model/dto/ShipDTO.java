@@ -37,6 +37,11 @@ public class ShipDTO {
   @JsonProperty(access = Access.READ_WRITE)
   private boolean vertical;
 
+  /**
+   * Returns the origin of the ship.  THis is an x-y coordinate indicating the origin of
+   * the vector that represents the ship in user terms.
+   * @return
+   */
   public Location getOrigin() {
     return origin;
   }

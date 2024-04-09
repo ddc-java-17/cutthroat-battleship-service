@@ -58,6 +58,9 @@ public class GameController {
     return ResponseEntity.created(location).body(createdGame);
   }
 
+  private ExecutorService referees = Executors.newCachedThreadPool();
+
+
   /**
    * This endpoint gets a created game. The game key is embedded in the path.
    * This uses a long poll to search for state changes (turnCount changed) and returns the
@@ -65,10 +68,6 @@ public class GameController {
    * @param gameKey
    * @return
    */
-
-  private ExecutorService referees = Executors.newCachedThreadPool();
-
-
   @GetMapping(path = "/{gameKey}", produces = MediaType.APPLICATION_JSON_VALUE)
   public DeferredResult<GameDTO> get(@PathVariable UUID gameKey){
     DeferredResult<GameDTO> getGameDTO = new DeferredResult<>(POLL_TIMEOUT_VALUE);

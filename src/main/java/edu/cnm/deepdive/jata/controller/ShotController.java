@@ -50,13 +50,6 @@ public class ShotController {
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public GameDTO post(@PathVariable UUID key, @Valid @RequestBody List<ShotDTO> shots) {
     return shotService.submitShots(key, shots, userService.getCurrentUser());
-//    URI location = WebMvcLinkBuilder.linkTo(
-//        WebMvcLinkBuilder.methodOn(ShotController.class)
-//            .get(key, newShot.)
-//    )
-//        .toUri();
-//    return ResponseEntity.created(location)
-//        .body(newShot);
   }
 
 }

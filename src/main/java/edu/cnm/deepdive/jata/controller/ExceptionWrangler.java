@@ -44,6 +44,9 @@ public class ExceptionWrangler {
   public void invalidShotPlacement() {
   }
 
+  /**
+   * This exception informs a user they have tried to fire shots when it is not yet their turn
+   */
   @ExceptionHandler(NotYourTurnException.class)
   @ResponseStatus(code = HttpStatus.CONFLICT, reason = "Not the user's turn to fire")
   public void notYourTurn() {}

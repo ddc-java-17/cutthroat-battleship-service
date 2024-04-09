@@ -108,9 +108,4 @@ public class ShipLocation {
   public void setLocation(Location location) {
     this.location = location;
   }
-
-  //  public int[] getCoordinates(int[2] coordinates){
-//    this.coordinates[0] = getShipCoordX();
-//    this.coordinates[1] = getShipCoordY();
-//  }
 }

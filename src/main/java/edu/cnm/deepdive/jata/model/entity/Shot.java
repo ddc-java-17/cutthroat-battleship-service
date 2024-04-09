@@ -155,7 +155,8 @@ public class Shot {
   }
 
   /**
-   * Returns a flag indicating this shot hit a ship on that board
+   * Returns a flag indicating this shot hit a ship on that board by all ship locations
+   * and looking for any hits in the shot table
    *
    * @return
    */
