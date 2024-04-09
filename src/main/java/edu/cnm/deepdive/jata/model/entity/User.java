@@ -6,28 +6,25 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonView;
+import edu.cnm.deepdive.jata.view.ShotView;
+import edu.cnm.deepdive.jata.view.UserGameView;
+import edu.cnm.deepdive.jata.view.UserView;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,6 +37,7 @@ import org.springframework.lang.NonNull;
 @Table(name = "user_profile")
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({"key", "created", "modified", "displayName"})
+@JsonView({UserView.External.class, UserGameView.Summary.class, ShotView.Summary.class})
 public class User {
 
   @Id
@@ -58,14 +56,14 @@ public class User {
   @Column(nullable = false, updatable = false)
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
-  @JsonProperty(access = Access.READ_ONLY)
+  @JsonIgnore
   private Instant created;
 
   @NonNull
   @Column(nullable = false)
   @UpdateTimestamp
   @Temporal(TemporalType.TIMESTAMP)
-  @JsonProperty(access = Access.READ_ONLY)
+  @JsonIgnore
   private Instant modified;
 
   @NonNull
@@ -85,7 +83,7 @@ public class User {
 
   /**
    * Gets user object's id.
-   * @return id   User's id
+   *
    */
   @NonNull
   public Long getId() {
@@ -94,7 +92,7 @@ public class User {
 
   /**
    * Gets User's secure UUID key
-   * @return key  UUID key
+   *
    */
   @NonNull
   public UUID getKey() {
@@ -103,7 +101,7 @@ public class User {
 
   /**
    * Gets the time and day that User was created.
-   * @return created  Instant the User was created
+   *
    */
   @NonNull
   public Instant getCreated() {
@@ -112,7 +110,7 @@ public class User {
 
   /**
    * Gets the last time the User modified their displayName.
-   * @return modified  Instant User was last modified.
+   *
    */
   @NonNull
   public Instant getModified() {
@@ -121,7 +119,7 @@ public class User {
 
   /**
    * Gets User's current display name.
-   * @return displayName  User's display name
+   *
    */
   @NonNull
   public String getDisplayName() {
@@ -130,7 +128,7 @@ public class User {
 
   /**
    * Sets User's current display name
-   * @param displayName User's display name
+   *
    */
   public void setDisplayName(@NonNull String displayName) {
     this.displayName = displayName;
@@ -138,7 +136,7 @@ public class User {
 
   /**
    * Gets User's OauthKey
-   * @return OauthKey User's OauthKey
+   *
    */
   @NonNull
   public String getOauthKey() {
@@ -147,7 +145,7 @@ public class User {
 
   /**
    * Sets User's OauthKey
-   * @param oauthKey User's OauthKey
+   *
    */
   public void setOauthKey(@NonNull String oauthKey) {
     this.oauthKey = oauthKey;
@@ -155,7 +153,7 @@ public class User {
 
   /**
    * Gets User's UserGame.
-   * @return userGame UserGame object that the User points to
+   *
    */
   @NonNull
   public List<UserGame> getUserGame() {

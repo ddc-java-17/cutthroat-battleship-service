@@ -1,0 +1,7 @@
+{
+  "fromUser": {UserGame schema},
+  "toUser": {UserGame schema},
+  "location": {Location schema},
+  "timestamp": {Instant}
+  "status": {boolean}
+}

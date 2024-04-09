@@ -5,27 +5,29 @@ create sequence user_game_seq start with 1 increment by 50;
 create sequence user_profile_seq start with 1 increment by 50;
 create table game
 (
-    board_sizex  integer                     not null,
-    board_sizey  integer                     not null,
-    player_count integer                     not null,
-    created      timestamp(6) with time zone not null,
-    game_id      bigint                      not null,
-    external_key UUID                        not null unique,
+    board_size           integer                     not null,
+    finished             boolean                     not null,
+    player_count         integer                     not null,
+    created              timestamp(6) with time zone not null,
+    current_user_game_id bigint unique,
+    game_id              bigint                      not null,
+    turn_count           bigint                      not null,
+    external_key         UUID                        not null unique,
     primary key (game_id)
 );
 create table ship_location
 (
-    ship_coordx  integer not null check (ship_coordx >= 1),
-    ship_coordy  integer not null check (ship_coordy >= 1),
-    ship_number  integer not null check (ship_number >= 1),
+    ship_number  integer not null,
+    x            integer,
+    y            integer,
     ship_id      bigint  not null,
     user_game_id bigint  not null,
     primary key (ship_id)
 );
 create table shot
 (
-    shot_coordx       integer                     not null,
-    shot_coordy       integer                     not null,
+    x                 integer,
+    y                 integer,
     from_user_game_id bigint                      not null,
     shot_id           bigint                      not null,
     timestamp         timestamp(6) with time zone not null,
@@ -34,10 +36,12 @@ create table shot
 );
 create table user_game
 (
-    game_id      bigint not null,
-    user_game_id bigint not null,
-    user_id      bigint not null,
-    external_key UUID   not null unique,
+    inventory_placed boolean not null,
+    turn_count       integer not null,
+    game_id          bigint  not null,
+    user_game_id     bigint  not null,
+    user_id          bigint  not null,
+    external_key     UUID    not null unique,
     primary key (user_game_id)
 );
 create table user_profile
@@ -50,10 +54,12 @@ create table user_profile
     display_name    varchar(50)                 not null unique,
     primary key (user_profile_id)
 );
-create index IDX7aaakjv4ati399tlj58i62sj3 on game (game_id, board_sizex, board_sizey, player_count);
+create index IDXeby41b77xb69i216jvuopgw6g on game (game_id, board_size, player_count);
 create index IDX8ct5kv6ektb7rm9jqrj01ddne on ship_location (ship_id, ship_number);
 create index IDXcfvjwbji3vjuetj741civphy0 on shot (shot_id, timestamp);
 create index IDXqq60d6id4r5fpif66xhe48ibe on user_game (user_game_id, user_id);
+alter table if exists game
+    add constraint FKaiuknm5w3hyutnnla9po69awd foreign key (current_user_game_id) references user_game;
 alter table if exists ship_location
     add constraint FKpnytx8ylbmhqt7xurkwwpsg2y foreign key (user_game_id) references user_game;
 alter table if exists shot

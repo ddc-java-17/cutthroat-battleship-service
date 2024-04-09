@@ -1,9 +1,9 @@
 package edu.cnm.deepdive.jata.controller;
 
-import edu.cnm.deepdive.jata.model.entity.ShipLocation;
-import edu.cnm.deepdive.jata.model.entity.Shot;
-import edu.cnm.deepdive.jata.model.entity.User;
-import edu.cnm.deepdive.jata.service.AbstractGameService;
+import edu.cnm.deepdive.jata.model.dto.GameDTO;
+import edu.cnm.deepdive.jata.model.dto.ShipDTO;
+import edu.cnm.deepdive.jata.model.entity.Game;
+import edu.cnm.deepdive.jata.service.AbstractShipLocationService;
 import edu.cnm.deepdive.jata.service.AbstractUserService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -23,17 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/games/{gameKey}/ships")
 public class ShipLocationController {
 
-  private AbstractGameService gameService;
+  private AbstractShipLocationService locationService;
   private AbstractUserService userService;
 
   /**
    * This is the constructor for the instance of the controller
-   * @param gameService
-   * @param userService
    */
   @Autowired
-  public ShipLocationController(AbstractGameService gameService, AbstractUserService userService) {
-    this.gameService = gameService;
+  public ShipLocationController(AbstractShipLocationService locationService, AbstractUserService userService) {
+    this.locationService = locationService;
     this.userService = userService;
   }
 
@@ -46,10 +44,10 @@ public class ShipLocationController {
    */
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = MediaType.APPLICATION_JSON_VALUE)
-  public List<ShipLocation> post(
+  public GameDTO post(
       @PathVariable UUID gameKey,
-      @Valid @RequestBody List<ShipLocation> ships) {
-    return gameService.submitShips(gameKey, ships, userService.getCurrentUser());
+      @Valid @RequestBody List<ShipDTO> ships) {
+    return locationService.submitShips(gameKey, ships, userService.getCurrentUser());
   }
 
 }

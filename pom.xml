@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.2</version>
+    <version>3.2.4</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -135,5 +135,33 @@
       </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.6.3</version>
+        <configuration>
+          <failOnError>true</failOnError>
+          <failOnWarnings>false</failOnWarnings>
+          <links>
+            <link>https://docs.oracle.com/en/java/javase/17/docs/api/</link>
+            <link>https://docs.spring.io/spring-framework/docs/current/javadoc-api/</link>
+            <link>https://docs.spring.io/spring-boot/docs/current/api/</link>
+            <link>https://docs.spring.io/spring-hateoas/docs/current/api/</link>
+            <link>https://docs.spring.io/spring-data/commons/docs/current/api/</link>
+            <link>https://docs.spring.io/spring-data/data-jpa/docs/current/api/</link>
+            <link>https://docs.spring.io/spring-security/site/docs/current/api/</link>
+            <link>https://docs.jboss.org/hibernate/orm/current/javadocs/</link>
+            <link>https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/latest/</link>
+            <link>https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-databind/latest/</link>
+            <link>https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-annotations/latest/</link>
+            <link>https://javadoc.io/doc/com.fasterxml.jackson.datatype/jackson-datatype-jdk8/2.14.0-rc2/</link>
+            <link>https://javadoc.io/doc/com.fasterxml.jackson.datatype/jackson-datatype-jsr310/2.14.0-rc2/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 
 </project>

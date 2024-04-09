@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import edu.cnm.deepdive.jata.model.Location;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,8 +16,6 @@ import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import org.springframework.lang.NonNull;
 
 /**
@@ -28,9 +27,6 @@ import org.springframework.lang.NonNull;
 @JsonPropertyOrder({""})
 public class ShipLocation {
 
-  public static final int MIN_SHIP_NUMBER = 1;
-  public static final int MIN_X_COORD = 1;
-  public static final int MIN_Y_COORD = 1;
   @NonNull
   @Id
   @GeneratedValue
@@ -47,23 +43,13 @@ public class ShipLocation {
 
   @Column(nullable = false, updatable = true)
   @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_SHIP_NUMBER)
   private int shipNumber;
 
-  @Column(nullable = false, updatable = true)
-  @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_X_COORD)
-  private int shipCoordX;
-
-  @Column(nullable = false, updatable = true)
-  @JsonProperty(access = Access.READ_WRITE)
-  @Min(MIN_Y_COORD)
- private int shipCoordY;
+  private Location location;
 
   /**
    * Returns the ID of the ship
    *
-   * @return id
    */
   @NonNull
   public Long getId() {
@@ -73,7 +59,6 @@ public class ShipLocation {
   /**
    * Returns the userGame of a particular ship
    *
-   * @return userGame
    */
   @NonNull
   public UserGame getUserGame() {
@@ -82,7 +67,6 @@ public class ShipLocation {
 
   /**
    * Annotates this ship with its associated user via UserGame
-   * @param userGame
    */
   public void setUserGame(@NonNull UserGame userGame) {
     this.userGame = userGame;
@@ -91,7 +75,6 @@ public class ShipLocation {
   /**
    * Returns the ship number (identifier) for a particular ship belonging to a userGame
    *
-   * @return shipNumber
    */
   public int getShipNumber() {
     return shipNumber;
@@ -100,50 +83,22 @@ public class ShipLocation {
   /**
    * Annotates the ship number (identifier) for a particular ship belonging to a userGame
    *
-   * @param shipNumber
    */
   public void setShipNumber(int shipNumber) {
     this.shipNumber = shipNumber;
   }
 
   /**
-   * Returns the x-coordinate of a single point on the ship
-   *
-   * @return shipCoordX
+   * Returns the x and y coordinates of a location on a user's ship
    */
-  public int getShipCoordX() {
-    return shipCoordX;
+  public Location getLocation() {
+    return location;
   }
 
   /**
-   * Annotates the x-coordinate of a single point on the ship
-   *
-   * @param xCoord
+   * Annotates the x and y coordinates of a location on a user's ship
    */
-  public void setShipCoordX(int xCoord) {
-    this.shipCoordX = xCoord;
+  public void setLocation(Location location) {
+    this.location = location;
   }
-
-  /**
-   * Returns the y-coordinate of a single point on the ship
-   *
-   * @return shipCoordY
-   */
-  public int getShipCoordY() {
-    return shipCoordY;
-  }
-
-  /**
-   * Annotates the y-coordinate of a single point on the ship
-   *
-   * @param yCoord
-   */
-  public void setShipCoordY(int yCoord) {
-    this.shipCoordY = yCoord;
-  }
-
-//  public int[] getCoordinates(int[2] coordinates){
-//    this.coordinates[0] = getShipCoordX();
-//    this.coordinates[1] = getShipCoordY();
-//  }
 }

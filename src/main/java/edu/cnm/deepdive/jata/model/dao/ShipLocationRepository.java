@@ -1,7 +1,6 @@
 package edu.cnm.deepdive.jata.model.dao;
 
 import edu.cnm.deepdive.jata.model.entity.ShipLocation;
-import edu.cnm.deepdive.jata.model.entity.User;
 import edu.cnm.deepdive.jata.model.entity.UserGame;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
  * This repository manages ship objects and there location in the ShipLocation table.
  */
 public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long> {
-
 
   /**
    * This Query is used to determine if a user already has ships in the ShipLocation table.
@@ -22,12 +20,4 @@ public interface ShipLocationRepository extends JpaRepository<ShipLocation, Long
   @Query("SELECT count(sl) AS count FROM ShipLocation AS sl WHERE sl.userGame = :userGame")
   ShipsCount findShipLocationByUserGame(UserGame userGame);
 
-  /**
-   * This is used to isolate a particular ship to determine the validity of its make-up
-   * @param number
-   * @param userGame
-   * @return
-   */
-  @Query("SELECT sl.shipCoordX AS x, sl.shipCoordY AS y FROM ShipLocation AS sl WHERE sl.shipNumber = :number AND sl.userGame = :userGame")
-  ShipValid findShipLocationByShipNumberAndUserGame(int number, UserGame userGame);
 }

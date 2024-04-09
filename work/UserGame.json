@@ -1,0 +1,10 @@
+{
+  "key": {UUID},
+  "user": {User schema},
+  "game": {Game schema},
+  "toShots": [
+    {Shot schema},
+    ...
+  ],
+  "inventoryPlaced": {boolean}
+}

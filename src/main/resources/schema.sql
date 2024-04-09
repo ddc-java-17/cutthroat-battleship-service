@@ -6,6 +6,6 @@ FROM shot AS sh
               ON ug.USER_GAME_ID = sh.TO_USER_GAME_ID
          LEFT JOIN ship_location AS sl
                    ON ug.USER_GAME_ID = sl.USER_GAME_ID
-                       AND sl.x = sh.x
-                       AND sl.y = sh.y;
+                       AND sl.X = sh.X
+                       AND sl.Y = sh.Y;
 

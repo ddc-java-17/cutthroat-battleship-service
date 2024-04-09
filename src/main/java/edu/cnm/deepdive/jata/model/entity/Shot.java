@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonView;
+import edu.cnm.deepdive.jata.model.Location;
+import edu.cnm.deepdive.jata.view.ShotView;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,6 +18,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -25,6 +30,7 @@ import org.springframework.lang.NonNull;
 /**
  * This class records every shot taken by every user in the game
  */
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(
     indexes = {
@@ -33,7 +39,11 @@ import org.springframework.lang.NonNull;
 )
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({""})
+@JsonView(ShotView.Summary.class)
 public class Shot {
+
+  public static final int MIN_X_COORD = 1;
+  public static final int MIN_Y_COORD = 1;
 
   @NonNull
   @Id
@@ -46,6 +56,7 @@ public class Shot {
   @ManyToOne(optional = false, fetch = FetchType.EAGER)
   @JoinColumn(name = "from_user_game_id")
   @JsonProperty(access = Access.READ_ONLY)
+  @JsonView(ShotView.Detailed.class)
   private UserGame fromUser;
 
   @NonNull
@@ -54,27 +65,22 @@ public class Shot {
   @JsonProperty(access = Access.READ_WRITE)
   private UserGame toUser;
 
-  @Column(nullable = false, updatable = true)
+  @Column(nullable = false, updatable = false)
   @JsonProperty(access = Access.READ_WRITE)
-  private int shotCoordX;
-
-  @Column(nullable = false, updatable = true)
-  @JsonProperty(access = Access.READ_WRITE)
-  private int shotCoordY;
+  @JsonUnwrapped
+  private Location location;
 
   @NonNull
   @Column(nullable = false, updatable = false)
   @CreationTimestamp
   @Temporal(TemporalType.TIMESTAMP)
   @JsonProperty(access = Access.READ_ONLY)
+  @JsonView(ShotView.Detailed.class)
   private Instant timestamp;
-
-
 
   /**
    * Returns the unique ID of this shot
    *
-   * @return id
    */
   @NonNull
   public Long getId() {
@@ -84,7 +90,6 @@ public class Shot {
   /**
    * Returns the user who fired the shot
    *
-   * @return fromUser
    */
   @NonNull
   public UserGame getFromUser() {
@@ -94,7 +99,6 @@ public class Shot {
   /**
    * Annotates the user who fired the shot
    *
-   * @param fromUser
    */
   public void setFromUser(@NonNull UserGame fromUser) {
     this.fromUser = fromUser;
@@ -103,7 +107,6 @@ public class Shot {
   /**
    * Returns the user who was fired upon
    *
-   * @return toUser
    */
   @NonNull
   public UserGame getToUser() {
@@ -113,88 +116,70 @@ public class Shot {
   /**
    * Annotates the user who was fired upon
    *
-   * @param toUser
    */
   public void setToUser(@NonNull UserGame toUser) {
     this.toUser = toUser;
   }
 
-
   /**
-   * Returns the x-coordinate of this shot
+   * Returns the x and y coordinates of a particular shot
    *
-   * @return shotCoordX
    */
-  public int getShotCoordX() {
-    return shotCoordX;
+  public Location getLocation() {
+    return location;
   }
 
   /**
-   * Annotates the x-coordinate of this shot
+   * Annotates the x and y coordinates of a particular shot
    *
-   * @param xCoord
    */
-  public void setShotCoordX(int xCoord) {
-    this.shotCoordX = xCoord;
-  }
-
-  /**
-   * Returns the y-coordinate of this shot
-   *
-   * @return shotCoordY
-   */
-  public int getShotCoordY() {
-    return shotCoordY;
-  }
-
-  /**
-   * Annotates the y-coordinate of this shot
-   *
-   * @param yCoord
-   */
-  public void setShotCoordY(int yCoord) {
-    this.shotCoordY = yCoord;
+  public void setLocation(Location location) {
+    this.location = location;
   }
 
   /**
    * Returns the time the shot was fired
    *
-   * @return timestamp
    */
   @NonNull
   public Instant getTimestamp() {
     return timestamp;
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(toUser, shotCoordX, shotCoordY);
+  /**
+   * Returns a flag indicating this shot hit a ship on that board by all ship locations
+   * and looking for any hits in the shot table
+   *
+   */
+  public boolean isHit() {
+    return toUser
+        .getLocations()
+        .stream()
+        .anyMatch((shotLoc) -> {
+          Location location1 = shotLoc.getLocation();
+          return location1.getX() == location.getX()
+              && location1.getY() == location.getY();
+        });
   }
 
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(toUser, location);
+  }
+
+  @SuppressWarnings("ConstantValue")
   @Override
   public boolean equals(Object obj) {
     boolean equals;
     if (this == obj) {
       equals = true;
     } else if (obj instanceof Shot other) {
-      equals = (this.toUser.equals(other.toUser)
-          && this.shotCoordX == (other.shotCoordX)
-          && this.shotCoordY == (other.shotCoordY));
+      equals = this.toUser.equals(other.toUser) && this.location.equals(other.location);
     } else {
       equals = false;
     }
     return equals;
-  }
-
-  //public boolean isHit() {
-  /**
-   * Checks to see if a shot is a hit
-   * @return boolean isHit
-   */
-  public boolean isHit() {
-    return toUser.getLocations()
-        .stream()
-        .anyMatch((loc) -> loc.getShipCoordX() == shotCoordX && loc.getShipCoordY() == shotCoordY);
   }
 
 }

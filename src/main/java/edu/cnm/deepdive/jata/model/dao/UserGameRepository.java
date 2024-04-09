@@ -26,8 +26,10 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    * @param game  Game object relating to this UserGame
    * @return userGame
    */
-  List<UserGame> findUserGameByGame(Game game);
+  Optional<UserGame> findUserGameByGame(Game game);
 
+
+  List<UserGame> findUserGamesByGame(Game game);
   /**
    * This searches for this UserGame by the game id it points to
    * @param id  Game id relative to this UserGame
@@ -58,5 +60,14 @@ public interface UserGameRepository extends JpaRepository<UserGame, Long> {
    * @return userGame
    */
   Optional<UserGame> findUserGameByGameAndUser(Game game, User user);
+
+  /**
+   * finds a specific userGame within a specified games that has a specific value
+   * of turnCount
+   * @param game
+   * @param turnCount
+   * @return
+   */
+  Optional<UserGame> findUserGameByGameAndTurnCount(Game game, long turnCount);
 
 }

@@ -3,6 +3,7 @@ package edu.cnm.deepdive.jata.controller;
 import edu.cnm.deepdive.jata.service.FleetAlreadyExistsException;
 import edu.cnm.deepdive.jata.service.InvalidShipLocationException;
 import edu.cnm.deepdive.jata.service.InvalidShotPlacementException;
+import edu.cnm.deepdive.jata.service.NotYourTurnException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -43,4 +44,10 @@ public class ExceptionWrangler {
   public void invalidShotPlacement() {
   }
 
+  /**
+   * This exception informs a user they have tried to fire shots when it is not yet their turn
+   */
+  @ExceptionHandler(NotYourTurnException.class)
+  @ResponseStatus(code = HttpStatus.CONFLICT, reason = "Not the user's turn to fire")
+  public void notYourTurn() {}
 }
